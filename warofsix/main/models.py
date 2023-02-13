@@ -3,16 +3,17 @@ from django.contrib.auth.admin import User
 
 # Create your models here.
 
-class Resource(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    amount = models.PositiveIntegerField()
-    last_generated_at = models.DateTimeField(auto_now_add=True)
-
-
 class Race(models.Model):
+    RACE_CHOICES = [
+        ("Men"),
+        ("Elves"),
+        ("Dwarves"),
+        ("Isengard"),
+        ("Mordor"),
+        ("Goblins")
+    ]
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, choices=RACE_CHOICES)
 
 
 class Troops(models.Model):
@@ -63,6 +64,23 @@ class Resources(models.Model):
     rock = models.IntegerField(default=800)
     iron = models.IntegerField(default=800)
     grain = models.IntegerField(default=800)
+    token = models.IntegerField(default=0)
+    last_checkout = models.DateTimeField(auto_now_add=True)
+
+
+class Market(models.Model):
+    RESOURCE_CHOICES = [
+        ("Wood"),
+        ("Rock"),
+        ("Iron"),
+        ("Grain")
+    ]
+    offer_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    offer_type = models.CharField(max_length=50, choices=RESOURCE_CHOICES)
+    offer_amount = models.IntegerField()
+    target_type = models.CharField(max_length=50, choices=RESOURCE_CHOICES)
+    target_amount = models.IntegerField()
+    is_complete = models.BooleanField(default=False)
 
 
 class Location(models.Model):
