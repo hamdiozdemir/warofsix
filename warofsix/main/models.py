@@ -31,6 +31,7 @@ class Troops(models.Model):
     ]
 
     TYPE_CHOICES = [
+        ("builder", "builder"),
         ("infantry", "infantry"),
         ("pike", "pike"),
         ("archer", "archer"),
@@ -45,7 +46,7 @@ class Troops(models.Model):
     damage = models.FloatField()
     speed = models.FloatField()
     wood = models.PositiveIntegerField()
-    rock = models.PositiveIntegerField()
+    stone = models.PositiveIntegerField()
     iron = models.PositiveIntegerField()
     grain = models.PositiveIntegerField()
     consuption = models.PositiveIntegerField()
@@ -66,8 +67,9 @@ class Buildings(models.Model):
     ]
     race = models.CharField(max_length=80, choices=RACE_CHOICES)
     name = models.CharField(max_length=70)
+    health = models.IntegerField()
     wood = models.PositiveIntegerField()
-    rock = models.PositiveIntegerField()
+    stone = models.PositiveIntegerField()
     iron = models.PositiveIntegerField()
     grain = models.PositiveIntegerField()    
 
@@ -82,6 +84,7 @@ class UserBuildings(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     building = models.ForeignKey(Buildings, on_delete=models.CASCADE)
     level = models.PositiveIntegerField(default=0)
+    worker = models.PositiveIntegerField(default=0, blank=True, null=True)
 
 
 class Mail(models.Model):
@@ -95,7 +98,7 @@ class Mail(models.Model):
 class Resources(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     wood = models.PositiveIntegerField(default=800)
-    rock = models.PositiveIntegerField(default=800)
+    stone = models.PositiveIntegerField(default=800)
     iron = models.PositiveIntegerField(default=800)
     grain = models.PositiveIntegerField(default=800)
     token = models.PositiveIntegerField(default=0)
@@ -105,7 +108,7 @@ class Resources(models.Model):
 class Market(models.Model):
     RESOURCE_CHOICES = [
         ("Wood", "Wood"),
-        ("Rock", "Rock"),
+        ("Stone", "Stone"),
         ("Iron", "Iron"),
         ("Grain", "Grain")
     ]

@@ -1,6 +1,6 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from .models import UserTroops, Race, Troops
+from .models import UserTroops, Race, Troops, Buildings, UserBuildings
 
 @receiver(post_save, sender=Race)
 def create_instances(sender, instance, created, **kwargs):
@@ -11,3 +11,9 @@ def create_instances(sender, instance, created, **kwargs):
         user = instance.user
         for troop in troops:
             UserTroops.objects.create(user=user, troop = troop)
+
+
+@receiver(post_save, sender=Race)
+def create_buildings(sender, instance, created, **kwargs):
+    if created:
+        pass
