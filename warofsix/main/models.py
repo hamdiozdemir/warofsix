@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.admin import User
-from django.contrib.auth.models import AbstractUser
+
 
 
 # Create your models here.
@@ -21,9 +21,26 @@ class Race(models.Model):
 
 
 class Troops(models.Model):
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    RACE_CHOICES = [
+        ("Men", "Men"),
+        ("Elves", "Elves"),
+        ("Dwarves", "Dwarves"),
+        ("Isengard", "Isengard"),
+        ("Mordor", "Mordor"),
+        ("Goblins", "Goblins")
+    ]
+
+    TYPE_CHOICES = [
+        ("infantry", "infantry"),
+        ("pike", "pike"),
+        ("archer", "archer"),
+        ("cavalry", "cavalry"),
+        ("siege", "siege"),
+        ("monster", "monster"),
+    ]
+    race = models.CharField(max_length=80, choices=RACE_CHOICES)
     name = models.CharField(max_length=70)
-    type = models.CharField(max_length=70)
+    type = models.CharField(max_length=70, choices=TYPE_CHOICES)
     health = models.PositiveIntegerField()
     damage = models.FloatField()
     speed = models.FloatField()
@@ -31,10 +48,23 @@ class Troops(models.Model):
     rock = models.PositiveIntegerField()
     iron = models.PositiveIntegerField()
     grain = models.PositiveIntegerField()
+    consuption = models.PositiveIntegerField()
+    burden = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.name
 
 
 class Buildings(models.Model):
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    RACE_CHOICES = [
+        ("Men", "Men"),
+        ("Elves", "Elves"),
+        ("Dwarves", "Dwarves"),
+        ("Isengard", "Isengard"),
+        ("Mordor", "Mordor"),
+        ("Goblins", "Goblins")
+    ]
+    race = models.CharField(max_length=80, choices=RACE_CHOICES)
     name = models.CharField(max_length=70)
     wood = models.PositiveIntegerField()
     rock = models.PositiveIntegerField()
