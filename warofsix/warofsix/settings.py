@@ -38,7 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'main',
+    'accounts',
+    'usermessages',
+    'encampment',
+    'battle',
+    
 ]
 
 MIDDLEWARE = [
@@ -111,7 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+USE_TZ = True
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
@@ -127,4 +134,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = "/accounts/"
+LOGOUT_REDIRECT_URL = "/accounts"
+USE_THOUSAND_SEPARATOR = True
 
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}

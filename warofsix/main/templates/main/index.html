@@ -1,13 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block body %}
+
     <h3>HELLO WORLD</h3>
     <h5><i>This is War of The Six</i></h5>
-</body>
-</html>
+    {% if user_id == None %}
+    <h4>GİRİŞ YAP</h4>
+    {% else %}
+    <p>ID: {{user_id}}</p>
+    <p>User: {{user}}</p>
+    {% endif %}
+    
+{% endblock body %}

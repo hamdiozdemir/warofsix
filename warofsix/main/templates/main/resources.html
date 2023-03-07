@@ -1,0 +1,61 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+    <h2>RESOURCES</h2>
+
+    <h6>Recources</h6>
+
+    <div class="resources">
+        <div class="resource-item">
+            {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood"> =  {{resources.wood}}
+        </div>
+
+        <div class="resource-item">
+            {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood"> = {{resources.stone}}
+        </div>
+
+        <div class="resource-item">
+            {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> = {{resources.iron}}
+        </div>
+
+        <div class="resource-item">
+            {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/grain.png' %}" alt="Grain"> = {{resources.grain}}
+        </div>
+        
+
+    </div>
+
+
+
+
+    <h6>PRODUCTION</h6>
+
+    <h3>WOOD: {{wood}}</h3>
+    <h3>STONE: {{stone}}</h3>
+    <h3>IRON: {{iron}}</h3>
+    <h3>GRAIN: {{grain}}</h3>
+
+    <hr>
+    <h5>BUILDERS</h5>
+    <i>Currently Available Builders: {{builders.count}} </i>
+
+
+
+    {% for building in  resource_buildings %}
+    <p>{{building}} - <i>Level: {{building.level}}</i></p>
+    <i>Currently Working Builders: {{building.resource_worker}}</i>
+    <form method="post" class="troop-train">
+        {% csrf_token %}
+        <input type="number" style="line-height: 2rem;"  id="builder" name="{{building.id}}" placeholder="" value={{building.resource_worker}}>
+    
+        <button type="submit" class="btn btn-secondary" onclick="checkNumber()">UPDATE</button>
+    </form>
+    <hr>
+    {% endfor %}
+{% endblock body %}

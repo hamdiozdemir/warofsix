@@ -1,0 +1,217 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+<h4>ARMORY IS HERE</h4>
+<hr>
+{{building}} -
+{{building.level}}
+
+
+{% if upgrade.time_left != 0 %}
+<p>Currently Updating: <b>{{upgrade.upgrading_field}}</b></p>
+<p> <i>{{upgrade.time_left}} seconds left.</i> </p>
+
+{% endif %}
+
+
+<div class="armory-fields"><h5>Banner Carrier Upgrade</h5>
+
+    <div class="mini-resource">
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood">  {{upgrade.bc_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood">  {{upgrade.bc_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> {{upgrade.bc_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/grain2.png' %}" alt="Grain">  {{upgrade.bc_resource}}
+
+    </div>
+    <div>Current Level: {{upgrade.banner_carrier}}</div>
+    {% if upgrade.time_left == 0 %}
+        
+        <div><i>Duration: {{upgrade.bc_duration}} </i></div> 
+
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="banner_carrier" value="1">
+                <button type="submit" class="btn btn-success">Upgrade</button>
+            </form>
+        </div>    
+    {% else %}
+       <div><i>updating...</i></div> 
+    {% endif %}
+
+    
+
+</div>
+
+<hr>
+
+<div class="armory-fields"><h5>Forge Blades Upgrade</h5>
+    <div class="mini-resource">
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood">  {{upgrade.fb_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood">  {{upgrade.fb_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> {{upgrade.fb_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/grain2.png' %}" alt="Grain">  {{upgrade.fb_resource}}
+
+    </div>
+    <div>Current Level: {{upgrade.forge_blade}} </div>
+    {% if upgrade.time_left == 0 %}
+ 
+        <b><i>Duration: {{upgrade.fb_duration}} </i></b>
+
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="forge_blade" value="1">
+                <button type="submit" class="btn btn-success">Upgrade</button>
+            </form>
+        </div>
+
+    {% else %}
+        <i>updating...</i>
+
+    {% endif %}
+
+</div>
+
+<hr>
+
+<div class="armory-fields"><h5>Heavy Armory Upgrade</h5>
+    <div class="mini-resource">
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood">  {{upgrade.ha_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood">  {{upgrade.ha_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> {{upgrade.ha_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/grain2.png' %}" alt="Grain">  {{upgrade.ha_resource}}
+
+    </div>
+    <div>Current Level: {{upgrade.heavy_armor}}</div>
+
+    {% if upgrade.time_left == 0 %}
+        <b><i>Duration: {{upgrade.ha_duration}} </i></b>
+
+
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="heavy_armor" value="1">
+                <button type="submit" class="btn btn-success">Upgrade</button>
+            </form>
+        </div>
+    {% else %}
+        <i>updating...</i>
+    {% endif %}
+
+
+
+
+</div>
+
+<hr>
+
+<div class="armory-fields"><h5>Flaming Arrow</h5>
+    <div class="mini-resource">
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood">  {{upgrade.fa_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood">  {{upgrade.fa_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> {{upgrade.fa_resource}}
+
+        {% load static %}
+        <img class="resource-icon" src="{% static 'images/others/grain2.png' %}" alt="Grain">  {{upgrade.fa_resource}}
+
+    </div>
+    <div>Current Level: {{upgrade.arrow}}</div>
+
+    {% if upgrade.time_left == 0 %}
+        <b><i>Duration: {{upgrade.fa_duration}} </i></b>   
+
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="arrow" value="1">
+                <button type="submit" class="btn btn-success">Upgrade</button>
+            </form>
+        </div>
+    
+    {% else %}
+    <i>updating...</i>
+
+    {% endif %}
+
+
+
+
+
+</div>
+
+<hr>
+<br>
+
+{% if building.time_left != 0 %}
+
+
+
+<div id="countdown"></div>
+
+<br>
+<b>Finish at: {{building.finish|date:'d M Y, H:i:s'}} </b>
+
+<a href="/building/{{settlement_id}}/cancel">
+    <button type="button" class="btn btn-warning">Cancel Update</button>
+</a>
+
+{% else %}
+
+<p>UPDATE</p>
+        <p>Wood: {{building.update_wood}} - Stone: {{building.update_stone}} - Iron: {{building.update_iron}} - Grain: {{building.update_grain}} </p>
+
+        Available {{builder.troop}}: {{builder.count}}
+
+        <form>
+            <select id="my-select">
+                {% for number in builder_iterator %}
+                <option value="{{number}}"> {{number}} Builders </option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-secondary" type="button" onclick="submitForm()">UPDATE</button>
+        </form>
+{% endif %}
+
+<script>
+    function submitForm() {
+        var select = document.getElementById("my-select");
+        var selectedValue = select.options[select.selectedIndex].value;
+        // Construct the URL using the selected value
+        var url = '/building_update/{{settlement_id}}/' + selectedValue + '/';
+        // Redirect the user to the URL
+        window.location.href = url;
+      }
+    
+</script>
+
+{% endblock body %}

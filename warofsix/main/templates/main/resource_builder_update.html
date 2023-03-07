@@ -1,0 +1,24 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+
+    
+
+{% block body %}
+
+<h3>{{building.building}}</h3>
+<p>Current Production per Hour: {{resources}}</p>
+<p>Currently working builders: {{building.worker}} </p>
+<p>Available Builder(s): {{builder.count}}</p>
+
+<form method="post" class="troop-train">
+    {% csrf_token %}
+    <input type="number" style="line-height: 2rem;"  id="builder" name="builder-update" placeholder="" value={{building.worker}}>
+
+    <button type="submit" class="btn btn-secondary" onclick="checkNumber()">UPDATE</button>
+</form>
+
+
+
+
+{% endblock body %}

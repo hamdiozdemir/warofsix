@@ -1,0 +1,35 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+
+{% block body %}
+<a href="/usermessages/inbox">
+    <button type="button" class="btn btn-primary">INBOX</button>
+</a>
+
+<a href="/usermessages/sent">
+    <button type="button" class="btn btn-info">SENTBOX</button>
+</a>
+
+<br>
+<br>
+<br>
+
+<h3>MESSAGE</h3>
+
+<div class="message-detail">
+    <div class="sender">
+        <b>FROM:</b> {{message.sender}}  <b>TO:</b> {{message.target}}
+    </div>
+
+
+    <div class="message-content">
+        <span class="header">{{message.header}}</span>
+        <br>
+        {{message.content}}
+    </div>
+</div>
+
+
+
+{% endblock body %}

@@ -1,0 +1,36 @@
+.defend-grid-container{
+    width: 820px;
+}
+
+.attack-grid-container{
+    width: 820px;
+}
+
+.attack-grid-row{
+    display: flex;
+    width: 70%;
+    min-width: 800px;
+    column-gap: 5px;
+    align-items: center;
+}
+
+.troop-grid-item{
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+    height: 65px;
+    align-items: center;
+    justify-items: center;
+    border-radius: 5px;
+    border: 2px dashed black;
+    padding: 3px;
+    margin-top: 5px;
+}
+
+.defend-grid-row{
+    display: flex;
+    width: 70%;
+    min-width: 800px;
+    column-gap: 5px;
+    align-items: center;
+}

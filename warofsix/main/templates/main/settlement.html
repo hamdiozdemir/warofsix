@@ -1,0 +1,73 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+    
+
+{% block body %}
+
+
+<div class="resources">
+    <div class="resource-item">
+        {% load static %}
+    <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood"> =  {{resources.wood}}
+    </div>
+
+    <div class="resource-item">
+        {% load static %}
+    <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood"> = {{resources.stone}}
+    </div>
+
+    <div class="resource-item">
+        {% load static %}
+    <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> = {{resources.iron}}
+    </div>
+
+    <div class="resource-item">
+        {% load static %}
+    <img class="resource-icon" src="{% static 'images/others/grain.png' %}" alt="Grain"> = {{resources.grain}}
+    </div>
+</div>
+
+
+
+<br>
+<hr>
+
+
+{% for place in places %}
+
+<a href="/building/{{place.settlement_id}}/">
+
+No: {{place.settlement_id}}
+Building: {{place.building.building.id}} - {{place.building}}
+</a>
+
+<br>
+{% endfor %}
+
+
+
+
+
+ 
+<!--           CURRENTLY GOİNG UPDATES         -->
+    {% for obj in buildings %}
+
+        {% if obj.time_left != 0 %}
+
+        
+
+        <p> {{obj}} is updating to level {{obj.next_level}}. {{obj.time_left}} seconds left </p>
+
+        
+        {% else %}
+        {% endif %}
+
+
+        
+    
+    {% endfor %}
+
+
+
+
+{% endblock body %} 

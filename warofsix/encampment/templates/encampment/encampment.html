@@ -1,0 +1,622 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+
+<script src="{% static 'encampment/scripts/scripts.js' %}"></script>
+{% endblock head %}
+
+
+{% block body %}
+
+
+<div class="encampment-container">
+
+  <div class="current-troop-container">
+    <h4 style="width: 100%; text-align:center;">CURRENT TROOPS</h4>
+
+    {% for troop in user_troops %}
+
+    <div class="current-troop-box">
+      <label for="{{troop.troop}}"> <i>{{troop.troop}}</i> </label>
+      <img class="troop-icon-camp" src="{% get_static_prefix %}images/troops/{{troop.troop.id}}.png" alt="{{troop.troop.name}}">
+      <div> <b>{{troop.count}}</b> </div>
+    </div>
+
+    {% endfor %}
+
+  </div>
+
+
+  <div class="troop-management-container">
+
+          <h4>SET DEFENSIVE FORMATION</h4>
+            
+          <form method="post" id="defence"> {% csrf_token %}
+          
+
+            <input type="hidden" name="form_type" value="defence">
+
+            <div class="formation-table">
+            
+              <div class="formation-row">
+                <div class="formation-item" id="31">
+                  <b>31</b>
+                    <select id="slcd31" name="troop31" class="troop-select" aria-label="Default select example">
+                      {% for troop in user_counted_troops %}
+                      <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop31 %} selected {% endif %} >{{troop.troop}}</option>
+                      {% endfor %}
+                    </select>
+
+                    <img id="imgd31" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop31}}.png" alt="">
+
+                    <select class="form-select form-select-sm" name="numd31" aria-label="Default select example">
+                      
+                      {% for group in percents %}
+                      
+                      <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd31 %} selected {% endif %} >{{group.1}}</option>
+                      {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="formation-item" id="32">
+                  <b>32</b>    
+                  
+                  <select id="slcd32" name="troop32" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop32 %} selected {% endif %}>{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+
+                  <img id="imgd32" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop32}}.png" alt="">
+
+                  <select class="form-select form-select-sm" name="numd32" aria-label="Default select example">
+                      
+                    {% for group in percents %}
+                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd32 %} selected {% endif %}>{{group.1}}</option>
+                    {% endfor %}
+
+                  </select>
+                </div>
+
+                <div class="formation-item"  id="33">
+                  <b>33</b>
+
+                  <select id="slcd33" name="troop33" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop33 %} selected {% endif %}>{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                  <img id="imgd33" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop33}}.png" alt="">
+
+                  <select class="form-select form-select-sm" name="numd33" aria-label="Default select example">
+        
+                    {% for group in percents %}
+                      
+                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd33 %} selected {% endif %}>{{group.1}}</option>
+                    {% endfor %}
+
+                  </select>
+                </div>
+
+                <div class="formation-item"  id="34">
+                  <b>34</b>
+
+                  <select id="slcd34" name="troop34" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop34 %} selected {% endif %}>{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                  <img id="imgd34" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop34}}.png" alt="">
+
+                  <select class="form-select form-select-sm" name="numd34" aria-label="Default select example">
+
+                    {% for group in percents %}
+                      
+                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd34 %} selected {% endif %}>{{group.1}}</option>
+                    {% endfor %}
+
+                  </select>
+                </div>
+
+              </div>
+
+              <div class="formation-row">
+                <div class="formation-item" id="21">
+                  <b>21</b>
+                    <select id="slcd21" name="troop21" class="troop-select" aria-label="Default select example">
+                      {% for troop in user_counted_troops %}
+                      <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop21 %} selected {% endif %}>{{troop.troop}}</option>
+                      {% endfor %}
+                    </select>
+
+                    <img id="imgd21" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop31}}.png" alt="">
+
+                    <select class="form-select form-select-sm" name="numd21" aria-label="Default select example">
+
+                      {% for group in percents %}
+                      <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd21 %} selected {% endif %}>{{group.1}}</option>
+                      {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="formation-item" id="22">
+                  <b>22</b>    
+                  
+                  <select id="slcd22" name="troop22" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop22 %} selected {% endif %}>{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+
+                  <img id="imgd22" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop22}}.png" alt="">
+
+                  <select class="form-select form-select-sm" name="numd22" aria-label="Default select example">
+                    {% for group in percents %}
+                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd22 %} selected {% endif %}>{{group.1}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="formation-item"  id="23">
+                  <b>23</b>
+
+                  <select id="slcd23" name="troop23" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop23 %} selected {% endif %}>{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                  <img id="imgd23" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop23}}.png" alt="">
+
+                  <select class="form-select form-select-sm" name="numd23" aria-label="Default select example">
+                    {% for group in percents %}
+                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd23 %} selected {% endif %}>{{group.1}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="formation-item"  id="24">
+                  <b>24</b>
+
+                  <select id="slcd24" name="troop24" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop24 %} selected {% endif %}>{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                  <img id="imgd24" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop24}}.png" alt="">
+
+                  <select class="form-select form-select-sm" name="numd24" aria-label="Default select example">
+                    {% for group in percents %}
+                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd24 %} selected {% endif %}>{{group.1}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+              </div>
+
+
+                <div class="formation-row">
+                  <div class="formation-item" id="11">
+                    <b>11</b>
+                      <select id="slcd11" name="troop11" class="troop-select" aria-label="Default select example">
+                        {% for troop in user_counted_troops %}
+                        <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop11 %} selected {% endif %}>{{troop.troop}}</option>
+                        {% endfor %}
+                      </select>
+          
+                      <img id="imgd11" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop11}}.png" alt="">
+          
+                      <select class="form-select form-select-sm" name="numd11" aria-label="Default select example">
+                        {% for group in percents %}
+                        <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd11 %} selected {% endif %}>{{group.1}}</option>
+                        {% endfor %}
+                      </select>
+                  </div>
+          
+                  <div class="formation-item" id="12">
+                    <b>12</b>    
+                    
+                    <select id="slcd12" name="troop12" class="troop-select" aria-label="Default select example">
+                      {% for troop in user_counted_troops %}
+                      <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop12 %} selected {% endif %}>{{troop.troop}}</option>
+                      {% endfor %}
+                    </select>
+          
+                    <img id="imgd12" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop21}}.png" alt="">
+          
+                    <select class="form-select form-select-sm" name="numd12" aria-label="Default select example">
+                      {% for group in percents %}
+                      <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd12 %} selected {% endif %}>{{group.1}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+          
+                  <div class="formation-item"  id="13">
+                    <b>13</b>
+          
+                    <select id="slcd13" name="troop13" class="troop-select" aria-label="Default select example">
+                      {% for troop in user_counted_troops %}
+                      <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop13 %} selected {% endif %}>{{troop.troop}}</option>
+                      {% endfor %}
+                    </select>
+                    
+                    <img id="imgd13" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop13}}.png" alt="">
+          
+                    <select class="form-select form-select-sm" name="numd13" aria-label="Default select example">
+                      {% for group in percents %}
+                      <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd13 %} selected {% endif %}>{{group.1}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+          
+                  <div class="formation-item"  id="14">
+                    <b>14</b>
+          
+                    <select id="slcd14" name="troop14" class="troop-select" aria-label="Default select example">
+                      {% for troop in user_counted_troops %}
+                      <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop14 %} selected {% endif %}>{{troop.troop}}</option>
+                      {% endfor %}
+                    </select>
+                    
+                    <img id="imgd14" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop14}}.png" alt="">
+          
+                    <select class="form-select form-select-sm" name="numd14" aria-label="Default select example">
+                      {% for group in percents %}
+                      <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd14 %} selected {% endif %}>{{group.1}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+          
+                </div>
+            
+                <div class="battle-field">
+                  <span id="battle-field">BATTLE FIELD</span>
+                </div>
+          
+            </div>
+
+            <button type="submit" class="btn btn-danger">DEFENCE</button>
+
+
+          </form>
+
+        <hr>
+      <h4>SEND TROOPS</h4>
+
+      <hr>
+      <h6><b>FORMATIONS</b></h6>
+
+
+        <form method="post" id="attack"> {% csrf_token %}
+
+          <input type="hidden" name="form_type" value="attack">
+
+          <div class="formation-table">
+            
+            <div class="battle-field">
+              <span id="battle-field">BATTLE FIELD</span>
+            </div>
+
+              <div class="formation-row">
+                <div class="formation-item" id="11">
+                  <b>11</b>
+                    <select id="slc11" name="troop11" class="troop-select" aria-label="Default select example">
+                      {% for troop in user_counted_troops %}
+                      <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                      {% endfor %}
+                    </select>
+
+                    <img id="img11" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                    <input class="troop-input" type="number" id="num11" name="num11" min="0"  value="0">
+                </div>
+
+                <div class="formation-item" id="21">
+                  <b>21</b>    
+                  
+                  <select id="slc21" name="troop21" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+
+                  <img id="img21" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                  <input class="troop-input" type="number" id="num21" name="num21" min="0"  value="0">
+                </div>
+
+                <div class="formation-item"  id="31">
+                  <b>31</b>
+
+                  <select id="slc31" name="troop31" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                  <img id="img31" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                  <input class="troop-input" type="number" id="num31" name="num31" min="0"  value="0">
+                </div>
+
+                <div class="formation-item"  id="41">
+                  <b>41</b>
+
+                  <select id="slc41" name="troop41" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                  <img id="img41" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                  <input class="troop-input" type="number" id="num41" name="num41" min="0"  value="0">
+                </div>
+
+              </div>
+
+              <div class="formation-row">
+                <div class="formation-item" id="12">
+                  <b>12</b>
+                    <select id="slc12" name="troop12" class="troop-select" aria-label="Default select example">
+                      {% for troop in user_counted_troops %}
+                      <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                      {% endfor %}
+                    </select>
+
+                    <img id="img12" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                    <input class="troop-input" type="number" id="num12" name="num12" min="0"  value="0">
+                </div>
+
+                <div class="formation-item" id="22">
+                  <b>22</b>    
+                  
+                  <select id="slc22" name="troop22" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+
+                  <img id="img22" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                  <input class="troop-input" type="number" id="num22" name="num22" min="0"  value="0">
+                </div>
+
+                <div class="formation-item"  id="32">
+                  <b>32</b>
+
+                  <select id="slc32" name="troop32" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                  <img id="img32" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                  <input class="troop-input" type="number" id="num32" name="num32" min="0"  value="0">
+                </div>
+
+                <div class="formation-item"  id="42">
+                  <b>42</b>
+
+                  <select id="slc42" name="troop42" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                  <img id="img42" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                  <input class="troop-input" type="number" id="num42" name="num42" min="0"  value="0">
+                </div>
+
+              </div>
+
+              <div class="formation-row">
+                <div class="formation-item" id="13">
+                  <b>13</b>
+                    <select id="slc13" name="troop13" class="troop-select" aria-label="Default select example">
+                      {% for troop in user_counted_troops %}
+                      <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                      {% endfor %}
+                    </select>
+
+                    <img id="img13" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                    <input class="troop-input" type="number" id="num13" name="num13" min="0"  value="0">
+                </div>
+
+                <div class="formation-item" id="23">
+                  <b>23</b>    
+                  
+                  <select id="slc23" name="troop23" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+
+                  <img id="img23" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                  <input class="troop-input" type="number" id="num23" name="num23" min="0"  value="0">
+                </div>
+
+                <div class="formation-item"  id="33">
+                  <b>33</b>
+
+                  <select id="slc33" name="troop33" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                  <img id="img33" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                  <input class="troop-input" type="number" id="num33" name="num33" min="0"  value="0">
+                </div>
+
+                <div class="formation-item"  id="43">
+                  <b>43</b>
+
+                  <select id="slc43" name="troop43" class="troop-select" aria-label="Default select example">
+                    {% for troop in user_counted_troops %}
+                    <option value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                  <img id="img43" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
+
+                  <input class="troop-input" type="number" id="num43" name="num43" min="0"  value="0">
+                </div>
+
+              </div>
+
+
+            </div>
+
+
+
+
+            <div>
+              <label for="locx">X: </label>
+              <input type="number" id="locx" name="locx" min="0" max="30" required>
+              |
+              <label for="locy">Y: </label>
+              <input type="number" id="locy" name="locy" min="0" max="30" required>
+
+              <input class="form-check-input" type="checkbox" value="True" id="flexCheckChecked" checked name="auto" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+                Auto Battle
+              </label>
+
+
+              <button type="submit" class="btn btn-danger">TO WAR</button>
+            </div>
+
+        </form>
+
+      <hr>
+
+      <br>
+
+      <h4>DEPARTING CAMPAIGNS</h4>
+
+        {% for group in departing_groups %}
+
+          <div>TO: {{group.0.target_location}}</div>
+          <div>Time Left: {{group.0.time_left}} seconds </div>
+          <div>AUTO BATTLE: {{group.0.auto}}</div>
+
+          <p></p>
+
+          <table class="table table-striped-columns" style="background-color: #BC544B;">
+            <thead>
+              <tr>
+                {% for troop in group.1 %}
+                <th scope="col">
+                  <label for="{{troop.troop}}">{{troop.troop}}</label>
+                  <img class="troop-icon-camp" src="{% get_static_prefix %}images/troops/{{troop.user_troop.troop.id}}.png" alt="{{troop.troop.name}}">
+                </th>
+                {% endfor %}
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for troop in group.1 %}
+                
+                <td> {{troop.count}} </td>
+                {% endfor %}
+
+            </tbody>
+          </table>
+
+
+
+          <hr>
+
+        {% endfor %}
+
+      <hr>
+
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+  <!--
+
+    <h4>CURRENT TROOPS</h4>
+
+    <table class="table table-striped-columns" style="background-color: #99EDC3;">
+      <thead>
+        <tr>
+          {% for troop in user_troops %}
+          <th scope="col">
+            <label for="{{troop.troop}}">{{troop.troop}}</label>
+            <img class="troop-icon-camp" src="{% get_static_prefix %}images/troops/{{troop.troop.id}}.png" alt="{{troop.troop.name}}">
+          </th>
+          {% endfor %}
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          {% for troop in user_troops %}
+          
+          <td>{{troop.count}}</td>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+      <hr>
+
+  -->
+
+
+
+<script>
+      const selectImgPairs = document.querySelectorAll('[id^="slc"]');
+      selectImgPairs.forEach(pair => {
+        const select = pair;
+        const img = document.querySelector(`#img${select.id.slice(3)}`);
+        
+        // add event listener to select element
+        select.addEventListener('change', (event) => {
+          const selectedValue = event.target.value;
+          img.src = `{% get_static_prefix %}images/troops/${selectedValue}.png`;
+        });
+      });
+</script>
+
+<script>
+      const selectImgPairsd = document.querySelectorAll('[id^="slcd"]');
+      selectImgPairsd.forEach(pair => {
+        const selectd = pair;
+        const imgd = document.querySelector(`#imgd${select.id.slice(3)}`);
+        
+        // add event listener to select element
+        selectd.addEventListener('change', (event) => {
+          const selectedValued = event.target.value;
+          imgd.src = `{% get_static_prefix %}images/troops/${selectedValued}.png`;
+        });
+      });
+</script>
+
+
+
+    {% endblock body %}

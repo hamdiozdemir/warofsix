@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h4>ACCOUNTS HOME PAGE</h4>
+
+    {% if user_id == None %}
+    <h4>GİRİŞ YAP</h4>
+    {% else %}
+    <p>ID: {{user_id}}</p>
+    {% endif %}
+    
+{% endblock body %}

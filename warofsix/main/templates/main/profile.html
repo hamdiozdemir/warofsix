@@ -1,0 +1,17 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+
+{% block body %}
+
+
+<h4></h4>
+<div>Username: {{profile.user}} </div>
+<div>Race: {{profile.race}} </div>
+<div>Location: X: {{profile.location.locx}} | Y: {{profile.location.locy}} ({{profile.location.location_name}}) </div>
+<div>Statistics: Total Kill: {{profile.statistic.total_kill}} | Total Dead: {{profile.statistic.total_dead}} </div>
+<br>
+<div> {{profile.description}} </div>
+
+
+{% endblock body %}
