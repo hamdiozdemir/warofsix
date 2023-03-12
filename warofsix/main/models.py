@@ -95,6 +95,7 @@ class Troops(models.Model):
     type = models.CharField(max_length=70, choices=TYPE_CHOICES)
     health = models.PositiveIntegerField()
     damage = models.FloatField()
+    crash_bonus = models.PositiveIntegerField(default=0)
     speed = models.FloatField()
     wood = models.PositiveIntegerField()
     stone = models.PositiveIntegerField()
@@ -109,6 +110,75 @@ class Troops(models.Model):
     def __str__(self):
         return self.name
 
+class Heroes(models.Model):
+    RACE_CHOICES = [
+        ("Men", "Men"),
+        ("Elves", "Elves"),
+        ("Dwarves", "Dwarves"),
+        ("Isengard", "Isengard"),
+        ("Mordor", "Mordor"),
+        ("Goblins", "Goblins"),
+        ("Wild", "Wild"),
+        ("Wild2", "Wild2"),
+    ]
+
+    TYPE_CHOICES = [
+        ("builder", "builder"),
+        ("infantry", "infantry"),
+        ("pike", "pike"),
+        ("archer", "archer"),
+        ("cavalry", "cavalry"),
+        ("siege", "siege"),
+        ("monster", "monster"),
+    ]
+    name = models.CharField(max_length=70)
+    race = models.CharField(max_length=80, choices=RACE_CHOICES)
+    token = models.PositiveIntegerField(default=0)
+    type = models.CharField(max_length=70, choices=TYPE_CHOICES)
+    health = models.PositiveIntegerField()
+    regenerate_time = models.PositiveIntegerField(default=43200)
+    damage = models.FloatField()
+    crash_bonus = models.PositiveIntegerField(default=0)
+    speed = models.FloatField()
+    infantry_attack_bonus = models.FloatField(default=1.00)
+    infantry_defence_bonus = models.FloatField(default=1.00)
+    pike_attack_bonus = models.FloatField(default=1.00)
+    pike_defence_bonus = models.FloatField(default=1.00)
+    archer_attack_bonus = models.FloatField(default=1.00)
+    archer_defence_bonus = models.FloatField(default=1.00)
+    cavalry_attack_bonus = models.FloatField(default=1.00)
+    cavalry_defence_bonus = models.FloatField(default=1.00)
+    monster_attack_bonus = models.FloatField(default=1.00)
+    monster_defence_bonus = models.FloatField(default=1.00)
+    summon_type = models.ForeignKey(Troops, on_delete=models.SET_NULL, null=True, blank=True)
+    summon_amount = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+class UserHeroes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    hero = models.ForeignKey(Heroes, on_delete=models.CASCADE)
+    is_dead = models.BooleanField(default=False)
+    current_health = models.PositiveIntegerField(blank=True)
+    position = models.PositiveIntegerField(default=0)
+    regenerate_time_left = models.PositiveIntegerField(default=0)
+    last_checkout = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.hero} ({self.user})"
+    
+    def save(self, *args, **kwargs):
+        if not self.current_health:
+            self.current_health = self.hero.health
+        super(UserHeroes, self).save(*args, **kwargs)
+
+
+
+
+
+
+
 
 class UserTroops(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -122,7 +192,6 @@ class UserTroops(models.Model):
 
     def __str__(self):
         return f"{self.troop.race} - {self.troop.name}"
-
 
 
 class UserBuildings(models.Model):

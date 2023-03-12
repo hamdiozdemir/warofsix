@@ -127,10 +127,6 @@ class EncampmentListView(LoginRequiredMixin, ListView):
 
 
 
-
-
-
-
 # SOME FUNCTIONS
 
 

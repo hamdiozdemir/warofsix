@@ -9,6 +9,14 @@
 
 
 {% block body %}
+uzunluk: {{uzunluk}}
+<p>DEFEND TROOPS:{{defend_group}}</p>
+<p>DEFEND HEROES:{{defend_heroes}}</p>
+<hr>
+<p>ATTACK TROOPS: {{attack_group}}</p>
+<p>ATTACK HEROES: {{attack_heroes}}</p>
+<hr>
+<p>{{first_result}}</p>
 
 
 <div class="defend-grid-container">
@@ -16,39 +24,43 @@
     <div class="defend-grid-row">
 
         <div class="troop-grid-item">
-            {% if defendGrid.31.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.31.user_troop.troop}}</div>
-            <div>{{defendGrid.31.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.31 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
         <div class="troop-grid-item">
-            {% if defendGrid.32.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.32.user_troop.troop}}</div>
-            <div>{{defendGrid.32.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.32 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
         <div class="troop-grid-item">
-            {% if defendGrid.33.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.33.user_troop.troop}}</div>
-            <div>{{defendGrid.33.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.33 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+        {% endfor %}
         </div>
     
         <div class="troop-grid-item">
-            {% if defendGrid.34.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.34.user_troop.troop}}</div>
-            <div>{{defendGrid.34.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.34 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
         
     </div>
@@ -56,39 +68,43 @@
     <div class="defend-grid-row">
 
         <div class="troop-grid-item">
-            {% if defendGrid.21.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.21.user_troop.troop}}</div>
-            <div>{{defendGrid.21.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.21 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
         <div class="troop-grid-item">
-            {% if defendGrid.22.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.22.user_troop.troop}}</div>
-            <div>{{defendGrid.22.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.22 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
         <div class="troop-grid-item">
-            {% if defendGrid.23.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.23.user_troop.troop}}</div>
-            <div>{{defendGrid.23.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.23 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
         <div class="troop-grid-item">
-            {% if defendGrid.24.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.24.user_troop.troop}}</div>
-            <div>{{defendGrid.24.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.24 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
         
     </div>
@@ -97,39 +113,44 @@
     <div class="defend-grid-row">
 
         <div class="troop-grid-item">
-            {% if defendGrid.11.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.11.user_troop.troop}}</div>
-            <div>{{defendGrid.11.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.11 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
         <div class="troop-grid-item">
-            {% if defendGrid.12.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.12.user_troop.troop}}</div>
-            <div>{{defendGrid.12.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.12 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
         <div class="troop-grid-item">
-            {% if defendGrid.13.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.13.user_troop.troop}}</div>
-            <div>{{defendGrid.13.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.13 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
         <div class="troop-grid-item">
-            {% if defendGrid.14.count == 0 %}
-            
-            {% else %}
-            <div>{{defendGrid.14.user_troop.troop}}</div>
-            <div>{{defendGrid.14.count}}</div>
-            {% endif %}
+            {% for def in defendGrid.14 %}
+                {% if def.count == 0 %}
+                {% else %}
+                <div>{{def.user_troop.troop}}</div>
+                <div>{{def.count}}</div>
+                {% endif %}
+            {% endfor %}
+
         </div>
         
     </div>
@@ -149,117 +170,133 @@
     <div class="attack-grid-row">
 
         <div class="troop-grid-item 11">
-            {% if attackGrid.11.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.11.user_troop.troop}}</div>
-            <div>{{attackGrid.11.count}}</div>
-            {% endif %}
+            {% for att in attackGrid.11 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
-        <div class="troop-grid-item 21">
-            {% if attackGrid.21.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.21.user_troop.troop}}</div>
-            <div>{{attackGrid.21.count}}</div>
-            {% endif %}
+        <div class="troop-grid-item 12">
+            {% for att in attackGrid.12 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
-        <div class="troop-grid-item 31">
-            {% if attackGrid.31.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.31.user_troop.troop}}</div>
-            <div>{{attackGrid.31.count}}</div>
-            {% endif %}
+        <div class="troop-grid-item 13">
+            {% for att in attackGrid.13 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
-        <div class="troop-grid-item 41">
-            {% if attackGrid.41.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.41.user_troop.troop}}</div>
-            <div>{{attackGrid.41.count}}</div>
-            {% endif %}
+        <div class="troop-grid-item 14">
+            {% for att in attackGrid.14 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
     
     <div class="attack-grid-row">
     
-        <div class="troop-grid-item 12">
-            {% if attackGrid.12.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.12.user_troop.troop}}</div>
-            <div>{{attackGrid.12.count}}</div>
-            {% endif %}
+        <div class="troop-grid-item 21">
+            {% for att in attackGrid.21 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
         <div class="troop-grid-item 22">
-            {% if attackGrid.22.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.22.user_troop.troop}}</div>
-            <div>{{attackGrid.22.count}}</div>
-            {% endif %}
+            {% for att in attackGrid.22 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
-        <div class="troop-grid-item 32">
-            {% if attackGrid.32.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.32.user_troop.troop}}</div>
-            <div>{{attackGrid.32.count}}</div>
-            {% endif %}
+        <div class="troop-grid-item 23">
+            {% for att in attackGrid.23 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
-        <div class="troop-grid-item 42">
-            {% if attackGrid.42.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.42.user_troop.troop}}</div>
-            <div>{{attackGrid.42.count}}</div>
-            {% endif %}
+        <div class="troop-grid-item 24">
+
+            {% for att in attackGrid.24 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
+
         </div>
     </div>
 
     <div class="attack-grid-row">
     
-        <div class="troop-grid-item 13">
-            {% if attackGrid.13.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.13.user_troop.troop}}</div>
-            <div>{{attackGrid.13.count}}</div>
-            {% endif %}
+        <div class="troop-grid-item 31">
+            {% for att in attackGrid.31 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
-        <div class="troop-grid-item 23">
-            {% if attackGrid.23.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.23.user_troop.troop}}</div>
-            <div>{{attackGrid.23.count}}</div>
-            {% endif %}
+        <div class="troop-grid-item 32">
+            {% for att in attackGrid.32 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
         <div class="troop-grid-item 33">
-            {% if attackGrid.33.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.33.user_troop.troop}}</div>
-            <div>{{attackGrid.33.count}}</div>
-            {% endif %}
+            {% for att in attackGrid.33 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     
-        <div class="troop-grid-item 43">
-            {% if attackGrid.43.count == 0 %}
-            
-            {% else %}
-            <div>{{attackGrid.43.user_troop.troop}}</div>
-            <div>{{attackGrid.43.count}}</div>
-            {% endif %}
+        <div class="troop-grid-item 34">
+
+            {% for att in attackGrid.34 %}
+                {% if att.count == 0 %}
+                {% else %}
+                <div>{{att.user_troop.troop}}</div>
+                <div>{{att.count}}</div>
+                {% endif %}
+            {% endfor %}
+
         </div>
     </div>
 
@@ -267,7 +304,14 @@
 </div>
 
 
+<hr>
 
+<h4>ROUND 1</h4>
+
+
+{% for k,v in round_1.items %}
+<p>{{k}} - {{v}}</p>
+{% endfor %}
 
 
 
