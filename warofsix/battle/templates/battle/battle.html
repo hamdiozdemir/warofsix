@@ -9,14 +9,35 @@
 
 
 {% block body %}
-uzunluk: {{uzunluk}}
-<p>DEFEND TROOPS:{{defend_group}}</p>
-<p>DEFEND HEROES:{{defend_heroes}}</p>
+
+<div class="two-container">
+
+    <div class="defend-grup">
+        <h4>DEFEND GROUP</h4>
+    {% for k,v in defend_group.items %}
+    <div>Blok: {{k}} -- Stats: {{v}} </div>
+    {% endfor %}
+    </div>
+    
+    
+    <div class="attack-grup">
+        <p>ATTACK TROOPS</p>
+    
+    {% for k,v in attack_group.items %}
+    <div>Blok: {{k}} -- Stats: {{v}} </div>
+    {% endfor %}
+    </div>
+</div>
+
+
+
 <hr>
-<p>ATTACK TROOPS: {{attack_group}}</p>
-<p>ATTACK HEROES: {{attack_heroes}}</p>
+<h5>Attacker Deads</h5>
+{{attacker_deads}}
 <hr>
-<p>{{first_result}}</p>
+<h5>Defender Deads</h5>
+{{defender_deads}}
+
 
 
 <div class="defend-grid-container">
@@ -24,43 +45,43 @@ uzunluk: {{uzunluk}}
     <div class="defend-grid-row">
 
         <div class="troop-grid-item">
-            {% for def in defendGrid.31 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 31 in main_defend_group %}
+
+            <div>{{ main_defend_group.31.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.31.count }} </div>
+            <div>Dead: {{ defender_deads.31.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     
         <div class="troop-grid-item">
-            {% for def in defendGrid.32 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 32 in main_defend_group %}
+
+            <div>{{ main_defend_group.32.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.32.count }} </div>
+            <div>Dead: {{ defender_deads.32.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     
         <div class="troop-grid-item">
-            {% for def in defendGrid.33 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-        {% endfor %}
+            {% if 33 in main_defend_group %}
+
+            <div>{{ main_defend_group.33.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.33.count }} </div>
+            <div>Dead: {{ defender_deads.33.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     
         <div class="troop-grid-item">
-            {% for def in defendGrid.34 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 34 in main_defend_group %}
+
+            <div>{{ main_defend_group.34.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.34.count }} </div>
+            <div>Dead: {{ defender_deads.34.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
         
     </div>
@@ -68,43 +89,43 @@ uzunluk: {{uzunluk}}
     <div class="defend-grid-row">
 
         <div class="troop-grid-item">
-            {% for def in defendGrid.21 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 21 in main_defend_group %}
+
+            <div>{{ main_defend_group.21.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.21.count }} </div>
+            <div>Dead: {{ defender_deads.21.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     
         <div class="troop-grid-item">
-            {% for def in defendGrid.22 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 22 in main_defend_group %}
+
+            <div>{{ main_defend_group.22.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.22.count }} </div>
+            <div>Dead: {{ defender_deads.22.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     
         <div class="troop-grid-item">
-            {% for def in defendGrid.23 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 23 in main_defend_group %}
+
+            <div>{{ main_defend_group.23.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.23.count }} </div>
+            <div>Dead: {{ defender_deads.23.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     
         <div class="troop-grid-item">
-            {% for def in defendGrid.24 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 24 in main_defend_group %}
+
+            <div>{{ main_defend_group.24.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.24.count }} </div>
+            <div>Dead: {{ defender_deads.24.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
         
     </div>
@@ -113,43 +134,43 @@ uzunluk: {{uzunluk}}
     <div class="defend-grid-row">
 
         <div class="troop-grid-item">
-            {% for def in defendGrid.11 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 11 in main_defend_group %}
+
+            <div>{{ main_defend_group.11.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.11.count }} </div>
+            <div>Dead: {{ defender_deads.11.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     
         <div class="troop-grid-item">
-            {% for def in defendGrid.12 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 12 in main_defend_group %}
+
+            <div>{{ main_defend_group.12.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.12.count }} </div>
+            <div>Dead: {{ defender_deads.12.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     
         <div class="troop-grid-item">
-            {% for def in defendGrid.13 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 13 in main_defend_group %}
+
+            <div>{{ main_defend_group.13.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.13.count }} </div>
+            <div>Dead: {{ defender_deads.13.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     
         <div class="troop-grid-item">
-            {% for def in defendGrid.14 %}
-                {% if def.count == 0 %}
-                {% else %}
-                <div>{{def.user_troop.troop}}</div>
-                <div>{{def.count}}</div>
-                {% endif %}
-            {% endfor %}
+            {% if 14 in main_defend_group %}
+
+            <div>{{ main_defend_group.14.troop.troop }}</div>
+            <div>Number: {{ main_defend_group.14.count }} </div>
+            <div>Dead: {{ defender_deads.14.deads }} </div>
+            {% else %}
+        {% endif %}
 
         </div>
         
@@ -169,133 +190,224 @@ uzunluk: {{uzunluk}}
 
     <div class="attack-grid-row">
 
-        <div class="troop-grid-item 11">
-            {% for att in attackGrid.11 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
+        <div class="troop-grid-item 11" 
+        {% if attacker_deads.11.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.11.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+
+            {% if 11 in main_attack_group %}
+
+            <div>{{ main_attack_group.11.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.11.count }} </div>
+            <div>Dead: {{ attacker_deads.11.deads }} </div>
+            {% else %}
+            X
+        {% endif %}
         </div>
     
-        <div class="troop-grid-item 12">
-            {% for att in attackGrid.12 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
+        <div class="troop-grid-item 12" 
+        {% if attacker_deads.12.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.12.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+            {% if 12 in main_attack_group %}
+
+            <div>{{ main_attack_group.12.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.12.count }} </div>
+            <div>Dead: {{ attacker_deads.12.deads }} </div>
+            {% else %}
+            X
+        {% endif %}
         </div>
     
-        <div class="troop-grid-item 13">
-            {% for att in attackGrid.13 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
+        <div class="troop-grid-item 13"
+        {% if attacker_deads.13.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.13.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+            {% if 13 in main_attack_group %}
+
+            <div>{{ main_attack_group.13.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.13.count }} </div>
+            <div>Dead: {{ attacker_deads.13.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     
-        <div class="troop-grid-item 14">
-            {% for att in attackGrid.14 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
+        <div class="troop-grid-item 14"
+        {% if attacker_deads.14.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.14.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+            {% if 14 in main_attack_group %}
+
+            <div>{{ main_attack_group.14.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.14.count }} </div>
+            <div>Dead: {{ attacker_deads.14.deads }} </div>
+            {% else %}
+        {% endif %}
         </div>
     </div>
     
     <div class="attack-grid-row">
     
-        <div class="troop-grid-item 21">
-            {% for att in attackGrid.21 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    
-        <div class="troop-grid-item 22">
-            {% for att in attackGrid.22 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    
-        <div class="troop-grid-item 23">
-            {% for att in attackGrid.23 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    
-        <div class="troop-grid-item 24">
+        <div class="troop-grid-item 21"
+        {% if attacker_deads.21.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.21.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+            {% if 21 in main_attack_group %}
 
-            {% for att in attackGrid.24 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
+            <div>{{ main_attack_group.21.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.21.count }} </div>
+            <div>Dead: {{ attacker_deads.21.deads }} </div>
+            {% else %}
+            <div class="nonex">X</div>
+        {% endif %}
+        </div>
+    
+        <div class="troop-grid-item 22"
+        {% if attacker_deads.22.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.22.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+            {% if 22 in main_attack_group %}
+
+            <div>{{ main_attack_group.22.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.22.count }} </div>
+            <div>Dead: {{ attacker_deads.22.deads }} </div>
+            {% else %}
+        {% endif %}
+        </div>
+    
+        <div class="troop-grid-item 23"
+        {% if attacker_deads.23.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.23.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+            {% if 23 in main_attack_group %}
+
+            <div>{{ main_attack_group.23.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.23.count }} </div>
+            <div>Dead: {{ attacker_deads.23.deads }} </div>
+            {% else %}
+        {% endif %}
+        </div>
+    
+        <div class="troop-grid-item 24"
+        {% if attacker_deads.24.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.24.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+
+            {% if 24 in main_attack_group %}
+
+            <div>{{ main_attack_group.24.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.24.count }} </div>
+            <div>Dead: {{ attacker_deads.24.deads }} </div>
+            {% else %}
+        {% endif %}
 
         </div>
     </div>
 
     <div class="attack-grid-row">
     
-        <div class="troop-grid-item 31">
-            {% for att in attackGrid.31 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    
-        <div class="troop-grid-item 32">
-            {% for att in attackGrid.32 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    
-        <div class="troop-grid-item 33">
-            {% for att in attackGrid.33 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    
-        <div class="troop-grid-item 34">
+        <div class="troop-grid-item 31"
+        {% if attacker_deads.31.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.31.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+            {% if 31 in main_attack_group %}
 
-            {% for att in attackGrid.34 %}
-                {% if att.count == 0 %}
-                {% else %}
-                <div>{{att.user_troop.troop}}</div>
-                <div>{{att.count}}</div>
-                {% endif %}
-            {% endfor %}
+            <div>{{ main_attack_group.31.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.31.count }} </div>
+            <div>Dead: {{ attacker_deads.31.deads }} </div>
+            {% else %}
+        {% endif %}
+
+        </div>
+    
+        <div class="troop-grid-item 32"
+        {% if attacker_deads.32.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.32.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+            {% if 32 in main_attack_group %}
+
+            <div>{{ main_attack_group.32.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.32.count }} </div>
+            <div>Dead: {{ attacker_deads.32.deads }} </div>
+            {% else %}
+        {% endif %}
+
+        </div>
+    
+        <div class="troop-grid-item 33"
+        {% if attacker_deads.33.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.33.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+            {% if 33 in main_attack_group %}
+
+            <div>{{ main_attack_group.33.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.33.count }} </div>
+            <div>Dead: {{ attacker_deads.33.deads }} </div>
+            {% else %}
+        {% endif %}
+
+        </div>
+    
+        <div class="troop-grid-item 34"
+        {% if attacker_deads.34.status == 'ok' %}
+        style="background: #90ee90;"
+        {% elif attacker_deads.34.status == 'injured' %}
+        style="background: #ffffe0;"
+        {% else %}
+        style="background: #f08080;"
+        {% endif %}>
+
+            {% if 34 in main_attack_group %}
+
+            <div>{{ main_attack_group.34.troop.troop }}</div>
+            <div>Number: {{ main_attack_group.34.count }} </div>
+            <div>Dead: {{ attacker_deads.34.deads }} </div>
+            {% else %}
+        {% endif %}
 
         </div>
     </div>
@@ -303,20 +415,10 @@ uzunluk: {{uzunluk}}
 
 </div>
 
-
 <hr>
-
-<h4>ROUND 1</h4>
-
-
-{% for k,v in round_1.items %}
-<p>{{k}} - {{v}}</p>
-{% endfor %}
-
-
-
-
-
+{{main_defend_group}}
+<hr>
+{{main_attack_group}}
 
 
 {% endblock body %}

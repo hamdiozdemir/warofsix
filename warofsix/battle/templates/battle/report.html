@@ -1,0 +1,22 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/battle.css' %}" type='text/css'>
+{% endblock head %}
+
+
+
+
+{% block body %}
+<h4>BATTLE REPORT</h4>
+
+{{report}}
+
+<hr>
+{{report.attacker_group}}
+
+<hr>
+ {{report.defender_group}}
+
+{% endblock body %}

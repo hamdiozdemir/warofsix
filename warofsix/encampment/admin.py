@@ -7,7 +7,7 @@ from .models import *
 
 @admin.register(DepartingCampaigns)
 class DepartingCampaignsAdmin(admin.ModelAdmin):
-    list_display = ["user", "id", "main_location", "target_location", "time_left", "distance", "speed", "auto"]
+    list_display = ["user", "id", "campaign_type", "main_location", "target_location", "time_left", "distance", "speed", "auto"]
 
 @admin.register(DepartingTroops)
 class DepartingTroopsAdmin(admin.ModelAdmin):
@@ -16,7 +16,7 @@ class DepartingTroopsAdmin(admin.ModelAdmin):
 
 @admin.register(ArrivingCampaigns)
 class ArrivingCampaigns(admin.ModelAdmin):
-    list_display = ["user", "main_location", "target_location", "time_left", "distance", "speed"]
+    list_display = ["user", "id", "campaign_type", "main_location", "target_location", "time_left", "distance", "speed"]
 
 @admin.register(ArrivingTroops)
 class ArrivignTroopsAdmin(admin.ModelAdmin):
@@ -26,3 +26,8 @@ class ArrivignTroopsAdmin(admin.ModelAdmin):
 @admin.register(DefencePosition)
 class DefencePositionAdmin(admin.ModelAdmin):
     list_display = ["user", "position", "user_troop", "percent", "count"]
+
+
+@admin.register(ReinforcementTroops)
+class ReinforcementTroopAdmin(admin.ModelAdmin):
+    list_display = ["owner", "location", "user_troop", "count"]

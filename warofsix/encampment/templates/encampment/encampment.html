@@ -25,6 +25,13 @@
 
     {% endfor %}
 
+    <hr>
+
+    {% for rein in reinforcements %}
+    <div> {{rein.user_troop}}</div>
+    <div> {{rein.count}}</div>
+    
+    {% endfor %}
   </div>
 
 
@@ -229,7 +236,7 @@
                       {% endfor %}
                     </select>
           
-                    <img id="imgd12" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop21}}.png" alt="">
+                    <img id="imgd12" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop12}}.png" alt="">
           
                     <select class="form-select form-select-sm" name="numd12" aria-label="Default select example">
                       {% for group in percents %}

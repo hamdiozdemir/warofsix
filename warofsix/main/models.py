@@ -67,6 +67,20 @@ class Buildings(models.Model):
 
     def __str__(self):
         return self.name
+    
+    @property
+    def damage(self):
+        if self.type == "defence":
+            if self.race == "Elves":
+                return 3000
+            elif self.race == "Dwarves":
+                return 2300
+            elif self.race == "Isengard" or self.race == "Mordor":
+                return 2200
+            else:
+                return 2000
+        else:
+            return 0
 
 
 class Troops(models.Model):
@@ -169,15 +183,9 @@ class UserHeroes(models.Model):
         return f"{self.hero} ({self.user})"
     
     def save(self, *args, **kwargs):
-        if not self.current_health:
+        if not self.current_health and self.is_dead == False:
             self.current_health = self.hero.health
         super(UserHeroes, self).save(*args, **kwargs)
-
-
-
-
-
-
 
 
 class UserTroops(models.Model):
@@ -325,24 +333,19 @@ class Market(models.Model):
 
 class Statistic(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    infantry_kill = models.PositiveIntegerField(default=0)
-    pikeman_kill = models.PositiveIntegerField(default=0)
-    archer_kill = models.PositiveIntegerField(default=0)
-    cavalry_kill = models.PositiveIntegerField(default=0)
-    siege_kill = models.PositiveIntegerField(default=0)
-    infantry_dead = models.PositiveIntegerField(default=0)
-    pikeman_dead = models.PositiveIntegerField(default=0)
-    archer_dead = models.PositiveIntegerField(default=0)
-    cavalry_dead = models.PositiveIntegerField(default=0)
-    siege_dead = models.PositiveIntegerField(default=0)
+    kill = models.PositiveIntegerField(default=0)
+    dead = models.PositiveIntegerField(default=0)
+    hero_kill = models.PositiveIntegerField(default=0)
+    hero_dead = models.PositiveIntegerField(default=0)
+
 
     @property
     def total_kill(self):
-        return sum((self.infantry_kill, self.pikeman_kill, self.archer_kill, self.cavalry_kill, self.siege_kill))
+        return self.kill
     
     @property
     def total_dead(self):
-        return sum((self.infantry_dead, self.pikeman_dead, self.archer_dead, self.cavalry_dead, self.siege_dead))
+        return self.dead
     
     def __str__(self):
         return f"{self.user}'s Statistic"

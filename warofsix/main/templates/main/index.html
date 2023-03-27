@@ -1,15 +1,39 @@
-{% extends 'main/layout.html' %}
 {% load static %}
-
-{% block body %}
-
-    <h3>HELLO WORLD</h3>
-    <h5><i>This is War of The Six</i></h5>
-    {% if user_id == None %}
-    <h4>GİRİŞ YAP</h4>
-    {% else %}
-    <p>ID: {{user_id}}</p>
-    <p>User: {{user}}</p>
-    {% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-{% endblock body %}
+    <link rel="stylesheet" href="{% static 'style/main.css' %}" type='text/css'>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <title>War of The SIX</title>
+</head>
+<body class="body">
+
+
+<div class="section">
+  <h1>THIS IS THE WAR OF THE SIX</h1>
+
+  <div class="video-container">
+    <div class="color-overlay"></div>
+
+    <video autoplay loop muted>
+        <source src="{% static 'videos/isengard_1.mp4' %}">
+    </video>
+
+  </div>
+
+</div>
+
+
+
+<div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odio sunt fugit illum hic rem, inventore possimus placeat? Quis iure exercitationem quasi incidunt a corporis praesentium iste, consequuntur tenetur quae harum iusto accusamus fugit officia soluta maiores animi quam temporibus commodi obcaecati eveniet? Iusto dolorum repellat hic magnam delectus sequi, a quo excepturi quam amet, id libero temporibus, autem illum quasi. Minus ea veritatis blanditiis odit doloribus consequuntur provident qui similique veniam ut, vitae inventore asperiores. Consequatur sint veniam aut ea voluptates dignissimos tempora cupiditate esse libero molestiae, animi id eligendi laboriosam amet quasi doloribus quaerat ratione totam, soluta dolor? Itaque quia esse fuga tempore minima vitae inventore dolorem nulla labore officiis deserunt, dicta odit aut, iste saepe eligendi? Inventore, similique eligendi. Quos quia unde eius soluta voluptates hic officiis officia? Odit qui porro blanditiis maxime! Nemo quas cum dolorem distinctio officiis beatae. Modi, et vel corrupti saepe officia repellendus quae impedit corporis illo quis a recusandae, dolorum culpa voluptates exercitationem cum vero nobis labore! Dicta delectus neque tenetur placeat minus sint quam unde ea vitae, non odio, tempore deserunt maiores mollitia beatae sit facilis ad nisi. Sint provident inventore repudiandae eum laudantium ratione culpa fuga modi esse nemo ullam aliquid accusamus temporibus libero voluptatem praesentium quia ea, totam omnis eos. Eaque fugiat odio est officia totam laboriosam illo expedita libero explicabo fuga dicta doloremque, odit, amet perferendis distinctio! Incidunt quis unde aspernatur hic voluptatibus reprehenderit repellendus, ab impedit saepe molestias quam odit placeat nostrum commodi provident perspiciatis blanditiis quisquam natus delectus architecto iste aut? Odit porro dicta quo voluptatem placeat iure veniam, nulla minima suscipit asperiores quidem quas alias. Iure facilis animi sapiente, ullam nostrum ducimus repellendus beatae nihil blanditiis sequi consequuntur dicta. Laudantium, optio eveniet dicta quos unde tempora quidem in. Error, reprehenderit mollitia! Praesentium, nobis molestiae laudantium impedit, similique doloribus, ipsa facilis molestias sequi vitae culpa corrupti minima eveniet adipisci eum deserunt perferendis consequatur. Voluptates facere veritatis nulla beatae error, velit similique, praesentium aut soluta dicta fugit! Quae mollitia placeat autem deleniti nemo vitae modi quo nulla laborum quibusdam obcaecati totam dolore quis earum quaerat aliquam voluptates, corporis amet ullam sapiente quam cumque odit tenetur. Porro cum vel voluptatem dolorem! Odio fuga animi magnam illo, nihil ab fugiat debitis, modi iste perspiciatis obcaecati quidem? Corrupti iste deserunt quisquam quia facilis assumenda, quibusdam aspernatur quae itaque illum, fuga nostrum voluptas commodi dignissimos doloremque hic cupiditate? Dicta laborum molestias pariatur.</div>
+
+      
+</body>
+</html>

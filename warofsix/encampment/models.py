@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.admin import User
+from django.contrib.auth.models import User
 from main.models import UserTroops, Location
 from django.db.models import Min
 import math
@@ -14,6 +14,7 @@ class DepartingCampaigns(models.Model):
     auto = models.BooleanField(default=True)
     time_left = models.PositiveIntegerField(default=0)
     last_checkout = models.DateTimeField(auto_now_add=True)
+    campaign_type = models.CharField(max_length=20, default="")
 
     @property
     def distance(self):
@@ -45,6 +46,7 @@ class ArrivingCampaigns(models.Model):
     target_location = models.ForeignKey(Location, related_name="arriving_target_location", on_delete=models.CASCADE)
     time_left = models.PositiveIntegerField(default=0)
     last_checkout = models.DateTimeField(auto_now_add=True)
+    campaign_type = models.CharField(max_length=20, default="")
 
     @property
     def distance(self):
@@ -73,6 +75,17 @@ class DefencePosition(models.Model):
 
     @property
     def count(self):
-        count = math.floor(self.user_troop.count * self.percent / 100)
+        if self.user_troop.user == self.user:
+            count = math.floor(self.user_troop.count * self.percent / 100)
+        else:
+            loc = Location.objects.get(user= self.user)
+            troop = ReinforcementTroops.objects.get(location = loc, user_troop = self.user_troop)
+            count = troop.count * self.percent / 100
         return count
 
+
+class ReinforcementTroops(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    user_troop = models.ForeignKey(UserTroops, on_delete=models.CASCADE)
+    count = models.PositiveIntegerField(default=0)

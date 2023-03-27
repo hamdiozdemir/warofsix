@@ -15,7 +15,7 @@ class RaceAdmin(admin.ModelAdmin):
 @admin.register(Troops)
 class TroopsAdmin(admin.ModelAdmin):
     list_display = ["name", "id", "race", "type", "damage", "crash_bonus", "building", "prerequisite", "training_time", "speed"]
-    list_filter = ("race",)
+    list_filter = ("race","type")
 
 @admin.register(Buildings)
 class BuildingsAdmin(admin.ModelAdmin):
@@ -25,13 +25,13 @@ class BuildingsAdmin(admin.ModelAdmin):
 
 @admin.register(Heroes)
 class HeroesAdmin(admin.ModelAdmin):
-    list_display = ["name", "id", "race", "token", "health", "damage", "regenerate_time"]
+    list_display = ["name", "id", "race", "token", "health", "damage", "regenerate_time", "summon_type", "summon_amount"]
     list_filter = ["race"]
 
 
 @admin.register(UserHeroes)
 class UserHeroesAdmin(admin.ModelAdmin):
-    list_display = ["hero", "user", "is_dead", "regenerate_time_left", "last_checkout"]
+    list_display = ["hero", "user", "is_dead","current_health", "regenerate_time_left", "last_checkout"]
     list_filter = ["hero"]
 
 

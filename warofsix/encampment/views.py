@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import DepartingTroops, ArrivingTroops, DepartingCampaigns, ArrivingCampaigns, DefencePosition
+from .models import DepartingTroops, ArrivingTroops, DepartingCampaigns, ArrivingCampaigns, DefencePosition, ReinforcementTroops
 from main.models import UserTroops, Location, UserTracker, Troops
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -60,7 +60,10 @@ class EncampmentListView(LoginRequiredMixin, ListView):
             (90, "%90"),
             (100, "%100")
         ]
+        my_loc = Location.objects.get(user=self.request.user)
+        reinforcements = ReinforcementTroops.objects.filter(location=my_loc)
 
+        context["reinforcements"] = reinforcements
         context["percents"] = percents
         context["defensive_formation_data"] = defensive_formation_data(self.request.user)
 
