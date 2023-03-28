@@ -3,6 +3,7 @@ __pycache__
 db.sqlite3
 /env
 *.env
+.env
 .vscode
 .mp4
 *.mp4
