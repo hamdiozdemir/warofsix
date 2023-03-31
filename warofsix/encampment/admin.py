@@ -7,7 +7,7 @@ from .models import *
 
 @admin.register(DepartingCampaigns)
 class DepartingCampaignsAdmin(admin.ModelAdmin):
-    list_display = ["user", "id", "campaign_type", "main_location", "target_location", "time_left", "distance", "speed", "auto"]
+    list_display = ["user", "id", "campaign_type", "main_location", "target_location", "time_left", "distance", "speed", "auto", "arriving_time"]
 
 @admin.register(DepartingTroops)
 class DepartingTroopsAdmin(admin.ModelAdmin):

@@ -13,10 +13,52 @@
 
 {{report}}
 
-<hr>
-{{report.attacker_group}}
+<!--
+    BU OLMAZZZZZZ TÜM BLOCKLARI GÖSTERMİYOR. AYRICA ÇOK BÜYÜK OLUYOR İTEMLER
+-->
 
 <hr>
- {{report.defender_group}}
+
+
+    {% for att in report.attacker_group %}
+    <div class="battle-grid-item">
+        
+        <div>POS: {{att.position}}</div>
+        <div>STATUS: {{att.status}}</div>
+        <div>USER TROOP: {{att.user_troop}}</div>
+        <div>NUMBER: {{att.troop_count}}</div>
+        <div>DEAD: {{att.deads}}</div>
+        <div>ALIVE: {{att.troop_alive}}</div>
+        <div>HERO: {{att.user_hero}}</div>
+        <div>HERO REIN.: {{att.user_hero_troop}}</div>
+        <div>HERO REIN NUMBER: {{att.user_hero_troop_count}}</div>
+        <div>HERO REIN DEAD: {{att.user_hero_troop_dead}}</div>
+        <div>HERO REIN ALIVE: {{att.user_hero_troop_alive}}</div>
+        
+    </div>
+    {% endfor %}
+
+
+
+
+<hr>
+{% for att in report.defender_group %}
+<div>POS: {{att.position}}</div>
+<div>STATUS: {{att.status}}</div>
+<div>USER TROOP: {{att.user_troop}}</div>
+<div>NUMBER: {{att.troop_count}}</div>
+<div>DEAD: {{att.deads}}</div>
+<div>ALIVE: {{att.troop_alive}}</div>
+<div>HERO: {{att.user_hero}}</div>
+<div>HERO REIN.: {{att.user_hero_troop}}</div>
+<div>HERO REIN NUMBER: {{att.user_hero_troop_count}}</div>
+<div>HERO REIN DEAD: {{att.user_hero_troop_dead}}</div>
+<div>HERO REIN ALIVE: {{att.user_hero_troop_alive}}</div>
+<hr>
+
+{% endfor %}
+
+
+
 
 {% endblock body %}

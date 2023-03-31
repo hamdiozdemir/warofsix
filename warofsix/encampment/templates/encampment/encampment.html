@@ -12,29 +12,58 @@
 
 <div class="encampment-container">
 
-  <div class="current-troop-container">
-    <h4 style="width: 100%; text-align:center;">CURRENT TROOPS</h4>
+  <div class="left-troop-bar">
 
-    {% for troop in user_troops %}
-
-    <div class="current-troop-box">
-      <label for="{{troop.troop}}"> <i>{{troop.troop}}</i> </label>
-      <img class="troop-icon-camp" src="{% get_static_prefix %}images/troops/{{troop.troop.id}}.png" alt="{{troop.troop.name}}">
-      <div> <b>{{troop.count}}</b> </div>
+      <div class="current-troop-container">
+        <h4 style="width: 100%; text-align:center;">CURRENT TROOPS</h4>
+        
+        {% for troop in user_troops %}
+        
+        <div class="current-troop-box">
+          <label for="{{troop.troop}}"> <i>{{troop.troop}}</i> </label>
+          <img class="troop-icon-camp" src="{% get_static_prefix %}images/troops/{{troop.troop.id}}.png" alt="{{troop.troop.name}}">
+          <div> <b>{{troop.count}}</b> </div>
+        </div>
+        
+        {% endfor %}
+        
     </div>
-
-    {% endfor %}
-
-    <hr>
-
-    {% for rein in reinforcements %}
-    <div> {{rein.user_troop}}</div>
-    <div> {{rein.count}}</div>
+  
+    <div class="current-hero-container">
+      <h5 style="width: 100%; text-align:center;">CURRENT HEROES</h5>
+      {% for hero in user_heroes %}
+      <div class="current-hero-box">
+        <div class="hero-heading"><label for="{{hero.hero}}"> <i>{{hero.hero}}</i> </label></div>
+        <img class="troop-icon-camp" src="{% get_static_prefix %}images/heroes/{{hero.hero.id}}.png" alt="{{hero.hero}}">
+        Current Health: {{hero.current_health}}
+        {% if hero.hero.summon_amount == 0 %}
+        {% else %}
+        <div>{{hero.hero.summon_amount}} {{hero.hero.summon_type}}</div>
+        {% endif %}
+      </div>
     
-    {% endfor %}
+      {% endfor %}
   </div>
 
-
+  <div class="current-troop-container">
+    <h4 style="width: 100%; text-align:center;">REINFORCEMENT TROOPS</h4>
+    
+    {% for rein in reinforcements %}
+    
+    <div class="current-reinforcement-box">
+      <label for="{{rein.user_troop.troop}}"> <i>{{rein.user_troop.troop}}</i> </label>
+      <img class="troop-icon-camp" src="{% get_static_prefix %}images/troops/{{rein.user_troop.troop.id}}.png" alt="{{rein.user_troop.troop.name}}">
+      <div> <b>{{rein.count}}</b> </div>
+    </div>
+    
+    {% endfor %}
+    
+  </div>
+</div>
+  
+  
+  
+  
   <div class="troop-management-container">
 
           <h4>SET DEFENSIVE FORMATION</h4>
@@ -496,10 +525,41 @@
               <label for="locy">Y: </label>
               <input type="number" id="locy" name="locy" min="0" max="30" required>
 
-              <input class="form-check-input" type="checkbox" value="True" id="flexCheckCheckedDisabled" name="auto" checked disabled>
+              <input class="form-check-input" type="radio" value="True" id="flexCheckCheckedDisabled" name="auto" checked>
               <label class="form-check-label" for="flexCheckCheckedDisabled" >
                 Auto Battle
               </label>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" value="reinforcement" id="reinforcement" name="attacktype" checked>
+                <label class="form-check-label" for="reinforcement" >
+                  Reinforcement
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" value="pillage" id="pillage" name="attacktype">
+                <label class="form-check-label" for="pillage" >
+                  ATTACK - Pillage
+                </label>
+              </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" value="attackblock" id="attackblock" name="attacktype">
+                  <label class="form-check-label" for="attackblock" >
+                    ATTACK - Block
+                  </label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" value="attackflank" id="attackflank" name="attacktype">
+                  <label class="form-check-label" for="attackflank" >
+                    ATTACK - Flank
+                  </label>
+                </div>
+              
+
+              
 
 
               <button type="submit" class="btn btn-danger">TO WAR</button>
@@ -542,9 +602,6 @@
 
             </tbody>
           </table>
-
-
-
           <hr>
 
         {% endfor %}

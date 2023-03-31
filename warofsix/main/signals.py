@@ -1,8 +1,7 @@
+from django.dispatch import Signal
 from datetime import timedelta
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from django.core.signals import request_finished
-from django.urls import resolve
 from .models import UserTroops, Race, Troops, Buildings, UserBuildings, Resources, Location, UserTracker, Settlement, Statistic, UserTroopTraining, TroopUpgrades, Profile
 from encampment.models import DepartingCampaigns, DepartingTroops, ArrivingCampaigns, ArrivingTroops, DefencePosition
 from battle.models import Battles, AttackerDeads, DefenderDeads
@@ -12,8 +11,8 @@ from django.utils import timezone
 import random, math
 from math import floor
 from django.db.models import F, Q
-
 from django.contrib.auth.models import User
+
 
 
 
@@ -104,6 +103,15 @@ def create_instances(sender, instance, created, **kwargs):
             race.save()
 
 
+@receiver(post_save, sender=DepartingCampaigns)
+def create_battle_task(sender, instance, created, **kwargs):
+    if created:
+        print(instance)
+        print("signal emcampment")
+        # print(instance.speed)
+
+
+
 @receiver(post_save, sender=Race)
 def create_buildings(sender, instance, created, **kwargs):
     if created:
@@ -163,17 +171,11 @@ def create_buildings(sender, instance, created, **kwargs):
 
 
 
-
-
-
 # İLERİDE SERVER'DA BU SİGNAL'İN BELİRLİ ARALIKLARLA ÇALIŞMASI GEREKİYOR
 
 @receiver(post_save, sender=UserTracker)
 def catch_request(sender, instance, **kwargs):
     user = instance.user
-    print("SIGNAL ÇALIŞTIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
-    print(user)
-
     training_check(user)
 
     buildings = UserBuildings.objects.filter(user=user)
@@ -182,40 +184,27 @@ def catch_request(sender, instance, **kwargs):
     current_resources(user)
     armory_update_check(user)
     # create_wild_good_easy()
-    departing_time_check(user)
-
-
-    
-
-
-def departing_time_check(user):
-    campaigns = DepartingCampaigns.objects.filter(user=user)
-    for camp in campaigns:
-        time_diff = (timezone.now() - camp.last_checkout).total_seconds()
-        if positive_or_zero(camp.time_left - time_diff) == 0:
-            camp.time_left = 0
-            camp.last_checkout = timezone.now()
-            camp.save()
-            battle = Battles.objects.create(
-                attacker=camp.user, 
-                defender=camp.target_location.user,
-                auto=camp.auto
-                )
-            
-            # BURAYA IF AUTO TRUE olarak savaş fonksiyonu gelecek
-            # Eğer time_left sıfır ise buradaki kayıtların savaşa ve dönüş yoluna gidip buradan silinmesi gerekiyor mutlaka
-            # Eğer AUTO FALSE ise nolacak ona da karar verilmesi lazım
 
 
 
-        else:
-            camp.time_left -= time_diff
-            camp.last_checkout = timezone.now()
-            camp.save()
-    return True
 
 
 
+
+campaign_created_signal = Signal()
+
+
+def campaign_created(sender, instance, **kwargs):
+    print("Departing Campaign signals")
+    print(instance)
+    print(f"Hız: {instance.speed}")
+    print(f"Varış Zamanı: {instance.arriving_time}")
+
+
+campaign_created_signal.connect(campaign_created)
+
+
+# Hızları ayarlamak için lazım olduğunda kullandım.
 def speed_dec():
     troops = Troops.objects.all()
     for troop in troops:

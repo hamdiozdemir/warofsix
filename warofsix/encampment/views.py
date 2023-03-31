@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import DepartingTroops, ArrivingTroops, DepartingCampaigns, ArrivingCampaigns, DefencePosition, ReinforcementTroops
-from main.models import UserTroops, Location, UserTracker, Troops
+from main.models import UserTroops, Location, UserTracker, Troops, UserHeroes
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
+from datetime import timedelta
 from django.contrib import messages
-
+from main.signals import campaign_created_signal
 from django.views.generic import ListView
 
 
@@ -29,6 +30,7 @@ class EncampmentListView(LoginRequiredMixin, ListView):
         track.track += 1
         track.save()
 
+        user_heroes = UserHeroes.objects.filter(user=self.request.user)
 
         departing_groups = list()
         departing_campaigns = DepartingCampaigns.objects.filter(user=self.request.user)
@@ -66,6 +68,7 @@ class EncampmentListView(LoginRequiredMixin, ListView):
         context["reinforcements"] = reinforcements
         context["percents"] = percents
         context["defensive_formation_data"] = defensive_formation_data(self.request.user)
+        context["user_heroes"] = user_heroes
 
 
 
@@ -85,8 +88,6 @@ class EncampmentListView(LoginRequiredMixin, ListView):
                 messages.add_message(request, messages.WARNING, "All troop's total percentage should be %100.")
                 return redirect("/encampment")
                 
-
-
         elif request.POST.get("form_type") == "attack":
             form_data = request.POST.dict()
             print(form_data)
@@ -100,7 +101,7 @@ class EncampmentListView(LoginRequiredMixin, ListView):
             locy = int(form_data["locy"])
             target_location = Location.objects.get(locx=locx, locy=locy)
             auto = request.POST.get('auto', False) == 'True'
-            campaign = DepartingCampaigns.objects.create(user=self.request.user, main_location=main_location, target_location=target_location, auto=auto)
+            campaign = DepartingCampaigns.objects.create(user=self.request.user, main_location=main_location, target_location=target_location, auto=auto, arriving_time= timezone.now())
 
                 # #create the departing troops
             positions = [11,12,13,14,21,22,23,24,31,32,33,34]
@@ -115,16 +116,11 @@ class EncampmentListView(LoginRequiredMixin, ListView):
                 )
                 user_troop.count -= int(form_data["num"+str(pos)])
                 user_troop.save()
-                campaign.time_left = campaign.distance / campaign.speed * 3600
-                campaign.save()
+            campaign.time_left = round(campaign.distance / campaign.speed * 3600)
+            campaign.arriving_time = timezone.now() + timedelta(seconds=campaign.time_left)
+            campaign.save()
 
-                # user_troops = UserTroops.objects.filter(user=self.request.user)
-            # for troop in user_troops:
-            #     DepartingTroops.objects.create(user=self.request.user, user_troop=troop, count= int(form_data[str(troop.id)]), campaign=campaign)
-            #     troop.count -= int(form_data[str(troop.id)])
-            #     troop.save()
-            # campaign.time_left = campaign.distance / campaign.speed * 3600
-            # campaign.save()
+            campaign_created_signal.send(sender=None, instance=campaign)
    
             return redirect("/encampment")
 

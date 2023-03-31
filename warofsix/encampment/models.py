@@ -14,7 +14,12 @@ class DepartingCampaigns(models.Model):
     auto = models.BooleanField(default=True)
     time_left = models.PositiveIntegerField(default=0)
     last_checkout = models.DateTimeField(auto_now_add=True)
+    arriving_time = models.DateTimeField()
     campaign_type = models.CharField(max_length=20, default="")
+    is_completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.id} - {self.user} TO {self.target_location}"
 
     @property
     def distance(self):
@@ -22,9 +27,11 @@ class DepartingCampaigns(models.Model):
     
     @property
     def speed(self):
-        min_speed = DepartingTroops.objects.filter(campaign=self).exclude(count=0).aggregate(Min('user_troop__troop__speed'))['user_troop__troop__speed__min']
-        print(min_speed)
-        return min_speed
+        troops = DepartingTroops.objects.filter(campaign=self).exclude(count=0)
+        speeds = []
+        for troop in troops:
+            speeds.append(troop.user_troop.troop.speed)
+        return min(speeds)
     
     @property
     def group(self):
@@ -47,6 +54,11 @@ class ArrivingCampaigns(models.Model):
     time_left = models.PositiveIntegerField(default=0)
     last_checkout = models.DateTimeField(auto_now_add=True)
     campaign_type = models.CharField(max_length=20, default="")
+    arriving_wood = models.PositiveIntegerField(default=0)
+    arriving_stone = models.PositiveIntegerField(default=0)
+    arriving_iron = models.PositiveIntegerField(default=0)
+    arriving_grain = models.PositiveIntegerField(default=0)
+    is_completed = models.BooleanField(default=False)
 
     @property
     def distance(self):
@@ -56,11 +68,16 @@ class ArrivingCampaigns(models.Model):
     def speed(self):
         min_speed = ArrivingTroops.objects.exclude(user_troop__troop__speed=0).aggregate(Min('user_troop__troop__speed'))['user_troop__troop__speed__min']
         return min_speed
+    
+    @property
+    def group(self):
+        group = ArrivingTroops.objects.filter(campaign=self)
+        return group
 
 
 class ArrivingTroops(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    user_troop = models.ForeignKey(UserTroops, on_delete=models.CASCADE)
+    user_troop = models.ForeignKey(UserTroops, on_delete=models.CASCADE, null=True, blank=True)
     count = models.PositiveIntegerField(default=0)
     campaign = models.ForeignKey(ArrivingCampaigns, on_delete=models.CASCADE, null=True)
 
@@ -89,3 +106,4 @@ class ReinforcementTroops(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     user_troop = models.ForeignKey(UserTroops, on_delete=models.CASCADE)
     count = models.PositiveIntegerField(default=0)
+

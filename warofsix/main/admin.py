@@ -70,7 +70,7 @@ class MessagesAdmin(admin.ModelAdmin):
 
 @admin.register(Statistic)
 class StatisticAdmin(admin.ModelAdmin):
-    list_display = ["user", "total_kill", "total_dead"]
+    list_display = ["user", "total_kill", "total_dead", "hero_kill", "hero_dead"]
 
 
 @admin.register(Settlement)
