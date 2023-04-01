@@ -35,7 +35,7 @@ class DepartingCampaigns(models.Model):
     
     @property
     def group(self):
-        group = DepartingTroops.objects.filter(campaign=self)
+        group = DepartingTroops.objects.filter(campaign=self).order_by('position')
         return group
     
 
@@ -97,7 +97,7 @@ class DefencePosition(models.Model):
         else:
             loc = Location.objects.get(user= self.user)
             troop = ReinforcementTroops.objects.get(location = loc, user_troop = self.user_troop)
-            count = troop.count * self.percent / 100
+            count = math.floor(troop.count * self.percent / 100)
         return count
 
 

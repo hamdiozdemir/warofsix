@@ -2,7 +2,7 @@ from encampment.models import DefencePosition, DepartingCampaigns, DepartingTroo
 from main.models import UserHeroes, UserBuildings, Statistic, UserTroops, Resources
 from .models import Battles, AttackerDeads, DefenderDeads
 import math
-
+from main.signals import current_resources
 
 class Attacker():
 
@@ -878,7 +878,6 @@ class Battle():
                     troop.save()
 
 
-
     def block_battle_fight(self):
         war_end = False
         while not war_end:
@@ -938,6 +937,92 @@ class Battle():
 
 
         return self.attack_group, self.defend_group, self.main_attack_group, self.main_defend_group, self.attacker_deads, self.defender_deads
+
+
+class Arrivings():
+
+    def __init__(self, arriving_campaign):
+        self.arriving_campaign = arriving_campaign
+        self.user = arriving_campaign.user
+        self.user_resources = Resources.objects.get(user = self.user)
+        # self.user_troop = UserTroops.objects.filter(user= self.user)
+
+    def get_user_troops(self):
+        arriving_group = self.arriving_campaign.group
+        for obj in arriving_group:
+            obj.user_troop.count += obj.count
+            obj.user_troop.save()
+
+    def get_resources(self):
+        # Update current resources
+        current_resources(self.user)
+        self.user_resources.wood += self.arriving_campaign.arriving_wood
+        self.user_resources.stone += self.arriving_campaign.arriving_stone
+        self.user_resources.iron += self.arriving_campaign.arriving_iron
+        self.user_resources.grain += self.arriving_campaign.arriving_grain
+        self.user_resources.save()
+
+
+class TroopManagements():
+
+    def __init__(self, data, user):
+        self.data = data
+        self.user = user
+        self.user_troop_query = UserTroops.objects.filter(user=self.user)
+    
+
+    def defence_formation_percent_check(self):
+        # filter the data with only troops
+        filtered_data = {k:v for k,v in self.data.item() if k.startswith('troop')}
+        # create a dict from unique troop id, value is 0 as the number
+        new_data = dict.fromkeys(set(filtered_data.values()), 0)
+
+        for k,v in filtered_data.items():
+            if v in new_data.keys():
+                new_data[v] += int(self.data["numd"+k[-2:]])
+        if all(number <= 100 for number in new_data.values()):
+            return True
+        else:
+            return False
+
+    def defence_formation_save(self):
+        if self.defence_formation_percent_check():
+            message = "Formation updated successfully."
+            positions = DefencePosition.objects.filter(user= self.user)
+            for pos in positions:
+                pos.user_troop = UserTroops.objects.get(troop__id = int(self.data[f"troop{pos.position}"]))
+                pos.percent = int(self.data[f"numd{pos.position}"])
+                pos.save()
+            return message
+        else:
+            message = "All troops' total percentage should be equal or lower then %100."
+            return message
+        
+    def send_troop_number_check(self):
+        filtered_data = {k:v for k,v in self.data.items() if k.startswith('troop')}
+        new_data = dict.fromkeys(set(filtered_data.values()), 0)
+        for k,v in filtered_data.items():
+            if v in new_data.keys():
+                new_data[v] += int(self.data["num"+k[-2:]])
+        checks=[]
+        for k,v in new_data.items():
+            if self.user_troop_query.get(troop__id = int(k)).count >= v:
+                checks.append(True)
+            else:
+                checks.append(False)
+        if all(checks):
+            return True
+        else:
+            return False
+
+
+
+
+    def send_reinforcement(self):
+        pass
+
+
+
 
 
 # SOME FUNCTIONS
@@ -1004,3 +1089,4 @@ def hero_defence_bonus(user_hero, user_troop):
     else:
         return 1
 
+{'csrfmiddlewaretoken': 'Hq2uQzWFa2HzhuTp83uWmCuHQFVsEfgkUIlIAFpQLoN8WNean8Jvs4XRvfV8DDtY', 'form_type': 'attack', 'troop11': '9', 'num11': '5', 'troop12': '9', 'num12': '66', 'troop13': '9', 'num13': '0', 'troop14': '9', 'num14': '0', 'troop21': '9', 'num21': '0', 'troop22': '9', 'num22': '0', 'troop23': '9', 'num23': '0', 'troop24': '9', 'num24': '0', 'troop31': '9', 'num31': '0', 'troop32': '9', 'num32': '0', 'troop33': '9', 'num33': '0', 'troop34': '9', 'num34': '0', 'locx': '25', 'locy': '25', 'auto': 'True', 'attacktype': 'reinforcement'}
