@@ -60,7 +60,7 @@ a:visited{
 }
 
 .base{
-    margin: 30px;
+    margin: 5px 30px 30px 10px;
 }
 
 .resources{
@@ -273,7 +273,7 @@ a:visited{
     flex-direction: column;
     justify-content: center;
     /* align-content: baseline; */
-    width: 30%;
+    width: 35%;
     min-width: 250px;
     max-width: 460px;
     column-gap: 5px;
@@ -339,7 +339,7 @@ a:visited{
     display: flex;
     flex-direction: column;
     min-width: 800px;
-    min-width: 70%;
+    /* min-width: 70%; */
     align-items: center;
 
 }
@@ -416,9 +416,10 @@ a:visited{
 .formation-item{
     display: flex;
     flex-direction: column;
-    row-gap: 5px;
+    /* max-height: max-content; */
+    /* row-gap: 5px; */
     width: 180px;
-    min-height: 130px;
+    /* min-height: 130px; */
     background: burlywood;
     align-items: center;
     padding: 3px;
@@ -429,12 +430,39 @@ a:visited{
 
 .formation-img{
     width: 90px;
-
     
 }
 
+.formation-troop-line{
+    font-size: 0.9rem;
+}
 
 
+/* ******************* DEPARTING CAMP ITEMS ************ */
+
+.departing-camp-container{
+    display: flex;
+    width: 700px;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 5px;
+    column-gap: 5px;
+    margin-top: 8px;
+}
+
+.departing-troop-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    width: 150px;
+    height: 60px;
+    border-radius: 5px;
+    border: 1px black dashed;
+    background: lightseagreen;
+    font-size: 0.8rem;
+}
 /* ************************* */
 
 .troop-select {

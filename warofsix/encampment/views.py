@@ -46,6 +46,7 @@ class EncampmentListView(LoginRequiredMixin, ListView):
             user_counted_troops = UserTroops.objects.filter(user=self.request.user).order_by('troop_id')
             context["user_counted_troops"] = user_counted_troops
 
+        
 
         percents = [
             (0, "%0"),
@@ -65,10 +66,18 @@ class EncampmentListView(LoginRequiredMixin, ListView):
         my_loc = Location.objects.get(user=self.request.user)
         reinforcements = ReinforcementTroops.objects.filter(location=my_loc)
 
+        user_troops = UserTroops.objects.filter(user=self.request.user)
+        user_troops = list(user_troops) + [troop.user_troop for troop in reinforcements] 
+        blocks = range(1,13)
+
         context["reinforcements"] = reinforcements
         context["percents"] = percents
         context["defensive_formation_data"] = defensive_formation_data(self.request.user)
         context["user_heroes"] = user_heroes
+
+        context["union_troops"] = user_troops
+        context["blocks"] = blocks
+        context["departing_campaigns"] = departing_campaigns
 
 
 
@@ -81,6 +90,7 @@ class EncampmentListView(LoginRequiredMixin, ListView):
             form_data = request.POST.dict()
             print(form_data)
             if defence_formation_percent_check(form_data):
+            # if 1 == 1:
                 defence_formation_save(self.request.user, form_data)
                 messages.add_message(request, messages.SUCCESS, "Formation updated successfully.")
                 return redirect("/encampment")
@@ -92,6 +102,8 @@ class EncampmentListView(LoginRequiredMixin, ListView):
             form_data = request.POST.dict()
             print(form_data)
             print("ATTACK FORM ---------------")
+            user_troops = UserTroops.objects.filter(user=self.request.user)
+            print(send_troop_number_check(form_data, user_troops))
 
 
                 # print(form_data)
@@ -158,6 +170,18 @@ def defensive_formation_data(user):
         "numd32": positions.get(position=32).percent,
         "numd33": positions.get(position=33).percent,
         "numd34": positions.get(position=34).percent,
+        "countd11": positions.get(position=11).count,
+        "countd12": positions.get(position=12).count,
+        "countd13": positions.get(position=13).count,
+        "countd14": positions.get(position=14).count,
+        "countd21": positions.get(position=21).count,
+        "countd22": positions.get(position=22).count,
+        "countd23": positions.get(position=23).count,
+        "countd24": positions.get(position=24).count,
+        "countd31": positions.get(position=31).count,
+        "countd32": positions.get(position=32).count,
+        "countd33": positions.get(position=33).count,
+        "countd34": positions.get(position=34).count,
 
     }
     return defence_data
@@ -177,7 +201,37 @@ def defence_formation_percent_check(data):
     for k,v in filtered_data.items():
         if v in new_data.keys():
             new_data[v] += int(data["numd"+k[-2:]])
-    if all(number == 100 for number in new_data.values()):
+    if all(number <= 100 for number in new_data.values()):
         return True
     else:
         return False
+    
+
+def send_troop_number_check(data, user_troop_query):
+    filtered_data = {k:v for k,v in data.items() if k.startswith('troop')}
+    new_data = dict.fromkeys(set(filtered_data.values()), 0)
+    for k,v in filtered_data.items():
+        if v in new_data.keys():
+            new_data[v] += int(data["num"+k[-2:]])
+    checks=[]
+    for k,v in new_data.items():
+        if user_troop_query.get(troop__id = int(k)).count >= v:
+            checks.append(True)
+        else:
+            checks.append(False)
+    if all(checks):
+        return True
+    else:
+        return False
+        
+
+
+
+class TroopSend():
+
+    def __init__(self, user):
+        self.user = user
+
+    
+    def send_reinforcement(self, post_data):
+        pass

@@ -4,6 +4,7 @@
 {% block head %}
 
 <script src="{% static 'encampment/scripts/scripts.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock head %}
 
 
@@ -17,6 +18,8 @@
       <div class="current-troop-container">
         <h4 style="width: 100%; text-align:center;">CURRENT TROOPS</h4>
         
+        
+
         {% for troop in user_troops %}
         
         <div class="current-troop-box">
@@ -77,86 +80,64 @@
             
               <div class="formation-row">
                 <div class="formation-item" id="31">
-                  <b>31</b>
+                  
                     <select id="slcd31" name="troop31" class="troop-select" aria-label="Default select example">
-                      {% for troop in user_counted_troops %}
-                      <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop31 %} selected {% endif %} >{{troop.troop}}</option>
+                      {% for troop in union_troops %}
+                      <option id="{{troop.troop.id}}" value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop31 %} selected {% endif %} >{{troop.troop}}</option>
                       {% endfor %}
                     </select>
 
                     <img id="imgd31" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop31}}.png" alt="">
 
-                    <select class="form-select form-select-sm" name="numd31" aria-label="Default select example">
-                      
-                      {% for group in percents %}
-                      
-                      <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd31 %} selected {% endif %} >{{group.1}}</option>
-                      {% endfor %}
-
-                    </select>
+                    <input type="range" name="numd31" class="form-range range-input" id="customRange1" min="0" max="100" step="5" value="{{defensive_formation_data.numd31}}">
+                    <div><span>%</span><span class="range-value" id="rangeValue1">{{defensive_formation_data.numd31}}</span>  | {{defensive_formation_data.countd31}}</div>
 
                 </div>
 
                 <div class="formation-item" id="32">
-                  <b>32</b>    
+                     
                   
                   <select id="slcd32" name="troop32" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
+                    {% for troop in union_troops %}
                     <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop32 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
 
-                  <img id="imgd32" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop32}}.png" alt="">
+                    <img id="imgd32" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop32}}.png" alt="">
 
-                  <select class="form-select form-select-sm" name="numd32" aria-label="Default select example">
-                      
-                    {% for group in percents %}
-                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd32 %} selected {% endif %}>{{group.1}}</option>
-                    {% endfor %}
 
-                  </select>
+                  <input type="range" name="numd32" class="form-range range-input" id="customRange2" min="0" max="100" step="5" value="{{defensive_formation_data.numd32}}">
+                  <div> <span>%</span> <span class="range-value" id="rangeValue2">{{defensive_formation_data.numd32}}</span> | {{defensive_formation_data.countd32}}</div> 
                 </div>
 
                 <div class="formation-item"  id="33">
-                  <b>33</b>
+                  
 
                   <select id="slcd33" name="troop33" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
+                    {% for troop in union_troops %}
                     <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop33 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
                   <img id="imgd33" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop33}}.png" alt="">
 
-                  <select class="form-select form-select-sm" name="numd33" aria-label="Default select example">
-        
-                    {% for group in percents %}
-                      
-                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd33 %} selected {% endif %}>{{group.1}}</option>
-                    {% endfor %}
-
-                  </select>
+                  <input type="range" name="numd33" class="form-range range-input" id="customRange3" min="0" max="100" step="5" value="{{defensive_formation_data.numd33}}">
+                  <div> <span>%</span> <span class="range-value" id="rangeValue3">{{defensive_formation_data.numd33}}</span>  | {{defensive_formation_data.countd33}}</div> 
                 </div>
 
                 <div class="formation-item"  id="34">
-                  <b>34</b>
+                  
 
                   <select id="slcd34" name="troop34" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
+                    {% for troop in union_troops %}
                     <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop34 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
                   <img id="imgd34" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop34}}.png" alt="">
 
-                  <select class="form-select form-select-sm" name="numd34" aria-label="Default select example">
-
-                    {% for group in percents %}
-                      
-                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd34 %} selected {% endif %}>{{group.1}}</option>
-                    {% endfor %}
-
-                  </select>
+                  <input type="range" name="numd34" class="form-range range-input" id="customRange4" min="0" max="100" step="5" value="{{defensive_formation_data.numd34}}">
+                  <div> <span>%</span> <span class="range-value" id="rangeValue4">{{defensive_formation_data.numd34}}</span>  | {{defensive_formation_data.countd34}}</div> 
                 </div>
 
               </div>
@@ -165,74 +146,60 @@
                 <div class="formation-item" id="21">
                   <b>21</b>
                     <select id="slcd21" name="troop21" class="troop-select" aria-label="Default select example">
-                      {% for troop in user_counted_troops %}
+                      {% for troop in union_troops %}
                       <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop21 %} selected {% endif %}>{{troop.troop}}</option>
                       {% endfor %}
                     </select>
 
                     <img id="imgd21" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop21}}.png" alt="">
 
-                    <select class="form-select form-select-sm" name="numd21" aria-label="Default select example">
-
-                      {% for group in percents %}
-                      <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd21 %} selected {% endif %}>{{group.1}}</option>
-                      {% endfor %}
-
-                    </select>
+                    <input type="range" name="numd21" class="form-range range-input" id="customRange5" min="0" max="100" step="5" value="{{defensive_formation_data.numd21}}">
+                    <div> <span>%</span> <span class="range-value" id="rangeValue5">{{defensive_formation_data.numd21}}</span>  | {{defensive_formation_data.countd21}}</div> 
                 </div>
 
                 <div class="formation-item" id="22">
                   <b>22</b>    
                   
                   <select id="slcd22" name="troop22" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
+                    {% for troop in union_troops %}
                     <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop22 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
 
                   <img id="imgd22" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop22}}.png" alt="">
 
-                  <select class="form-select form-select-sm" name="numd22" aria-label="Default select example">
-                    {% for group in percents %}
-                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd22 %} selected {% endif %}>{{group.1}}</option>
-                    {% endfor %}
-                  </select>
+                  <input type="range" name="numd22" class="form-range range-input" id="customRange6" min="0" max="100" step="5" value="{{defensive_formation_data.numd22}}">
+                  <div> <span>%</span> <span class="range-value" id="rangeValue6">{{defensive_formation_data.numd22}}</span>  | {{defensive_formation_data.countd22}}</div> 
                 </div>
 
                 <div class="formation-item"  id="23">
                   <b>23</b>
 
                   <select id="slcd23" name="troop23" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
+                    {% for troop in union_troops %}
                     <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop23 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
                   <img id="imgd23" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop23}}.png" alt="">
 
-                  <select class="form-select form-select-sm" name="numd23" aria-label="Default select example">
-                    {% for group in percents %}
-                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd23 %} selected {% endif %}>{{group.1}}</option>
-                    {% endfor %}
-                  </select>
+                  <input type="range" name="numd23" class="form-range range-input" id="customRange7" min="0" max="100" step="5" value="{{defensive_formation_data.numd23}}">
+                  <div> <span>%</span> <span class="range-value" id="rangeValue7">{{defensive_formation_data.numd23}}</span>  | {{defensive_formation_data.countd23}}</div> 
                 </div>
 
                 <div class="formation-item"  id="24">
                   <b>24</b>
 
                   <select id="slcd24" name="troop24" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
+                    {% for troop in union_troops %}
                     <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop24 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
                   <img id="imgd24" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop24}}.png" alt="">
 
-                  <select class="form-select form-select-sm" name="numd24" aria-label="Default select example">
-                    {% for group in percents %}
-                    <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd24 %} selected {% endif %}>{{group.1}}</option>
-                    {% endfor %}
-                  </select>
+                  <input type="range" name="numd24" class="form-range range-input" id="customRange8" min="0" max="100" step="5" value="{{defensive_formation_data.numd24}}">
+                  <div> <span>%</span> <span class="range-value" id="rangeValue8">{{defensive_formation_data.numd24}}</span>  | {{defensive_formation_data.countd24}}</div> 
                 </div>
 
               </div>
@@ -242,72 +209,60 @@
                   <div class="formation-item" id="11">
                     <b>11</b>
                       <select id="slcd11" name="troop11" class="troop-select" aria-label="Default select example">
-                        {% for troop in user_counted_troops %}
+                        {% for troop in union_troops %}
                         <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop11 %} selected {% endif %}>{{troop.troop}}</option>
                         {% endfor %}
                       </select>
           
                       <img id="imgd11" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop11}}.png" alt="">
           
-                      <select class="form-select form-select-sm" name="numd11" aria-label="Default select example">
-                        {% for group in percents %}
-                        <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd11 %} selected {% endif %}>{{group.1}}</option>
-                        {% endfor %}
-                      </select>
+                      <input type="range" name="numd11" class="form-range range-input" id="customRange9" min="0" max="100" step="5" value="{{defensive_formation_data.numd11}}">
+                      <div> <span>%</span> <span class="range-value" id="rangeValue9">{{defensive_formation_data.numd11}}</span>  | {{defensive_formation_data.countd11}}</div> 
                   </div>
           
                   <div class="formation-item" id="12">
                     <b>12</b>    
                     
                     <select id="slcd12" name="troop12" class="troop-select" aria-label="Default select example">
-                      {% for troop in user_counted_troops %}
+                      {% for troop in union_troops %}
                       <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop12 %} selected {% endif %}>{{troop.troop}}</option>
                       {% endfor %}
                     </select>
           
                     <img id="imgd12" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop12}}.png" alt="">
           
-                    <select class="form-select form-select-sm" name="numd12" aria-label="Default select example">
-                      {% for group in percents %}
-                      <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd12 %} selected {% endif %}>{{group.1}}</option>
-                      {% endfor %}
-                    </select>
+                    <input type="range" name="numd12" class="form-range range-input" id="customRange10" min="0" max="100" step="5" value="{{defensive_formation_data.numd12}}">
+                    <div> <span>%</span> <span class="range-value" id="rangeValue10">{{defensive_formation_data.numd12}}</span>  | {{defensive_formation_data.countd12}}</div> 
                   </div>
           
                   <div class="formation-item"  id="13">
                     <b>13</b>
           
                     <select id="slcd13" name="troop13" class="troop-select" aria-label="Default select example">
-                      {% for troop in user_counted_troops %}
+                      {% for troop in union_troops %}
                       <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop13 %} selected {% endif %}>{{troop.troop}}</option>
                       {% endfor %}
                     </select>
                     
                     <img id="imgd13" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop13}}.png" alt="">
           
-                    <select class="form-select form-select-sm" name="numd13" aria-label="Default select example">
-                      {% for group in percents %}
-                      <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd13 %} selected {% endif %}>{{group.1}}</option>
-                      {% endfor %}
-                    </select>
+                    <input type="range" name="numd13" class="form-range range-input" id="customRange11" min="0" max="100" step="5" value="{{defensive_formation_data.numd13}}">
+                    <div> <span>%</span> <span class="range-value" id="rangeValue11">{{defensive_formation_data.numd13}}</span>  | {{defensive_formation_data.countd13}}</div> 
                   </div>
           
                   <div class="formation-item"  id="14">
                     <b>14</b>
           
                     <select id="slcd14" name="troop14" class="troop-select" aria-label="Default select example">
-                      {% for troop in user_counted_troops %}
+                      {% for troop in union_troops %}
                       <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop14 %} selected {% endif %}>{{troop.troop}}</option>
                       {% endfor %}
                     </select>
                     
                     <img id="imgd14" class="formation-img" src="{% get_static_prefix %}images/troops/{{defensive_formation_data.troop14}}.png" alt="">
           
-                    <select class="form-select form-select-sm" name="numd14" aria-label="Default select example">
-                      {% for group in percents %}
-                      <option value="{{group.0}}" {% if group.0 == defensive_formation_data.numd14 %} selected {% endif %}>{{group.1}}</option>
-                      {% endfor %}
-                    </select>
+                    <input type="range" name="numd14" class="form-range range-input" id="customRange12" min="0" max="100" step="5" value="{{defensive_formation_data.numd14}}">
+                    <div> <span>%</span> <span class="range-value" id="rangeValue12">{{defensive_formation_data.numd14}}</span> | {{defensive_formation_data.countd14}}</div> 
                   </div>
           
                 </div>
@@ -573,42 +528,29 @@
 
       <h4>DEPARTING CAMPAIGNS</h4>
 
-        {% for group in departing_groups %}
-
-          <div>TO: {{group.0.target_location}}</div>
-          <div>Time Left: {{group.0.time_left}} seconds </div>
-          <div>AUTO BATTLE: {{group.0.auto}}</div>
-
-          <p></p>
-
-          <table class="table table-striped-columns" style="background-color: #BC544B;">
-            <thead>
-              <tr>
-                {% for troop in group.1 %}
-                <th scope="col">
-                  <label for="{{troop.troop}}">{{troop.troop}}</label>
-                  <img class="troop-icon-camp" src="{% get_static_prefix %}images/troops/{{troop.user_troop.troop.id}}.png" alt="{{troop.troop.name}}">
-                </th>
-                {% endfor %}
-
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {% for troop in group.1 %}
-                
-                <td> {{troop.count}} </td>
-                {% endfor %}
-
-            </tbody>
-          </table>
-          <hr>
-
+      {% for camp in departing_campaigns %}
+      <div>TO: {{camp.target_location}}  </div>
+      <div>Type: {{camp.campaign_type}}  </div>
+      <div>Arriving Time: {{camp.arriving_time}}  </div>
+      <div class="battle-field">
+        <span id="battle-field">BATTLE FIELD</span>
+      </div>
+      <div class="departing-camp-container">
+        {% for group in camp.group %}
+        <div class="departing-troop-item">
+              {% if group.count == 0 %}
+              x
+              {% else %}
+              <div>{{group.user_troop.troop}}</div>
+              <div>{{group.count}}</div>
+              {% endif %}
+            </div>
         {% endfor %}
-
+        
+      </div>
       <hr>
-
-
+      
+      {% endfor %}
 
 
   </div>
@@ -624,6 +566,7 @@
         // add event listener to select element
         select.addEventListener('change', (event) => {
           const selectedValue = event.target.value;
+          console.log("Attack çalıştı");
           img.src = `{% get_static_prefix %}images/troops/${selectedValue}.png`;
         });
       });
@@ -633,14 +576,30 @@
       const selectImgPairsd = document.querySelectorAll('[id^="slcd"]');
       selectImgPairsd.forEach(pair => {
         const selectd = pair;
-        const imgd = document.querySelector(`#imgd${select.id.slice(3)}`);
+        const imgd = document.querySelector(`#imgd${selectd.id.slice(3)}`);
         
         // add event listener to select element
         selectd.addEventListener('change', (event) => {
-          const selectedValued = event.target.value;
-          imgd.src = `{% get_static_prefix %}images/troops/${selectedValued}.png`;
+          console.log('Defence çalıştı');
+          const selectedValued = document.querySelector('#selectd option[value="${event.target.value}"]');
+          const idd = selectedValued.id
+          imgd.src = `{% get_static_prefix %}images/troops/${idd}.png`;
         });
       });
+</script>
+
+<script>
+  {% for block in blocks %}
+  
+    var range{{block}} = document.getElementById("customRange{{block}}");
+    var rangeValue{{block}} = document.getElementById("rangeValue{{block}}");
+    
+    // update the range value display on input change
+    range{{block}}.addEventListener("input", function() {
+      rangeValue{{block}}.innerHTML = range{{block}}.value;
+    });
+  {% endfor %}
+  
 </script>
 
 
