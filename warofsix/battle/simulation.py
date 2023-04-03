@@ -809,9 +809,17 @@ class Battle():
                     ArrivingTroops.objects.create(
                         user = self.departing_campaign.user,
                         user_troop = self.attack_group[block]["troop"] if self.attack_group[block].get("troop") else None,
-                        count = self.attack_group[block]["count"],
+                        count = self.attack_group[block]["count"] if self.attack_group[block].get("count") else 0,
                         campaign = arriving_campaign_obj
                     )
+                else:
+                    ArrivingTroops.objects.create(
+                        user = self.departing_campaign.user,
+                        user_troop = None,
+                        count = 0,
+                        campaign = arriving_campaign_obj
+                    )
+                    
 
 
     def delete_departing_campaign(self):
@@ -851,6 +859,7 @@ class Battle():
 
 
     def delete_defender_dead_troops(self):
+        defender_reinforcements = ReinforcementTroops.objects.filter(location= self.departing_campaign.target_location)
         final_deads = dict()
         # Get the user troops' and total deads number for DB update
         for key, value in self.defender_deads.items():
@@ -862,8 +871,14 @@ class Battle():
                 final_deads.update({value["user_troop"]: value["deads"]})
 
         for troop, deads in final_deads.items():
-            troop.count -= deads
-            troop.save() 
+            # check if the user troop is reinforcement or native
+            if defender_reinforcements.filter(user_troop=troop).exists():
+                rein_troop = defender_reinforcements.get(user_troop= troop)
+                rein_troop.count -= deads
+                rein_troop.save()
+            else:
+                troop.count -= deads
+                troop.save() 
         # IF defender loose all defence, also lost the 2/3 of the rest troops
         if not self.defend_group:
             defender_user_troops = UserTroops.objects.filter(user= self.defender_user).exclude(count=0)
@@ -871,7 +886,6 @@ class Battle():
                 troop.count = math.floor(troop.count / 3)
                 troop.save()
             # IF defender loose all defence, also lost the 2/3 of the reinforcements
-            defender_reinforcements = ReinforcementTroops.objects.filter(location= self.departing_campaign.target_location)
             if defender_reinforcements:
                 for troop in defender_reinforcements:
                     troop.count = math.floor(troop.count / 3)
@@ -962,64 +976,6 @@ class Arrivings():
         self.user_resources.grain += self.arriving_campaign.arriving_grain
         self.user_resources.save()
 
-
-class TroopManagements():
-
-    def __init__(self, data, user):
-        self.data = data
-        self.user = user
-        self.user_troop_query = UserTroops.objects.filter(user=self.user)
-    
-
-    def defence_formation_percent_check(self):
-        # filter the data with only troops
-        filtered_data = {k:v for k,v in self.data.item() if k.startswith('troop')}
-        # create a dict from unique troop id, value is 0 as the number
-        new_data = dict.fromkeys(set(filtered_data.values()), 0)
-
-        for k,v in filtered_data.items():
-            if v in new_data.keys():
-                new_data[v] += int(self.data["numd"+k[-2:]])
-        if all(number <= 100 for number in new_data.values()):
-            return True
-        else:
-            return False
-
-    def defence_formation_save(self):
-        if self.defence_formation_percent_check():
-            message = "Formation updated successfully."
-            positions = DefencePosition.objects.filter(user= self.user)
-            for pos in positions:
-                pos.user_troop = UserTroops.objects.get(troop__id = int(self.data[f"troop{pos.position}"]))
-                pos.percent = int(self.data[f"numd{pos.position}"])
-                pos.save()
-            return message
-        else:
-            message = "All troops' total percentage should be equal or lower then %100."
-            return message
-        
-    def send_troop_number_check(self):
-        filtered_data = {k:v for k,v in self.data.items() if k.startswith('troop')}
-        new_data = dict.fromkeys(set(filtered_data.values()), 0)
-        for k,v in filtered_data.items():
-            if v in new_data.keys():
-                new_data[v] += int(self.data["num"+k[-2:]])
-        checks=[]
-        for k,v in new_data.items():
-            if self.user_troop_query.get(troop__id = int(k)).count >= v:
-                checks.append(True)
-            else:
-                checks.append(False)
-        if all(checks):
-            return True
-        else:
-            return False
-
-
-
-
-    def send_reinforcement(self):
-        pass
 
 
 

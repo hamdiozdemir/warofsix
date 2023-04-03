@@ -10,7 +10,7 @@ from .simulation import Battle
 
 @login_required
 def battle_view(request):
-    departing_campaign = DepartingCampaigns.objects.get(id=64)
+    departing_campaign = DepartingCampaigns.objects.get(id=107)
     battle = Battle(departing_campaign)
     attack_group, defend_group, main_attack_group, main_defend_group, attacker_deads, defender_deads = battle.block_battle_fight()
     print(attack_group)

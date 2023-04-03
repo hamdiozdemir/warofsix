@@ -31,7 +31,10 @@ class DepartingCampaigns(models.Model):
         speeds = []
         for troop in troops:
             speeds.append(troop.user_troop.troop.speed)
-        return min(speeds)
+        try:
+            return min(speeds)
+        except:
+            return 10
     
     @property
     def group(self):

@@ -199,7 +199,7 @@ class UserTroops(models.Model):
     time_passed = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f"{self.troop.race} - {self.troop.name}"
+        return f"{self.id}: {self.troop.race} - {self.troop.name}"
 
 
 class UserBuildings(models.Model):

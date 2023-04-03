@@ -5,6 +5,8 @@
 
 <script src="{% static 'encampment/scripts/scripts.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 {% endblock head %}
 
 
@@ -83,7 +85,7 @@
                   
                     <select id="slcd-31" name="troop31" class="troop-select" aria-label="Default select example">
                       {% for troop in union_troops %}
-                      <option id="{{troop.troop.id}}" value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop31 %} selected {% endif %} >{{troop.troop}}</option>
+                      <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop31 %} selected {% endif %} >{{troop.troop}}</option>
                       {% endfor %}
                     </select>
 
@@ -99,7 +101,7 @@
                   
                   <select id="slcd-32" name="troop32" class="troop-select" aria-label="Default select example">
                     {% for troop in union_troops %}
-                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop32 %} selected {% endif %}>{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop32 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
 
@@ -115,7 +117,7 @@
 
                   <select id="slcd-33" name="troop33" class="troop-select" aria-label="Default select example">
                     {% for troop in union_troops %}
-                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop33 %} selected {% endif %}>{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop33 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
@@ -130,7 +132,7 @@
 
                   <select id="slcd-34" name="troop34" class="troop-select" aria-label="Default select example">
                     {% for troop in union_troops %}
-                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop34 %} selected {% endif %}>{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop34 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
@@ -147,7 +149,7 @@
                   <b>21</b>
                     <select id="slcd-21" name="troop21" class="troop-select" aria-label="Default select example">
                       {% for troop in union_troops %}
-                      <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop21 %} selected {% endif %}>{{troop.troop}}</option>
+                      <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop21 %} selected {% endif %}>{{troop.troop}}</option>
                       {% endfor %}
                     </select>
 
@@ -162,7 +164,7 @@
                   
                   <select id="slcd-22" name="troop22" class="troop-select" aria-label="Default select example">
                     {% for troop in union_troops %}
-                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop22 %} selected {% endif %}>{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop22 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
 
@@ -177,7 +179,7 @@
 
                   <select id="slcd-23" name="troop23" class="troop-select" aria-label="Default select example">
                     {% for troop in union_troops %}
-                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop23 %} selected {% endif %}>{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop23 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
@@ -192,7 +194,7 @@
 
                   <select id="slcd-24" name="troop24" class="troop-select" aria-label="Default select example">
                     {% for troop in union_troops %}
-                    <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop24 %} selected {% endif %}>{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop24 %} selected {% endif %}>{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
@@ -210,7 +212,7 @@
                     <b>11</b>
                       <select id="slcd-11" name="troop11" class="troop-select" aria-label="Default select example">
                         {% for troop in union_troops %}
-                        <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop11 %} selected {% endif %}>{{troop.troop}}</option>
+                        <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop11 %} selected {% endif %}>{{troop.troop}}</option>
                         {% endfor %}
                       </select>
           
@@ -225,7 +227,7 @@
                     
                     <select id="slcd-12" name="troop12" class="troop-select" aria-label="Default select example">
                       {% for troop in union_troops %}
-                      <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop12 %} selected {% endif %}>{{troop.troop}}</option>
+                      <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop12 %} selected {% endif %}>{{troop.troop}}</option>
                       {% endfor %}
                     </select>
           
@@ -240,7 +242,7 @@
           
                     <select id="slcd-13" name="troop13" class="troop-select" aria-label="Default select example">
                       {% for troop in union_troops %}
-                      <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop13 %} selected {% endif %}>{{troop.troop}}</option>
+                      <option id="{{troop.troop.id}}" value="{{troop.id}}"{% if troop.troop.id == defensive_formation_data.troop13 %} selected {% endif %}>{{troop.troop}}</option>
                       {% endfor %}
                     </select>
                     
@@ -255,7 +257,7 @@
           
                     <select id="slcd-14" name="troop14" class="troop-select" aria-label="Default select example">
                       {% for troop in union_troops %}
-                      <option value="{{troop.troop.id}}" {% if troop.troop.id == defensive_formation_data.troop14 %} selected {% endif %}>{{troop.troop}}</option>
+                      <option id="{{troop.troop.id}}" value="{{troop.id}}" {% if troop.troop.id == defensive_formation_data.troop14 %} selected {% endif %}>{{troop.troop}}</option>
                       {% endfor %}
                     </select>
                     
@@ -287,7 +289,7 @@
 
         <form method="post" id="attack"> {% csrf_token %}
 
-          <input type="hidden" name="form_type" value="attack">
+          <input type="hidden" name="form_type" value="send">
 
           <div class="formation-table">
             
@@ -300,7 +302,7 @@
                   <b>11</b>
                     <select id="slc-11" name="troop11" class="troop-select" aria-label="Default select example">
                       {% for troop in user_counted_troops %}
-                      <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                      <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                       {% endfor %}
                     </select>
 
@@ -314,7 +316,7 @@
                   
                   <select id="slc-12" name="troop12" class="troop-select" aria-label="Default select example">
                     {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                     {% endfor %}
                   </select>
 
@@ -328,7 +330,7 @@
 
                   <select id="slc-13" name="troop13" class="troop-select" aria-label="Default select example">
                     {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
@@ -342,7 +344,7 @@
 
                   <select id="slc-14" name="troop14" class="troop-select" aria-label="Default select example">
                     {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
@@ -358,7 +360,7 @@
                   <b>21</b>
                     <select id="slc-21" name="troop21" class="troop-select" aria-label="Default select example">
                       {% for troop in user_counted_troops %}
-                      <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                      <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                       {% endfor %}
                     </select>
 
@@ -372,7 +374,7 @@
                   
                   <select id="slc-22" name="troop22" class="troop-select" aria-label="Default select example">
                     {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                     {% endfor %}
                   </select>
 
@@ -386,7 +388,7 @@
 
                   <select id="slc-23" name="troop23" class="troop-select" aria-label="Default select example">
                     {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
@@ -400,7 +402,7 @@
 
                   <select id="slc-24" name="troop24" class="troop-select" aria-label="Default select example">
                     {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
@@ -416,7 +418,7 @@
                   <b>31</b>
                     <select id="slc-31" name="troop31" class="troop-select" aria-label="Default select example">
                       {% for troop in user_counted_troops %}
-                      <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                      <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                       {% endfor %}
                     </select>
 
@@ -430,7 +432,7 @@
                   
                   <select id="slc-32" name="troop32" class="troop-select" aria-label="Default select example">
                     {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                     {% endfor %}
                   </select>
 
@@ -444,7 +446,7 @@
 
                   <select id="slc-33" name="troop33" class="troop-select" aria-label="Default select example">
                     {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
@@ -458,7 +460,7 @@
 
                   <select id="slc-34" name="troop34" class="troop-select" aria-label="Default select example">
                     {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.troop.id}}">{{troop.troop}}</option>
+                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
                     {% endfor %}
                   </select>
                   
@@ -486,28 +488,28 @@
               </label>
 
               <div class="form-check">
-                <input class="form-check-input" type="radio" value="reinforcement" id="reinforcement" name="attacktype" checked>
+                <input class="form-check-input" type="radio" value="reinforcement" id="reinforcement" name="sendType" checked>
                 <label class="form-check-label" for="reinforcement" >
                   Reinforcement
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="radio" value="pillage" id="pillage" name="attacktype">
+                <input class="form-check-input" type="radio" value="pillage" id="pillage" name="sendType">
                 <label class="form-check-label" for="pillage" >
                   ATTACK - Pillage
                 </label>
               </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" value="attackblock" id="attackblock" name="attacktype">
+                  <input class="form-check-input" type="radio" value="attackblock" id="attackblock" name="sendType">
                   <label class="form-check-label" for="attackblock" >
-                    ATTACK - Block
+                    ATTACK - Line/Block
                   </label>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" value="attackflank" id="attackflank" name="attacktype">
+                  <input class="form-check-input" type="radio" value="attackflank" id="attackflank" name="sendType">
                   <label class="form-check-label" for="attackflank" >
                     ATTACK - Flank
                   </label>
@@ -531,7 +533,7 @@
       {% for camp in departing_campaigns %}
       <div>TO: {{camp.target_location}}  </div>
       <div>Type: {{camp.campaign_type}}  </div>
-      <div>Arriving Time: {{camp.arriving_time}}  </div>
+      <div>Arriving at: {{camp.arriving_time}} | <span class="countdown">{{camp.arriving_time|date:"c"}} </span>  </div>
       <div class="battle-field">
         <span id="battle-field">BATTLE FIELD</span>
       </div>
@@ -547,6 +549,34 @@
             </div>
         {% endfor %}
         
+      </div>
+      <hr>
+      
+      {% endfor %}
+
+
+      <h4>Arriving CAMPAIGNS</h4>
+
+      {% for camp in arriving_campaigns %}
+      <div>FROM: {{camp.target_location}}  </div>
+      <div>Type: {{camp.campaign_type}}  </div>
+      <div>Arriving at: {{camp.time_left}} | 
+        <!--
+          <span class="countdown">{{camp.arriving_time|date:"c"}} </span>  
+        -->
+      </div>
+      <div class="arriving-camp-container">
+        {% for group in camp.group %}
+        <div class="arriving-troop-item">
+              {% if group.count == 0 %}
+              x
+              {% else %}
+              <div>{{group.user_troop.troop}}</div>
+              <div>{{group.count}}</div>
+              {% endif %}
+            </div>
+        {% endfor %}
+        <div> Wood: {{camp.arriving_wood}} | Stone: {{camp.arriving_stone}} | Iron: {{camp.arriving_iron}} | Grain: {{camp.arriving_grain}} </div>
       </div>
       <hr>
       
@@ -601,6 +631,34 @@
   
 </script>
 
+<script>
 
+  $(document).ready(function() {
+    $(".countdown").each(function() {
+      var datetimeStr = $(this).text().trim();
+      var datetime = moment.utc(datetimeStr);
+  
+      var x = setInterval(function() {
+        var now = moment.utc();
+        var distance = moment.duration(datetime.diff(now));
+  
+        if (distance.asSeconds() < 0) {
+          clearInterval(x);
+          $(this).html("ARRIVED");
+          return;
+        }
+  
+        var hours = Math.floor(distance.asHours() % 24);
+        var minutes = Math.floor(distance.asMinutes() % 60);
+        var seconds = Math.floor(distance.asSeconds() % 60);
+  
+        $(this).html(hours + "h " + minutes + "m " + seconds + "s");
+      }.bind(this), 1000);
+    });
+  });
+  
+  
+  
+</script>
 
     {% endblock body %}

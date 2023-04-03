@@ -460,9 +460,38 @@ a:visited{
     height: 60px;
     border-radius: 5px;
     border: 1px black dashed;
-    background: lightseagreen;
+    background: lightcoral;
     font-size: 0.8rem;
 }
+
+/* ********************* ARRIVING ITEMS ****************** */
+
+/* ******************* DEPARTING CAMP ITEMS ************ */
+
+.arriving-camp-container{
+    display: flex;
+    width: 700px;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 5px;
+    column-gap: 5px;
+    margin-top: 8px;
+}
+
+.arriving-troop-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    width: 150px;
+    height: 60px;
+    border-radius: 5px;
+    border: 1px black dashed;
+    background: lightgoldenrodyellow;
+    font-size: 0.8rem;
+}
+
 /* ************************* */
 
 .troop-select {
