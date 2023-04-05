@@ -10,15 +10,38 @@ from .simulation import Battle
 
 @login_required
 def battle_view(request):
-    departing_campaign = DepartingCampaigns.objects.get(id=107)
+    departing_campaign = DepartingCampaigns.objects.get(id=111)
     battle = Battle(departing_campaign)
-    attack_group, defend_group, main_attack_group, main_defend_group, attacker_deads, defender_deads = battle.block_battle_fight()
-    print(attack_group)
-    print("*********************************************************")
-    print(defend_group)
-    battle.create_battle_report_objects()
-    battle.arriving_create_and_resource_pillage()
-    battle.delete_defender_dead_troops()
+    if departing_campaign.campaign_type == "reinforcement":
+        print("This is Reinforcement")
+        pass
+    elif departing_campaign.campaign_type == "attackblock":
+        print("This is Block/line Battle")
+        attack_group, defend_group, main_attack_group, main_defend_group, attacker_deads, defender_deads = battle.block_battle_fight()
+
+        battle.create_battle_report_objects()
+        battle.arriving_create_and_resource_pillage()
+        battle.delete_defender_dead_troops()
+        # battle.delete_departing_campaign()
+
+    elif departing_campaign.campaign_type == "attackflank":
+        print("This is Flank Battle")
+        attack_group, defend_group, main_attack_group, main_defend_group, attacker_deads, defender_deads = battle.flank_battle_fight()
+
+        battle.create_battle_report_objects()
+        battle.arriving_create_and_resource_pillage()
+        battle.delete_defender_dead_troops()
+        # battle.delete_departing_campaign()
+    elif departing_campaign.campaign_type == "pillage":
+        print("This is pillage")
+        battle.pillage_battle_calculator()
+        battle.pillage_battle_deads()
+        battle.create_battle_report_objects()
+        battle.arriving_create_and_resource_pillage()
+        battle.delete_defender_dead_troops()
+        # battle.delete_departing_campaign()
+    else:
+        pass
 
 
     context = {

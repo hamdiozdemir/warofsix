@@ -1,8 +1,11 @@
 from encampment.models import DefencePosition, DepartingCampaigns, DepartingTroops, ArrivingCampaigns, ArrivingTroops, ReinforcementTroops
 from main.models import UserHeroes, UserBuildings, Statistic, UserTroops, Resources
-from .models import Battles, AttackerDeads, DefenderDeads
+from .models import Battles, AttackerDeads, DefenderDeads, DefenderBuildingDemolish
 import math
-from main.signals import current_resources
+from django.utils import timezone
+from datetime import timedelta
+from main.signals import arriving_campaign_created_signal
+import random
 
 class Attacker():
 
@@ -159,7 +162,9 @@ class Battle():
         defend_obj = Defender(self.defender, self.defender_heroes)
 
         self.attack_group = attack_obj.get_attack_troops()
+        # print(self.attack_group)
         self.defend_group = defend_obj.get_defend_troops()
+        # print(self.defend_group)
 
         self.main_attack_group = attack_obj.get_attack_troops()
         self.main_defend_group = defend_obj.get_defend_troops()
@@ -769,9 +774,12 @@ class Battle():
             pass
         else:
             defender_resources = Resources.objects.get(user=self.defender_user)
+            # Calculate the total burden of the group
             total_burden = sum([self.attack_group[block]["troop"].troop.burden * self.attack_group[block]["count"] for block in self.blocks if self.attack_group.get(block) and self.attack_group[block].get("troop")])
-            print(f"TOTAL BURDEN::::::::::: {total_burden}")
+
+            # Create arrving campaign object ---later will update after create the troops
             arriving_campaign_obj = ArrivingCampaigns.objects.create(user = self.departing_campaign.user, main_location=self.departing_campaign.target_location, target_location=self.departing_campaign.main_location, campaign_type="return")
+
             # WOOD
             if defender_resources.wood > total_burden / 4:
                 arriving_campaign_obj.arriving_wood = math.floor(total_burden / 4)
@@ -819,7 +827,16 @@ class Battle():
                         count = 0,
                         campaign = arriving_campaign_obj
                     )
-                    
+            
+            arriving_campaign_obj.time_left = round(arriving_campaign_obj.distance / arriving_campaign_obj.speed * 3600)
+            arriving_campaign_obj.arriving_time = timezone.now() + timedelta(seconds=arriving_campaign_obj.time_left)
+            arriving_campaign_obj.save()
+
+            self.send_arriving_campaign_create_signal(arriving_campaign_obj)
+
+
+    def send_arriving_campaign_create_signal(self, campaign):
+        arriving_campaign_created_signal.send(sender=None, instance=campaign)
 
 
     def delete_departing_campaign(self):
@@ -856,7 +873,19 @@ class Battle():
                     user_hero_troop_count = self.main_defend_group[block]["hero_troop_count"] if self.main_defend_group[block].get("hero_troop_count") else 0,
                     user_hero_troop_dead = self.defender_deads[block]["hero_troop_deads"]
                 )
-
+            
+        # Defender buildings down
+        if (self.departing_campaign.campaign_type == "attackblock" or self.departing_campaign.campaign_type == "attackflank") and self.attack_group:
+            demolished_buildings = self.demolish_building()
+            if demolished_buildings:
+                for object in demolished_buildings:
+                    DefenderBuildingDemolish.objects.create(
+                        battle = battle,
+                        building = object[0],
+                        pre_battle_level = object[1],
+                        post_battle_level = object[2]
+                    )
+                
 
     def delete_defender_dead_troops(self):
         defender_reinforcements = ReinforcementTroops.objects.filter(location= self.departing_campaign.target_location)
@@ -878,17 +907,20 @@ class Battle():
                 rein_troop.save()
             else:
                 troop.count -= deads
-                troop.save() 
+                troop.save()
+
+        # Rest troop divider is a value that define how many percent of the troops (not in defence position) will be alive after battle. if pillage 3/4 lives, else 1/3 lives
+        rest_troop_divider = 1.333 if self.departing_campaign.campaign_type == "pillage" else 3
         # IF defender loose all defence, also lost the 2/3 of the rest troops
         if not self.defend_group:
             defender_user_troops = UserTroops.objects.filter(user= self.defender_user).exclude(count=0)
             for troop in defender_user_troops:
-                troop.count = math.floor(troop.count / 3)
+                troop.count = math.floor(troop.count / rest_troop_divider)
                 troop.save()
             # IF defender loose all defence, also lost the 2/3 of the reinforcements
             if defender_reinforcements:
                 for troop in defender_reinforcements:
-                    troop.count = math.floor(troop.count / 3)
+                    troop.count = math.floor(troop.count / rest_troop_divider)
                     troop.save()
 
 
@@ -901,20 +933,17 @@ class Battle():
                 break
             # AFTER MATCHES, RE-CALCULETE THE DAMAGES
             self.attack_group, self.defend_group = self.block_calculations(att_match, def_match, att_unmatch, def_unmatch)
-            print(self.attack_group)
-            print("***************************************")
-            print(self.defend_group)
-            if att_unmatch != [] and def_unmatch !=[]:
+            if att_unmatch and def_unmatch:
                 self.attack_group, self.defend_group, self.attacker_deads, self.defender_deads = self.block_battle_simulation_not_equal_unmatch(att_unmatch, def_unmatch)
             # Defender has extra troop/block
-            elif att_unmatch == [] and def_unmatch !=[]:
+            elif not att_unmatch and def_unmatch:
                 rest_temp_damage = 0
                 for block in def_unmatch:
                     rest_temp_damage += self.defend_group[block]["temp_defence_damage"]
                 for block in def_match:
                     self.defend_group[block]["temp_defence_damage"] += rest_temp_damage / len(def_match)
             # Attacker has extra troop/block
-            elif att_unmatch !=[] and def_unmatch == []:
+            elif att_unmatch and not def_unmatch:
                 rest_temp_damage = 0
                 for block in att_unmatch:
                     rest_temp_damage += self.attack_group[block]["temp_attack_damage"]
@@ -924,7 +953,7 @@ class Battle():
                 pass
 
             # MATCHES BATTLE
-            if att_match != []:
+            if att_match:
                 self.attack_group, self.defend_group, self.attacker_deads, self.defender_deads = self.block_battle_simulation_match(att_match, def_match)
                 
             # Deads status update
@@ -953,32 +982,247 @@ class Battle():
         return self.attack_group, self.defend_group, self.main_attack_group, self.main_defend_group, self.attacker_deads, self.defender_deads
 
 
-class Arrivings():
+    def flank_battle_matcher(self):
+        war_end = False
+        # IF one the group has extinct, war is ended TRUE
+        if not self.attack_group.keys() or not self.defend_group.keys():
+            war_end = True
+            att_match = []
+            def_match = []
+            att_unmatch = []
+            def_unmatch = []
+            return war_end, att_match, att_unmatch, def_match, def_unmatch
+        else:
+            att_match = []
+            def_match = []
+            att_unmatch = []
+            def_unmatch = []
+            # Create a nested list for each column
+            attack_flank_positions = [
+                [x for x in self.attack_group.keys() if x % 10 == 1],
+                [x for x in self.attack_group.keys() if x % 10 == 2],
+                [x for x in self.attack_group.keys() if x % 10 == 3],
+                [x for x in self.attack_group.keys() if x % 10 == 4]
+            ]
+            defend_flank_positions = [
+                [x for x in self.defend_group.keys() if x % 10 == 1],
+                [x for x in self.defend_group.keys() if x % 10 == 2],
+                [x for x in self.defend_group.keys() if x % 10 == 3],
+                [x for x in self.defend_group.keys() if x % 10 == 4]
+            ]
+            # for 4 columns check the front blocks and match them
+            for line in range(4):
+                if attack_flank_positions[line] != [] and defend_flank_positions[line] != []:
+                    att_match.append(attack_flank_positions[line][0])
+                    def_match.append(defend_flank_positions[line][0])
+                    # remove the matches from current positions
+                    attack_flank_positions[line].pop(0)
+                    defend_flank_positions[line].pop(0)
+                # get the free attacker block
+                elif attack_flank_positions[line]:
+                    att_unmatch.append(attack_flank_positions[line][0])
+                # get the free defender
+                # elif defend_flank_positions[line]:
+                #     def_unmatch.append(defend_flank_positions[line][0])
+                else:
+                    pass
+            # get a regular list for all defender positions and sort it. Free attacker will match from the back of the defender
+            defends = [x for y in defend_flank_positions for x in y]
+            defends.sort()
+            if att_unmatch:
+                for i in att_unmatch:
+                    if defends and defends[-1] not in def_match:
+                        att_match.append(i)
+                        att_unmatch.remove(i)
+                        def_match.append(defends[-1])
+                        defends.remove(defends[-1])
+                        
 
-    def __init__(self, arriving_campaign):
-        self.arriving_campaign = arriving_campaign
-        self.user = arriving_campaign.user
-        self.user_resources = Resources.objects.get(user = self.user)
-        # self.user_troop = UserTroops.objects.filter(user= self.user)
-
-    def get_user_troops(self):
-        arriving_group = self.arriving_campaign.group
-        for obj in arriving_group:
-            obj.user_troop.count += obj.count
-            obj.user_troop.save()
-
-    def get_resources(self):
-        # Update current resources
-        current_resources(self.user)
-        self.user_resources.wood += self.arriving_campaign.arriving_wood
-        self.user_resources.stone += self.arriving_campaign.arriving_stone
-        self.user_resources.iron += self.arriving_campaign.arriving_iron
-        self.user_resources.grain += self.arriving_campaign.arriving_grain
-        self.user_resources.save()
+            matches = list(zip(att_match, def_match))
+            # print(f"MATCHES: {matches}")
+            # print(f"ATT UNMATCH: {att_unmatch}")
+            # print(f"DEF UNMATCH: {def_unmatch}")
+            return war_end, att_match, def_match, att_unmatch, def_unmatch
 
 
+    def flank_battle_fight(self):
+        war_end = False
+        while not war_end:
+            # MATCHES AND UNMATCHES FOR BLOCK BATTLE
+            war_end, att_match, def_match, att_unmatch, def_unmatch = self.flank_battle_matcher()
+            if war_end:
+                break
+            # AFTER MATCHES, RE-CALCULETE THE DAMAGES
+            self.attack_group, self.defend_group = self.block_calculations(att_match, def_match, att_unmatch, def_unmatch)
+            if att_unmatch and def_unmatch:
+                self.attack_group, self.defend_group, self.attacker_deads, self.defender_deads = self.block_battle_simulation_not_equal_unmatch(att_unmatch, def_unmatch)
+            # Defender has extra troop/block
+            elif not att_unmatch and def_unmatch:
+                rest_temp_damage = 0
+                for block in def_unmatch:
+                    rest_temp_damage += self.defend_group[block]["temp_defence_damage"]
+                for block in def_match:
+                    self.defend_group[block]["temp_defence_damage"] += rest_temp_damage / len(def_match)
+            # Attacker has extra troop/block
+            elif att_unmatch and not def_unmatch:
+                rest_temp_damage = 0
+                for block in att_unmatch:
+                    rest_temp_damage += self.attack_group[block]["temp_attack_damage"]
+                for block in att_match:
+                    self.attack_group[block]["temp_attack_damage"] += rest_temp_damage / len(att_match)
+            else:
+                pass
+
+            # MATCHES BATTLE
+            if att_match:
+                self.attack_group, self.defend_group, self.attacker_deads, self.defender_deads = self.block_battle_simulation_match(att_match, def_match)
+                
+            # Deads status update
+        for block in self.blocks:
+            try:
+                if self.defender_deads[block]["deads"] == self.main_defend_group[block]["count"]:
+                    self.defender_deads[block].update({"status": "dead"})
+                elif self.defender_deads[block]["deads"] != 0:
+                    self.defender_deads[block].update({"status": "injured"})
+                else:
+                    self.defender_deads[block].update({"status": "ok"})
+            except:
+                self.defender_deads[block].update({"status": "dead"})
+
+            try:
+                if self.attacker_deads[block]["deads"] == self.main_attack_group[block]["count"]:
+                    self.attacker_deads[block].update({"status": "dead"})
+                elif self.attacker_deads[block]["deads"] != 0:
+                    self.attacker_deads[block].update({"status": "injured"})
+                else:
+                    self.attacker_deads[block].update({"status": "ok"})
+            except:
+                self.attacker_deads[block].update({"status": "dead"})
 
 
+        return self.attack_group, self.defend_group, self.main_attack_group, self.main_defend_group, self.attacker_deads, self.defender_deads
+
+
+    def pillage_battle_calculator(self):
+        defender_type_count = {
+            "infantry": 0,
+            "pike": 0,
+            "archer": 0,
+            "cavalry": 0,
+            "monster": 0,
+            "siege": 0
+        }
+        attacker_type_count = {
+            "infantry": 0,
+            "pike": 0,
+            "archer": 0,
+            "cavalry": 0,
+            "monster": 0,
+            "siege": 0
+        }
+        # Get the number for each type and total number
+        total_attack_damage = 0
+        total_attack_health = 0
+        for item in self.attack_group:
+            total_attack_damage += item["total_attack_damage"]
+            total_attack_health += item["total_attack_health"]
+            if item.get("troop"):
+                attacker_type_count[item["troop"].troop.type] += item["count"]
+            if item.get("hero_troop"):
+                attacker_type_count[item["hero_troop"].type] += item["hero_troop_count"]
+        total_attack_number = sum(attacker_type_count.values())
+        print(f"T Att Damage: {total_attack_damage}")
+        print(f"T Att Health: {total_attack_health}")
+        
+        total_defence_damage = 0
+        total_defence_health = 0
+        for item in self.defend_group:
+            total_defence_damage += item["total_defence_damage"]
+            total_defence_health += item["total_defence_health"]
+            if item.get("troop"):
+                defender_type_count[item["troop"].troop.type] += item["count"]
+                defender_type_count[item["hero_troop"].type] += item["hero_troop_count"]
+        total_defend_number = sum(defender_type_count.values())
+        print(f"T Def Damage: {total_defence_damage}")
+        print(f"T Def Health: {total_defence_health}")
+
+        # get the ratio's for each 
+        for troop_type in attacker_type_count.keys():
+            attacker_type_count[troop_type] = round(attacker_type_count[troop_type] / total_attack_number, 2)
+            defender_type_count[troop_type] = round(defender_type_count[troop_type] / total_defend_number, 2)
+        
+        final_attack_damage = 0
+        final_defence_damage = 0
+        for attack_key, attack_value in attacker_type_count.items():
+            for defence_key, defence_value in defender_type_count.items():
+                final_attack_damage += attack_value * total_attack_damage * defence_value * troop_type_attack_ratio(attack_key, defence_key)
+                final_defence_damage += defence_value * total_defence_damage * attack_value * troop_type_attack_ratio(defence_key, attack_key)
+        attacker_dead_ratio = final_defence_damage / total_attack_health
+        defender_dead_ratio = final_attack_damage / total_defence_health
+
+        return attacker_dead_ratio, defender_dead_ratio
+            
+        
+    def pillage_battle_deads(self):
+        attacker_dead_ratio, defender_dead_ratio = self.pillage_battle_calculator()
+        for block in self.blocks:
+            if self.attack_group.get(block):
+                if self.attack_group.get("troop"):
+                    self.attacker_deads[block]["user_troop"] = self.attack_group[block]["troop"]
+                    self.attacker_deads[block]["deads"] = round(self.attack_group[block]["count"] * attacker_dead_ratio)
+                    self.attack_group[block]["count"] -= self.attacker_deads[block]["deads"]
+                if self.attack_group[block].get("hero"):
+                    self.attack_group[block]["hero"].current_health -= round(self.attack_group[block]["hero"].current_health * attacker_dead_ratio)
+                if self.attack_group[block].get("hero_troop_count"):
+                    self.attacker_deads[block]["hero_troop_deads"] = round(self.attack_group[block]["hero_troop_count"] * attacker_dead_ratio)
+                    self.attack_group[block]["hero_troop_count"] =  round(self.attack_group[block]["hero_troop_count"] * (1-attacker_dead_ratio))
+
+            if self.defend_group.get(block):
+                if self.defend_group.get("troop"):
+                    self.defender_deads[block]["user_troop"] = self.defend_group[block]["troop"]
+                    self.defender_deads[block]["deads"] = round(self.defend_group[block]["count"] * defender_dead_ratio)
+                    self.defend_group[block]["count"] -= self.defender_deads[block]["deads"]
+                if self.defend_group[block].get("hero"):
+                    self.defend_group[block]["hero"].current_health -= round(self.defend_group[block]["hero"].current_health * defender_dead_ratio)
+                if self.defend_group[block].get("hero_troop_count"):
+                    self.defender_deads[block]["hero_troop_deads"] = round(self.defend_group[block]["hero_troop_count"] * defender_dead_ratio)
+                    self.defend_group[block]["hero_troop_count"] =  round(self.defend_group[block]["hero_troop_count"] * (1-defender_dead_ratio))
+
+
+    def demolish_building(self):
+        building_demolish = list()
+        if not self.attack_group:
+            return building_demolish
+        else:
+            damage = 0
+            for group in self.attack_group.values():
+                if group.get("troop"):
+                    if group["troop"].troop.type == "siege":
+                        damage += group["troop"].troop.damage * group["count"] * group["troop"].attack_level
+            if damage == 0:
+                return building_demolish
+            else:
+                defender_buildings = UserBuildings.objects.filter(user= self.defender_user).order_by('current_health')
+                
+                while damage > 1000:
+                    defender_buildings = list(defender_buildings)
+                    if damage > defender_buildings[0].current_health:
+                        damage -= defender_buildings[0].current_health
+                        building_demolish.append([defender_buildings[0].building, defender_buildings[0].level, 0])
+                        defender_buildings[0].delete()
+                        defender_buildings.pop(0)
+                    else:
+                        level_down = math.floor(damage / 1500)
+                        building_demolish.append([defender_buildings[0].building, defender_buildings[0].level, defender_buildings[0].level - level_down])
+                        defender_buildings[0].level -= level_down
+                        defender_buildings[0].save()
+                        damage = 0
+                return building_demolish
+                        
+
+
+
+        
 
 
 # SOME FUNCTIONS
@@ -1045,4 +1289,34 @@ def hero_defence_bonus(user_hero, user_troop):
     else:
         return 1
 
-{'csrfmiddlewaretoken': 'Hq2uQzWFa2HzhuTp83uWmCuHQFVsEfgkUIlIAFpQLoN8WNean8Jvs4XRvfV8DDtY', 'form_type': 'attack', 'troop11': '9', 'num11': '5', 'troop12': '9', 'num12': '66', 'troop13': '9', 'num13': '0', 'troop14': '9', 'num14': '0', 'troop21': '9', 'num21': '0', 'troop22': '9', 'num22': '0', 'troop23': '9', 'num23': '0', 'troop24': '9', 'num24': '0', 'troop31': '9', 'num31': '0', 'troop32': '9', 'num32': '0', 'troop33': '9', 'num33': '0', 'troop34': '9', 'num34': '0', 'locx': '25', 'locy': '25', 'auto': 'True', 'attacktype': 'reinforcement'}
+def troop_type_attack_ratio(user_troop_attacker, user_troop_defender):
+    ratio = {
+        "infantrypike": 1.4,
+        "infantryarcher": 1.2,
+        "infantrycavalry": 0.8,
+        "archerinfantry": 0.8,
+        "archerpike": 0.8,
+        "archercavalry": 0.6,
+        "pikeinfantry": 0.8,
+        "pikecavalry": 1.5,
+        "cavalryinfantry": 1.2,
+        "cavalrypike": 0.6,
+        "cavalryarcher": 1.8,
+        "infantrymonster": 0.8,
+        "pikemonster": 1.3,
+        "archermonster": 1.2,
+        "monsterinfantry": 1.3,
+        "monsterarcher": 1.2,
+        "monsterpike": 0.7,
+        "siegeinfantry": 0.2,
+        "siegepike": 0.2,
+        "siegearcher": 0.25,
+        "siegecavalry": 0.1,
+        "siegemonster": 0.15,
+
+    }
+    compete = user_troop_attacker + user_troop_defender
+    if compete in ratio.keys():
+        return ratio[compete]
+    else:
+        return 1

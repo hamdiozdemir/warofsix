@@ -191,17 +191,28 @@ def catch_request(sender, instance, **kwargs):
 
 
 
-campaign_created_signal = Signal()
+departing_campaign_created_signal = Signal()
 
-
-def campaign_created(sender, instance, **kwargs):
+def departing_campaign_created(sender, instance, **kwargs):
     print("Departing Campaign signals")
     print(instance)
     print(f"Hız: {instance.speed}")
     print(f"Varış Zamanı: {instance.arriving_time}")
 
 
-campaign_created_signal.connect(campaign_created)
+departing_campaign_created_signal.connect(departing_campaign_created)
+
+
+arriving_campaign_created_signal = Signal()
+
+def arriving_campaign_created(sender, instance, **kwargs):
+    print("Arriving Campaing Created")
+    print(instance)
+    print(f"Hız: {instance.speed}")
+    print(f"Varış Zamanı: {instance.arriving_time}")
+
+arriving_campaign_created_signal.connect(arriving_campaign_created)
+
 
 
 # Hızları ayarlamak için lazım olduğunda kullandım.

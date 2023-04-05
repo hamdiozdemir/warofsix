@@ -244,6 +244,9 @@ class UserBuildings(models.Model):
     def update_grain(self):
         return round((self.level +1) * 1.5 * self.building.grain)
     
+    @property
+    def current_health(self):
+        return self.building.health + 1500
 
 class UserTroopTraining(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

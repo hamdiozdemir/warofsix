@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from main.models import Troops, UserTroops, UserHeroes
+from main.models import Troops, UserTroops, UserHeroes, Buildings
 
 # Create your models here.
 
@@ -22,6 +22,14 @@ class Battles(models.Model):
     def defender_group(self):
         defender = DefenderDeads.objects.filter(battle=self)
         return defender
+
+    @property
+    def building_demolish(self):
+        demolishes = DefenderBuildingDemolish.objects.filter(battle=self)
+        if demolishes.exists():
+            return demolishes
+        else:
+            return None
 
 
 class AttackerDeads(models.Model):
@@ -66,3 +74,10 @@ class DefenderDeads(models.Model):
     @property
     def user_hero_troop_alive(self):
         return self.user_hero_troop_count - self.user_hero_troop_dead
+
+
+class DefenderBuildingDemolish(models.Model):
+    battle = models.ForeignKey(Battles, on_delete=models.SET_NULL, null=True)
+    building = models.ForeignKey(Buildings, on_delete=models.SET_NULL, null=True)
+    pre_battle_level = models.PositiveIntegerField()
+    post_battle_level = models.PositiveIntegerField()

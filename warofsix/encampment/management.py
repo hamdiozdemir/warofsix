@@ -1,8 +1,12 @@
-from main.models import UserTroops, Location
+from main.models import UserTroops, Location, Resources
 from .models import DefencePosition, DepartingCampaigns, DepartingTroops, ArrivingCampaigns, ArrivingTroops, ReinforcementTroops
 from django.utils import timezone
 from datetime import timedelta
-from main.signals import campaign_created_signal
+from main.signals import departing_campaign_created_signal, current_resources
+
+
+
+# When the task ready works, it sould check what the type of the departing troop, and then call the relevant funcs 
 
 class TroopManagements():
 
@@ -27,6 +31,7 @@ class TroopManagements():
         else:
             return False
 
+
     def defence_formation_save(self):
         if self.defence_formation_percent_check():
             message = "Formation updated successfully."
@@ -39,7 +44,8 @@ class TroopManagements():
         else:
             message = "All troops' total percentage should be equal or lower then %100."
             return message
-        
+
+
     def send_troop_number_check(self):
         filtered_data = {k:v for k,v in self.data.items() if k.startswith('troop')}
         new_data = dict.fromkeys(set(filtered_data.values()), 0)
@@ -62,6 +68,7 @@ class TroopManagements():
         main_location = Location.objects.get(user=self.user)
         target_location = Location.objects.get(locx= int(self.data["locx"]), locy= int(self.data["locy"]))
         return main_location, target_location
+
 
     def send_troop(self):
         main_location, target_location = self.main_and_target_locations()
@@ -99,7 +106,32 @@ class TroopManagements():
             return message
 
 
-        
-
     def send_campaign_created_signal(self, campaign):
-        campaign_created_signal.send(sender=None, instance=campaign)
+        departing_campaign_created_signal.send(sender=None, instance=campaign)
+
+
+
+# Handle after the campaing return back
+
+class Arrivings():
+
+    def __init__(self, arriving_campaign):
+        self.arriving_campaign = arriving_campaign
+        self.user = arriving_campaign.user
+        self.user_resources = Resources.objects.get(user = self.user)
+        # self.user_troop = UserTroops.objects.filter(user= self.user)
+
+    def get_user_troops(self):
+        arriving_group = self.arriving_campaign.group
+        for obj in arriving_group:
+            obj.user_troop.count += obj.count
+            obj.user_troop.save()
+
+    def get_resources(self):
+        # Update current resources
+        current_resources(self.user)
+        self.user_resources.wood += self.arriving_campaign.arriving_wood
+        self.user_resources.stone += self.arriving_campaign.arriving_stone
+        self.user_resources.iron += self.arriving_campaign.arriving_iron
+        self.user_resources.grain += self.arriving_campaign.arriving_grain
+        self.user_resources.save()

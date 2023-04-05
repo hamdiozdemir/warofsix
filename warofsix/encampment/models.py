@@ -61,7 +61,7 @@ class ArrivingCampaigns(models.Model):
     arriving_stone = models.PositiveIntegerField(default=0)
     arriving_iron = models.PositiveIntegerField(default=0)
     arriving_grain = models.PositiveIntegerField(default=0)
-    is_completed = models.BooleanField(default=False)
+    arriving_time = models.DateTimeField(null=True, blank=True)
 
     @property
     def distance(self):

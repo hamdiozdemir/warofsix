@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib import messages
-from main.signals import campaign_created_signal
+from main.signals import departing_campaign_created_signal
 from django.views.generic import ListView
 from .management import TroopManagements
 
@@ -130,45 +130,4 @@ def defensive_formation_data(user):
 
     }
     return defence_data
-
-
-def defence_formation_save(user, data):
-    positions = DefencePosition.objects.filter(user=user)
-    for pos in positions:
-        pos.user_troop = UserTroops.objects.get(id = int(data[f"troop{pos.position}"]))
-        pos.percent = int(data[f"numd{pos.position}"])
-        pos.save()
-
-
-def defence_formation_percent_check(data):
-    filtered_data = {k:v for k,v in data.items() if k.startswith('troop')}
-    new_data = dict.fromkeys(set(filtered_data.values()), 0)
-    for k,v in filtered_data.items():
-        if v in new_data.keys():
-            new_data[v] += int(data["numd"+k[-2:]])
-    if all(number <= 100 for number in new_data.values()):
-        return True
-    else:
-        return False
-    
-
-def send_troop_number_check(data, user_troop_query):
-    filtered_data = {k:v for k,v in data.items() if k.startswith('troop')}
-    new_data = dict.fromkeys(set(filtered_data.values()), 0)
-    for k,v in filtered_data.items():
-        if v in new_data.keys():
-            new_data[v] += int(data["num"+k[-2:]])
-    checks=[]
-    for k,v in new_data.items():
-        if user_troop_query.get(id = int(k)).count >= v:
-            checks.append(True)
-        else:
-            checks.append(False)
-    if all(checks):
-        return True
-    else:
-        return False
-        
-
-
 
