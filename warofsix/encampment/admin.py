@@ -31,3 +31,7 @@ class DefencePositionAdmin(admin.ModelAdmin):
 @admin.register(ReinforcementTroops)
 class ReinforcementTroopAdmin(admin.ModelAdmin):
     list_display = ["owner", "location", "user_troop", "count"]
+
+@admin.register(DepartingHeroes)
+class DepartingHeroesAdmin(admin.ModelAdmin):
+    list_display = ["user", "user_hero", "position", "campaign"]

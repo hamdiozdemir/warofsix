@@ -1,0 +1,245 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/fortress.css' %}" type='text/css'>
+{% endblock head %}
+
+{% block body %}
+
+<div class="flex-center">
+
+    {% include "main/mini_resources.html" %}
+</div>
+
+<div style="text-align:center;">
+    <h2><b>{{building.building}}</b></h2>
+    Level: {{building.level}}
+</div>
+
+
+    {% if building.level != 0 %}
+        {% for troop in trainings %}
+
+            <div class="troop-frame">
+                <div class="troop-frame-left">
+                    {% load static %}
+                    <img class="troop-icon" src="{% get_static_prefix %}images/troops/{{troop.troop.id}}.png" alt="{{troop.troop.name}}"> 
+
+                </div>
+
+                <div class="troop-frame-right">
+                    <b>{{troop.troop}} </b>
+                    <i>Current Troop Number:</i> <b>{{troop.count}}</b>
+                    <div class="mini-resource">
+                        {% load static %}
+                        <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood">  {{troop.troop.wood}}
+
+                        {% load static %}
+                        <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood">  {{troop.troop.stone}}
+
+                        {% load static %}
+                        <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> {{troop.troop.iron}}
+
+                        {% load static %}
+                        <img class="resource-icon" src="{% static 'images/others/grain2.png' %}" alt="Grain">  {{troop.troop.grain}}
+
+                    </div>
+                    <div>Training Time Per Troop: {{troop.training_time }} <span id="trainingtime"></span> seconds</div>
+                    <p></p>
+                    <form method="post" class="troop-train">
+                        {% csrf_token %}
+
+                        <input type="hidden" name="form_type" value="builder_training">
+
+                        <input type="number" style="line-height: 2rem;"  id="{{ troop.troop.name }}" name="{{troop.troop.id}}" placeholder=""  {% if not troop.prerequisite %} disabled {% endif %}  >
+                    
+                        <button type="submit" class="btn btn-secondary">TRAIN</button>
+                    </form>
+                </div>
+            </div>
+
+                {% if troop.training %}
+
+                    <div class="troop-frame2">
+                        <div class="troop-frame-left">
+                            <b>Training:</b> {{troop.training}}
+
+                        </div>
+
+                        <div class="troop-frame-right">
+                            <p><b>Ready at:</b>  {{troop.time_left_total|date:'d M Y, H:i:s'}}</p>
+                            <p><b>Next Troop: </b> {{troop.time_left_per_troop}} seconds left</p>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+            <hr>
+
+        {% endfor %}
+
+
+        <div class="user-heroes-container">
+            <form method="POST" id="refresh-hero">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="refresh-hero">
+                <button type="submit" class="btn btn-success btn-sm" style="width: 160px;">REFRESH HEROES HEALTH</button>
+                
+            </form>
+
+
+
+            {% for hero in user_heroes %}
+
+            
+            
+            <div class="user-hero-card">
+                {% if hero.is_dead and hero.regenerate_time_left == 0  %}
+                <form method="POST" id="revival-hero">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="revival-hero">
+                    <input type="hidden" name="hero_id" value="{{hero.id}}">
+                    <button type="submit" class="btn btn-info btn-sm" style="width: 120px;" onclick="return confirm('You will revival the {{hero.hero}} for 7500 items from each resources. Are you sure?')">REVIVE</button>
+                    
+                </form>
+                {% endif %}
+
+                <div class="text-medium-bold">{{hero.hero}}</div>
+                {% if hero.regenerate_time_left != 0 %}
+                <div class="text-medium-bold"><i>Hero is reviving.</i></div>
+                <div>Time Left: {{hero.regenerate_time_left}}</div>
+                {% endif %}
+
+                <div><img id="hero.id" class="user-hero-image" src="{% get_static_prefix %}images/heroes/{{hero.hero.id}}.png" alt="" {% if hero.is_dead  %} style="filter: grayscale(100%);"   {% endif %}></div>
+                <div><span class="text-medium-bold">Current Health:</span> {{hero.current_health}}</div>
+
+                <form method="POST" id="return-hero">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="return-hero">
+                    <input type="hidden" name="hero_id" value="{{hero.id}}">
+                    <button type="submit" class="btn btn-danger btn-sm" style="width: 120px;" onclick="return confirm('You will returm the {{hero.hero}} for half-price. Are you sure?')">RETURN</button>
+                    
+                </form>
+                
+            </div>
+            {% endfor %}
+        </div>
+
+        <hr>
+
+        <div class="buy-heroes-parent-container">
+
+            
+            <div class="buy-heroes-container">
+                
+                {% for hero in hero_list %}
+                <div class="buy-hero-card">
+                    <div class="text-medium-bold">{{hero}}</div>
+                    <div><div><img id="hero.id" class="user-hero-image" src="{% get_static_prefix %}images/heroes/{{hero.id}}.png" alt=""></div></div>
+                    <div> <span class="text-small-bold">Health:</span> {{hero.health}} | <span class="text-small-bold">Damage:</span> {{hero.damage}}  </div>
+                    {% if hero.crash_bonus > 0 %}
+                    <div> <span class="text-small-bold">Crash Bonus:</span> {{hero.crash_bonus}} </div>
+                    {% endif %}
+
+                    {% if hero.attack_bonus_types %}
+                    <div> <span class="text-small-bold">Attack Bonus:</span> {{hero.attack_bonus_types}} </div>
+                    {% endif %}
+
+                    {% if hero.defence_bonus_types %}
+                    <div> <span class="text-small-bold">Defence Bonus:</span> {{hero.defence_bonus_types}} </div>
+                    {% endif %}
+                    <div class="hero-token-row"> <span class="text-medium-bold">Token: {{hero.token}}</span> <img id="hero.id" class="hero-token" src="{% get_static_prefix %}images/others/token2.png" alt="" title="WoS Token"></div>
+                    
+                    <div> <a href="#"> <b>Detail</b> </a> </div>
+                    <div class="button-push" style="margin-top:auto;">
+
+                        <form method="POST" id="hero-buy">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="hero-buy">
+                            <input type="hidden" name="hero_id" value="{{hero.id}}">
+                            <button type="submit" class="btn btn-success btn-sm" style="width: 120px;" onclick="return confirm('You will get the {{hero}} for {{hero.token}} token. Are you sure?')">GET</button>
+                            
+                        </form>
+                    </div>
+
+                </div>
+                
+                {% endfor %}
+                
+                
+            </div>
+            
+        </div>
+
+    {% else %}
+        <h4>BUILDING...</h4>
+    {% endif %}
+
+
+
+    {% if building.time_left != 0 %}
+
+        <div id="countdown"></div>
+
+        <br>
+        <b>Finish at: {{building.finish|date:'d M Y, H:i:s'}} </b>
+
+        <a href="/building/{{settlement_id}}/cancel">
+            <button type="button" class="btn btn-warning">Cancel Update</button>
+        </a>
+
+        {% else %}
+<p>UPDATE</p>
+        <p>Wood: {{building.update_wood}} - Stone: {{building.update_stone}} - Iron: {{building.update_iron}} - Grain: {{building.update_grain}} </p>
+
+        Available {{builder.troop}}: {{builder.count}}
+
+        <form>
+            <select id="my-select">
+                {% for number in builder_iterator %}
+                <option value="{{number}}"> {{number}} Builders </option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-secondary" type="button" onclick="submitForm()">UPDATE</button>
+        </form>
+
+    {% endif %}
+
+
+
+
+<script>
+    function submitForm() {
+        var select = document.getElementById("my-select");
+        var selectedValue = select.options[select.selectedIndex].value;
+        // Construct the URL using the selected value
+        var url = '/building_update/{{settlement_id}}/' + selectedValue + '/';
+        // Redirect the user to the URL
+        window.location.href = url;
+      }
+    
+</script>
+
+
+
+<script>
+    var countdownElement = document.getElementById('countdown2');
+var remainingTime2 = {{ troop.time_left_per_troop }}; // assuming integer_object is the integer object you sent to the template
+
+function updateCountdown2() {
+    if (remainingTime2 <= 0) {
+        countdownElement.innerHTML = 'Countdown finished!';
+    } else {
+        var minutes = Math.floor(remainingTime2 / 60);
+        var seconds = remainingTime2 % 60;
+        countdownElement.innerHTML = 'Time remaining: ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        remainingTime2--;
+        setTimeout(updateCountdown2, 1000);
+    }
+}
+
+updateCountdown2();
+</script>
+
+{% endblock body %}

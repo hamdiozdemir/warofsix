@@ -31,7 +31,7 @@ class HeroesAdmin(admin.ModelAdmin):
 
 @admin.register(UserHeroes)
 class UserHeroesAdmin(admin.ModelAdmin):
-    list_display = ["hero", "user", "is_dead","current_health", "regenerate_time_left", "last_checkout"]
+    list_display = ["hero", "user", "is_dead", "is_home", "is_available", "current_health", "regenerate_time_left", "last_checkout"]
     list_filter = ["hero"]
 
 

@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.db.models import Q
 import math
 from django.db.models import Sum
+from .heroes import HeroManagement
 # from main.signals import resource_production
 
 
@@ -118,6 +119,8 @@ class SettlementView(LoginRequiredMixin, ListView):
     
 
 
+
+
 @login_required
 def building_view(request, settlement_id):
     user = request.user
@@ -129,11 +132,14 @@ def building_view(request, settlement_id):
     
     
     building = UserBuildings.objects.get(id = place.building.id)
+    if building.building.name == "Fortress":
+        return redirect(f"/fortress/{settlement_id}")
     troops = UserTroops.objects.filter(user=user, troop__building__id = place.building.building.id).order_by('troop_id')
 
     if place.building.building.type == "armory":
         return redirect(f"/armory/{settlement_id}")
 
+    
     if request.method == "GET":
         tracker = UserTracker.objects.get(user=user)
         tracker.track += 1
@@ -361,7 +367,7 @@ def new_building(request, settlement_id):
             return redirect(f"/new_building/{settlement_id}/")
 
 
-
+@login_required
 def armory_view(request, settlement_id):
 
     if request.method == "GET":
@@ -465,11 +471,96 @@ def armory_view(request, settlement_id):
         # UPgrade olan alanı alacağız. koşulları kontrol edip (mesela time_left sıfır mı, başka upgrade var mı o sırada ?!) time_left ve checkout vereceğiz. resource fln güncellenecek. sonra bir daha signal eklenmesi lazım. bitince usertroop leveli güncellenecek fln. Bir de bina leveli kontrol edilecek. iş çok aq. 
 
 
+@login_required
+def fortress_view(request, settlement_id):
+        builder = UserTroops.objects.get(user=request.user, troop__name = "Builder")
+        if request.method == "GET":      
+            user= request.user
+
+            #User Tracker
+            tracker = UserTracker.objects.get(user = user)
+            tracker.track += 1
+            tracker.save()
+
+            place = Settlement.objects.get(user=user, settlement_id = settlement_id)
+            building = UserBuildings.objects.get(id = place.building.id)
+            resources = Resources.objects.get(user=user)
+            builder_iterator = range(1, builder.count+1)
+            trainings= building_units(building)
+
+            hero_management = HeroManagement(request.user)
+            hero_management.refresh_heroes_health()
+            hero_list = hero_management.hero_market_list()
+            user_heroes = hero_management.user_hero_list()
+
+            context = {
+                "settlement_id": settlement_id,
+                "building": building,
+                "builder": builder,
+                "builder_iterator": builder_iterator,
+                "trainings": trainings,
+                "hero_list": hero_list,
+                "user_heroes": user_heroes,
+                "resources": resources
+            }
+            return render(request, "main/fortress.html", context)
+        
+        elif request.method == "POST":
+            form_data = request.POST.dict()
+            if form_data["form_type"] == "builder_training":
+                place = Settlement.objects.get(user=request.user, settlement_id = settlement_id)
+                user_building = building = UserBuildings.objects.get(id = place.building.id)
+                user_resources = Resources.objects.get(user = request.user)
+
+                check, message, new_training_number = builder_training_check(form_data, request.user, builder, user_resources)
+                if check:
+                    builder_training(request.user, user_building, builder, user_resources, new_training_number)
+                    return redirect(f"/fortress/{settlement_id}")
+                else:
+                    messages.add_message(request, messages.WARNING, message)
+                    return redirect(f"/fortress/{settlement_id}")
+            
+            elif form_data["form_type"] == "hero-buy":
+                hero_management = HeroManagement(request.user)
+                hero_id = int(form_data["hero_id"])
+                message = hero_management.get_hero(hero_id)
+                messages.add_message(request, messages.WARNING, message)
+                
+                return redirect(f"/fortress/{settlement_id}")
+            
+            elif form_data["form_type"] == "return-hero":
+                hero_management = HeroManagement(request.user)
+                message = hero_management.return_hero(int(form_data["hero_id"]))
+                messages.add_message(request, messages.WARNING, message)
+                return redirect(f"/fortress/{settlement_id}")
+
+            elif form_data["form_type"] == "revival-hero":
+                hero_management = HeroManagement(request.user)
+                message = hero_management.revival_hero(int(form_data["hero_id"]))
+                messages.add_message(request, messages.WARNING, message)
+                return redirect(f"/fortress/{settlement_id}")
+            
+            elif form_data["form_type"] == "refresh-hero":
+                hero_management = HeroManagement(request.user)
+                hero_management.refresh_heroes_health()
+                return redirect(f"/fortress/{settlement_id}")
+
+
+
+
+
+
+            
+
+
+
 
 # Some methods
 # calculte the current resource production
+
 def resource_production(user):
     base = 50
+    grain_base = 250
     try:
         wood_production = 50
         woods = UserBuildings.objects.filter(user=user, building__type = "wood")
@@ -495,12 +586,12 @@ def resource_production(user):
         iron = base
     
     try:
-        grain_production = 50    
+        grain_production = 250
         grains = UserBuildings.objects.filter(user=user, building__type = "grain")
         for grain in grains:
-            grain_production += grain.level * 1.25 * grain.resource_worker * base if grain.resource_worker != 0 else grain.level * 1.25 * base
+            grain_production += grain.level * 1.25 * grain.resource_worker * grain_base if grain.resource_worker != 0 else grain.level * 1.25 * grain_base
     except:
-        grain= base
+        grain= grain_base
         
     # Troops' grain consuption calcutaions
     user_troops = UserTroops.objects.filter(user=user)
@@ -516,7 +607,10 @@ def resource_production(user):
         "iron": round(iron_production),
         "grain": round(grain_production)
     }
+    print(production)
     return production
+
+
 
 
 # not useful anymore, old version
@@ -615,3 +709,45 @@ def resource_builder_update(self, user, id, value):
         return messages.add_message(self.request, messages.WARNING, f"Not enough builder")
 
 
+def builder_training_check(form_data, user, user_builder, user_resources):
+    new_training_number = int(form_data[str(user_builder.troop.id)])
+    print(f"Training number: {new_training_number}")
+    resource_worker = UserBuildings.objects.filter(user=user).aggregate(Sum('resource_worker'))['resource_worker__sum']
+    print(f"Resource worker: {resource_worker}")
+    builder_training = UserTroopTraining.objects.get(user=user, troop__name="Builder")
+    print(f"builder training: {builder_training}")
+    buildings_worker = UserBuildings.objects.filter(user=user).aggregate(Sum('worker'))['worker__sum']
+    print(f"building worker: {buildings_worker}")
+
+    if all((
+        user_resources.wood > new_training_number * user_builder.troop.wood,
+        user_resources.stone > new_training_number * user_builder.troop.stone,
+        user_resources.iron > new_training_number * user_builder.troop.iron,
+        user_resources.grain > new_training_number * user_builder.troop.grain
+        )):
+  
+
+        if user_builder.count + buildings_worker + resource_worker + builder_training.training + new_training_number > 100:
+            message = f"You can not train more than 100 Builders. You currently have {user_builder.count + buildings_worker+builder_training.training+resource_worker} builder. You can train {100 - (user_builder.count + buildings_worker + builder_training.training + resource_worker)} more builder."
+            return False, message, 5
+        
+        else:
+            return True, "OK", new_training_number
+    else:
+        return False, "Not enough resources!", new_training_number
+
+def builder_training(user, user_building, user_builder, user_resources, new_training_number):
+    training_center = UserTroopTraining.objects.get(user_building = user_building, troop = user_builder.troop)
+    training_center.training += new_training_number
+    training_center.save()
+
+    user_resources.wood -= new_training_number * user_builder.troop.wood
+    user_resources.stone -= new_training_number * user_builder.troop.stone
+    user_resources.iron -= new_training_number * user_builder.troop.iron
+    user_resources.grain -= new_training_number * user_builder.troop.grain
+    user_resources.save()
+
+
+
+
+# user_builder.count + buildings_worker + builder_training.training + new_training_number < 101

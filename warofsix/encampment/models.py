@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from main.models import UserTroops, Location
+from main.models import UserTroops, Location, UserHeroes
 from django.db.models import Min
 import math
 
@@ -41,6 +41,11 @@ class DepartingCampaigns(models.Model):
         group = DepartingTroops.objects.filter(campaign=self).order_by('position')
         return group
     
+    @property
+    def heroes(self):
+        departing_heroes = DepartingHeroes.objects.filter(campaign=self)
+        return departing_heroes
+    
 
 class DepartingTroops(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -48,6 +53,18 @@ class DepartingTroops(models.Model):
     user_troop = models.ForeignKey(UserTroops, on_delete=models.CASCADE)
     count = models.PositiveIntegerField(default=0)
     campaign = models.ForeignKey(DepartingCampaigns, on_delete=models.CASCADE, null=True)
+
+
+class DepartingHeroes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    position = models.PositiveIntegerField()
+    user_hero = models.ForeignKey(UserHeroes, on_delete=models.CASCADE)
+    campaign = models.ForeignKey(DepartingCampaigns, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        self.user_hero.is_home = False
+        self.user_hero.save()
+        super(DepartingHeroes, self).save(*args, **kwargs)
 
 
 class ArrivingCampaigns(models.Model):
@@ -77,6 +94,10 @@ class ArrivingCampaigns(models.Model):
         group = ArrivingTroops.objects.filter(campaign=self)
         return group
 
+    @property
+    def heroes(self):
+        heroes = ArrivingHeroes.objects.filter(campaign=self)
+        return heroes
 
 class ArrivingTroops(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -84,6 +105,11 @@ class ArrivingTroops(models.Model):
     count = models.PositiveIntegerField(default=0)
     campaign = models.ForeignKey(ArrivingCampaigns, on_delete=models.CASCADE, null=True)
 
+
+class ArrivingHeroes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_hero = models.ForeignKey(UserHeroes, on_delete=models.CASCADE)
+    campaign = models.ForeignKey(ArrivingCampaigns, on_delete=models.CASCADE)
 
 
 class DefencePosition(models.Model):

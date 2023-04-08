@@ -151,7 +151,7 @@ class Heroes(models.Model):
     type = models.CharField(max_length=70, choices=TYPE_CHOICES)
     health = models.PositiveIntegerField()
     regenerate_time = models.PositiveIntegerField(default=43200)
-    damage = models.FloatField()
+    damage = models.PositiveIntegerField()
     crash_bonus = models.PositiveIntegerField(default=0)
     speed = models.FloatField()
     infantry_attack_bonus = models.FloatField(default=1.00)
@@ -169,15 +169,51 @@ class Heroes(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def attack_bonus_types(self):
+        fields = []
+        if self.infantry_attack_bonus > 1:
+            fields.append("Infantry")
+        if self.pike_attack_bonus > 1:
+            fields.append("Pike")
+        if self.archer_attack_bonus > 1:
+            fields.append("Archer")
+        if self.cavalry_attack_bonus > 1:
+            fields.append("Cavalary")
+        if self.monster_attack_bonus > 1:
+            fields.append("Monster")
+        return ", ".join(fields)
+    
+    def defence_bonus_types(self):
+        fields = []
+        if self.infantry_defence_bonus > 1:
+            fields.append("Infantry")
+        if self.pike_defence_bonus > 1:
+            fields.append("Pike")
+        if self.archer_defence_bonus > 1:
+            fields.append("Archer")
+        if self.cavalry_defence_bonus > 1:
+            fields.append("Cavalary")
+        if self.monster_defence_bonus > 1:
+            fields.append("Monster")
+        return ", ".join(fields)
 
 class UserHeroes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     hero = models.ForeignKey(Heroes, on_delete=models.CASCADE)
     is_dead = models.BooleanField(default=False)
+    is_home = models.BooleanField(default=True)
     current_health = models.PositiveIntegerField(blank=True)
     position = models.PositiveIntegerField(default=0)
     regenerate_time_left = models.PositiveIntegerField(default=0)
     last_checkout = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def is_available(self):
+        if not self.is_dead and self.is_home:
+            return True
+        else:
+            return False
 
     def __str__(self):
         return f"{self.hero} ({self.user})"

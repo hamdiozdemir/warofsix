@@ -9,20 +9,20 @@ import random
 
 class Attacker():
 
-    def __init__(self, attack_group, user_heroes):
+    def __init__(self, attack_group, campaign_heroes):
         self.attack_group = attack_group
-        self.user_heroes = user_heroes
+        self.campaign_heroes = campaign_heroes
     
     def get_attack_troops(self):
         positions = [11,12,13,14,21,22,23,24,31,32,33,34]
         group = {}
         for pos in positions:
             # If there are both TROOP and HERO
-            if self.attack_group.filter(position=pos).exclude(count=0).exists() and self.user_heroes.filter(position=pos).exclude(is_dead=True).exists():
+            if self.attack_group.filter(position=pos).exclude(count=0).exists() and self.campaign_heroes.filter(position = pos).exists():
                 block_troop = self.attack_group.get(position=pos)
                 user_troop = block_troop.user_troop
                 group[pos] = {"troop": user_troop}
-                hero = self.user_heroes.get(position=pos)
+                hero = self.campaign_heroes.get(position=pos).user_hero
                 group[pos].update({"hero": hero})
                 hero_att_bonus = hero_attack_bonus(hero, user_troop)
                 hero_def_bonus = hero_defence_bonus(hero, user_troop)
@@ -51,8 +51,8 @@ class Attacker():
                 group[pos].update({"count": block_troop.count})
 
             # IF only HERO
-            elif self.user_heroes.filter(position=pos).exclude(is_dead=True).exists():
-                hero = self.user_heroes.get(position=pos)
+            elif self.campaign_heroes.filter(position=pos).exists():
+                hero = self.campaign_heroes.get(position=pos).user_hero
                 group[pos] = {"hero": hero}
                 if hero.hero.summon_amount != 0:
                     hero_damage = hero.hero.damage + hero.hero.crash_bonus + hero.hero.summon_amount * hero.hero.summon_type.damage
@@ -85,7 +85,7 @@ class Defender():
             # IF there are both TROOP and HERO
             troop_exists = self.defender_group.get(position = pos).count
             troop_exists = True if troop_exists > 0 else False
-            if troop_exists and self.user_heroes.filter(position=pos).exclude(is_dead=True).exists():
+            if troop_exists and self.user_heroes.filter(position=pos).exists():
                 block_troop = self.defender_group.get(position=pos)
                 if block_troop.count < 1:
                     pass
@@ -123,7 +123,7 @@ class Defender():
                     group[pos].update({"total_defence_damage": block_troop.count * user_troop.troop.damage * user_troop.attack_level})
                     group[pos].update({"count": block_troop.count})
 
-            elif self.user_heroes.filter(position=pos).exclude(is_dead=True).exists():
+            elif self.user_heroes.filter(position=pos).exists():
                 hero = self.user_heroes.get(position=pos)
                 group[pos] = {"hero": hero}
 
@@ -155,11 +155,11 @@ class Battle():
         self.defender_statistic = Statistic.objects.get(user=self.defender_user)
         self.blocks = [11,12,13,14,21,22,23,24,31,32,33,34]
 
-        self.attacker_heroes = UserHeroes.objects.filter(user=self.attacker_user)
+        self.attacker_heroes = self.departing_campaign.heroes
         attack_obj = Attacker(self.departing_campaign.group, self.attacker_heroes)
 
         self.defender = DefencePosition.objects.filter(user=self.defender_user)
-        self.defender_heroes = UserHeroes.objects.filter(user=self.defender_user)
+        self.defender_heroes = UserHeroes.objects.filter(user=self.defender_user).exclude(is_dead = True, is_home=False)
         defend_obj = Defender(self.defender, self.defender_heroes)
 
         self.attack_group = attack_obj.get_attack_troops()

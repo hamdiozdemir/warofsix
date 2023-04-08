@@ -14,6 +14,7 @@ urlpatterns = [
     path('building/<int:settlement_id>/<str:action>/', views.building_update_cancel, name="building_update_cancel"),
     path('new_building/<int:settlement_id>/', views.new_building, name="new_building"),
     path('armory/<int:settlement_id>/', views.armory_view, name="armory"),
+    path('fortress/<int:settlement_id>/', views.fortress_view, name="fortress"),
 
 
 

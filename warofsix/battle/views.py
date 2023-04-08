@@ -10,7 +10,7 @@ from .simulation import Battle
 
 @login_required
 def battle_view(request):
-    departing_campaign = DepartingCampaigns.objects.get(id=111)
+    departing_campaign = DepartingCampaigns.objects.get(id=123)
     battle = Battle(departing_campaign)
     if departing_campaign.campaign_type == "reinforcement":
         print("This is Reinforcement")

@@ -252,6 +252,7 @@ def create_wild_good_easy():
 
 def resource_production(user):
     base = 50
+    grain_base = 250
     try:
         wood_production = 50
         woods = UserBuildings.objects.filter(user=user, building__type = "wood")
@@ -280,9 +281,9 @@ def resource_production(user):
         grain_production = 50    
         grains = UserBuildings.objects.filter(user=user, building__type = "grain")
         for grain in grains:
-            grain_production += grain.level * 1.25 * grain.resource_worker * base if grain.resource_worker != 0 else grain.level * 1.25 * base
+            grain_production += grain.level * 1.25 * grain.resource_worker * grain_base if grain.resource_worker != 0 else grain.level * 1.25 * grain_base
     except:
-        grain= base
+        grain= grain_base
         
     # Troops' grain consuption calcutaions
     user_troops = UserTroops.objects.filter(user=user)
@@ -298,7 +299,9 @@ def resource_production(user):
         "iron": round(iron_production),
         "grain": round(grain_production)
     }
+    print(production)
     return production
+
 
 def current_resources(user):
     resource_prod = resource_production(user)

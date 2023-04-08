@@ -1,5 +1,5 @@
-from main.models import UserTroops, Location, Resources
-from .models import DefencePosition, DepartingCampaigns, DepartingTroops, ArrivingCampaigns, ArrivingTroops, ReinforcementTroops
+from main.models import UserTroops, Location, Resources, UserHeroes
+from .models import DefencePosition, DepartingCampaigns, DepartingTroops, ArrivingCampaigns, ArrivingTroops, ReinforcementTroops, DepartingHeroes
 from django.utils import timezone
 from datetime import timedelta
 from main.signals import departing_campaign_created_signal, current_resources
@@ -30,16 +30,42 @@ class TroopManagements():
             return True
         else:
             return False
+        
+    def defence_formation_hero_check(self):
+        filtered_data = {k:v for k,v in self.data.items() if k.startswith('herod') and v != "Add Hero"}
+        if len(filtered_data.values()) == len(set(filtered_data.values())):
+            return True, filtered_data
+        else:
+            return False, filtered_data
+
 
 
     def defence_formation_save(self):
-        if self.defence_formation_percent_check():
+        user_hero_check, filtered_hero_data = self.defence_formation_hero_check()
+        if self.defence_formation_percent_check() and user_hero_check:
             message = "Formation updated successfully."
             positions = DefencePosition.objects.filter(user= self.user)
             for pos in positions:
-                pos.user_troop = UserTroops.objects.get(id = int(self.data[f"troop{pos.position}"]))
-                pos.percent = int(self.data[f"numd{pos.position}"])
-                pos.save()
+                if pos.user_troop == UserTroops.objects.get(id = int(self.data[f"troop{pos.position}"])) and pos.percent == int(self.data[f"numd{pos.position}"]):
+                    pass
+                elif pos.user_troop == UserTroops.objects.get(id = int(self.data[f"troop{pos.position}"])) and pos.percent != int(self.data[f"numd{pos.position}"]):
+                    pos.percent = int(self.data[f"numd{pos.position}"])
+                    pos.save()
+                else:
+                    pos.user_troop = UserTroops.objects.get(id = int(self.data[f"troop{pos.position}"]))
+                    pos.percent == int(self.data[f"numd{pos.position}"])
+                    pos.save()
+            for key, value in filtered_hero_data.items():
+                if value == "Add Hero":
+                    pass
+                else:
+                    user_hero = UserHeroes.objects.get(id = int(value))
+                    user_hero.position = int(key[-2:])
+                    user_hero.save()
+            return message
+        
+        elif not user_hero_check:
+            message = "You can use a hero only in one position"
             return message
         else:
             message = "All troops' total percentage should be equal or lower then %100."
@@ -62,6 +88,27 @@ class TroopManagements():
             return True
         else:
             return False
+        
+    def send_troop_hero_check(self):
+        filtered_data = {k:v for k,v in self.data.items() if k.startswith('herod') and v != "Add Hero"}
+        if filtered_data == {}:
+            return True, "OK"
+        elif len(filtered_data.values()) != len(set(filtered_data.values())):
+            message = "You can assign a hero to only one block!"
+            return False, message
+        else:
+            user_hero_ids = [int(x) for x in filtered_data.values()]
+            check = [UserHeroes.objects.get(id = id_data).is_available for id_data in user_hero_ids]
+            print(check)
+            if all(check):
+                message = "OK"
+                return True, message
+            else:
+                message = "One of the heroes is not available !"
+                return False, message
+                
+
+
 
     # returns two location obj. - main_location and target_location
     def main_and_target_locations(self):
@@ -74,6 +121,13 @@ class TroopManagements():
         main_location, target_location = self.main_and_target_locations()
         if target_location.type == "nature":
             message = f"X:{target_location.locx} | Y:{target_location.locy} is not a place to send troop"
+            return message
+        
+        elif not self.send_troop_number_check():
+            message = "You do not have enough troop!"
+            return message
+        elif not all(self.send_troop_hero_check()):
+            check, message = self.send_troop_hero_check() 
             return message
         else:
             # Create departing campaign object
@@ -97,6 +151,15 @@ class TroopManagements():
                 )
                 user_troop.count -= int(self.data["num"+str(position)])
                 user_troop.save()
+
+            filtered_data = {int(k[-2:]):int(v) for k,v in self.data.items() if k.startswith('herod') and v != "Add Hero"}
+            for pos, user_hero_id in filtered_data.items():
+                DepartingHeroes.objects.create(
+                    user = self.user,
+                    position = pos,
+                    user_hero = UserHeroes.objects.get(id = user_hero_id),
+                    campaign = campaign
+                )
             campaign.time_left = round(campaign.distance / campaign.speed * 3600)
             campaign.arriving_time = timezone.now() + timedelta(seconds=campaign.time_left)
             campaign.save()
@@ -121,11 +184,22 @@ class Arrivings():
         self.user_resources = Resources.objects.get(user = self.user)
         # self.user_troop = UserTroops.objects.filter(user= self.user)
 
+    def handle_arriving(self):
+        self.get_user_troops()
+        self.get_resources()
+        self.delete_arriving_campaign()
+
     def get_user_troops(self):
         arriving_group = self.arriving_campaign.group
         for obj in arriving_group:
             obj.user_troop.count += obj.count
             obj.user_troop.save()
+
+    def get_user_heroes(self):
+        arriving_heroes = self.arriving_campaign.heroes
+        for obj in arriving_heroes:
+            obj.user_hero.is_home = True
+            obj.user_hero.save()
 
     def get_resources(self):
         # Update current resources
@@ -135,3 +209,6 @@ class Arrivings():
         self.user_resources.iron += self.arriving_campaign.arriving_iron
         self.user_resources.grain += self.arriving_campaign.arriving_grain
         self.user_resources.save()
+
+    def delete_arriving_campaign(self):
+        self.arriving_campaign.delete()

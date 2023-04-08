@@ -53,24 +53,26 @@ class EncampmentListView(LoginRequiredMixin, ListView):
         user_troops = UserTroops.objects.filter(user=self.request.user)
         user_troops = list(user_troops) + [troop.user_troop for troop in reinforcements] 
         blocks = range(1,13)
+        positions = ["11","12","13","14","21","22","23","24","31","32","33","34"]
 
         context["reinforcements"] = reinforcements
         context["defensive_formation_data"] = defensive_formation_data(self.request.user)
+        context["defensive_formation_data2"] = defensive_formation_data2(self.request.user)
         context["user_heroes"] = user_heroes
 
         context["union_troops"] = user_troops
         context["blocks"] = blocks
         context["departing_campaigns"] = departing_attacks
         context["arriving_campaigns"] = arriving_campaigns
+        context["positions"] = positions
         
-
-
-
         return context
     
     def post(self, request, *args, **kwargs):
         form_data = request.POST.dict()
         print(form_data)
+        print("****************")
+        
         troop_management = TroopManagements(form_data, self.request.user)
         if request.POST.get("form_type") == "defence":
             message = troop_management.defence_formation_save()
@@ -131,3 +133,69 @@ def defensive_formation_data(user):
     }
     return defence_data
 
+def defensive_formation_data2(user):
+    positions = DefencePosition.objects.filter(user=user)
+
+    defence_data = {
+        "31": {
+        "troop": positions.get(position=31).user_troop.troop.id,
+        "numd": positions.get(position=31).percent,
+        "countd": positions.get(position=31).count,
+        },
+        "32": {
+        "troop": positions.get(position=32).user_troop.troop.id,
+        "numd": positions.get(position=32).percent,
+        "countd": positions.get(position=32).count,
+        },
+        "33": {
+        "troop": positions.get(position=33).user_troop.troop.id,
+        "numd": positions.get(position=33).percent,
+        "countd": positions.get(position=33).count,
+        },
+        "34": {
+        "troop": positions.get(position=34).user_troop.troop.id,
+        "numd": positions.get(position=34).percent,
+        "countd": positions.get(position=34).count,
+        },
+        "21": {
+        "troop": positions.get(position=21).user_troop.troop.id,
+        "numd": positions.get(position=21).percent,
+        "countd": positions.get(position=21).count,
+        },
+        "22": {
+        "troop": positions.get(position=22).user_troop.troop.id,
+        "numd": positions.get(position=22).percent,
+        "countd": positions.get(position=22).count,
+        },
+        "23": {
+        "troop": positions.get(position=23).user_troop.troop.id,
+        "numd": positions.get(position=23).percent,
+        "countd": positions.get(position=23).count,
+        },
+        "24": {
+        "troop": positions.get(position=24).user_troop.troop.id,
+        "numd": positions.get(position=24).percent,
+        "countd": positions.get(position=24).count,
+        },
+        "11": {
+        "troop": positions.get(position=11).user_troop.troop.id,
+        "numd": positions.get(position=11).percent,
+        "countd": positions.get(position=11).count,
+        },
+        "12": {
+        "troop": positions.get(position=12).user_troop.troop.id,
+        "numd": positions.get(position=12).percent,
+        "countd": positions.get(position=12).count,
+        },
+        "13": {
+        "troop": positions.get(position=13).user_troop.troop.id,
+        "numd": positions.get(position=13).percent,
+        "countd": positions.get(position=13).count,
+        },
+        "14": {
+        "troop": positions.get(position=14).user_troop.troop.id,
+        "numd": positions.get(position=14).percent,
+        "countd": positions.get(position=14).count,
+        }
+    }
+    return defence_data
