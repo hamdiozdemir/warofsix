@@ -11,5 +11,5 @@ local.py
 /images
 documentation.html
 /migrations
-
+.gitignore
 
