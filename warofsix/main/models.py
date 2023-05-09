@@ -1,6 +1,8 @@
 from django.db import models
-from django.contrib.auth.admin import User
+from django.contrib.auth.models import User
 from django.utils import timezone
+from datetime import timedelta
+
 
 
 
@@ -15,7 +17,7 @@ class Race(models.Model):
         ("Mordor", "Mordor"),
         ("Goblins", "Goblins"),
         ("Wild", "Wild"),
-        ("Wild2", "Wild2")
+        ("Evil", "Evil")
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -37,10 +39,19 @@ class Location(models.Model):
     locy = models.IntegerField()
     location_name = models.CharField(max_length=30, default="Middle Earth")
     type = models.CharField(max_length=20, default="wild")
+    has_ring = models.BooleanField(default=False)
 
 
     def __str__(self):
-        return f"User:{self.user} - X:{self.locx}, Y:{self.locy}; Type: {self.type}"
+        return f"{self.user} {self.locx}|{self.locy}"
+    
+    @property
+    def race(self):
+        if self.user:
+            race = Race.objects.get(user=self.user)
+            return race.name
+        else:
+            None
     
 
 class Buildings(models.Model):
@@ -52,7 +63,7 @@ class Buildings(models.Model):
         ("Mordor", "Mordor"),
         ("Goblins", "Goblins"),
         ("Wild", "Wild"),
-        ("Wild2", "Wild2")
+        ("Dark", "Dark")
     ]
     race = models.CharField(max_length=80, choices=RACE_CHOICES)
     name = models.CharField(max_length=70)
@@ -63,24 +74,28 @@ class Buildings(models.Model):
     iron = models.PositiveIntegerField()
     grain = models.PositiveIntegerField()
     update_time = models.PositiveIntegerField(default=0)
-    sorting = models.PositiveIntegerField(default=0)    
+    sorting = models.PositiveIntegerField(default=0)
+    description = models.CharField(max_length=140, default=" ")    
 
     def __str__(self):
         return self.name
     
     @property
     def damage(self):
-        if self.type == "defence":
+        if self.type == "defence" and self.name != "Warg Sentry":
             if self.race == "Elves":
-                return 3000
+                return 300
             elif self.race == "Dwarves":
-                return 2300
+                return 230
             elif self.race == "Isengard" or self.race == "Mordor":
-                return 2200
+                return 220
             else:
-                return 2000
+                return 200
+        elif self.type == "defence" and self.name == "Warg Sentry":
+            return 400
         else:
             return 0
+    
 
 
 class Troops(models.Model):
@@ -133,7 +148,8 @@ class Heroes(models.Model):
         ("Mordor", "Mordor"),
         ("Goblins", "Goblins"),
         ("Wild", "Wild"),
-        ("Wild2", "Wild2"),
+        ("Good", "Good"),
+        ("Evil", "Evil")
     ]
 
     TYPE_CHOICES = [
@@ -148,6 +164,8 @@ class Heroes(models.Model):
     name = models.CharField(max_length=70)
     race = models.CharField(max_length=80, choices=RACE_CHOICES)
     token = models.PositiveIntegerField(default=0)
+    rings = models.PositiveIntegerField(default=0)
+    the_one_ring = models.BooleanField(default=False)
     type = models.CharField(max_length=70, choices=TYPE_CHOICES)
     health = models.PositiveIntegerField()
     regenerate_time = models.PositiveIntegerField(default=43200)
@@ -214,13 +232,25 @@ class UserHeroes(models.Model):
             return True
         else:
             return False
+    
+    @property
+    def status(self):
+        if self.is_dead:
+            return "Dead"
+        if not self.is_home:
+            return "On A Journey"
+        else:
+            return "Available"
 
     def __str__(self):
         return f"{self.hero} ({self.user})"
     
     def save(self, *args, **kwargs):
+        self.last_checkout = timezone.now()
         if not self.current_health and self.is_dead == False:
             self.current_health = self.hero.health
+        if self.is_dead:
+            self.is_home = True
         super(UserHeroes, self).save(*args, **kwargs)
 
 
@@ -248,10 +278,8 @@ class UserBuildings(models.Model):
 
     resource_worker = models.PositiveIntegerField(default=0)
 
-
-
     def __str__(self):
-        return self.building.name
+        return f"({self.id}) {self.building.name}"
     
 
     @property
@@ -283,6 +311,12 @@ class UserBuildings(models.Model):
     @property
     def current_health(self):
         return self.building.health + 1500
+    
+    @property
+    def user_building_damage(self):
+        return self.building.damage * self.level * 0.75
+    
+        
 
 class UserTroopTraining(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -336,7 +370,7 @@ class Messages(models.Model):
     sender = models.ForeignKey(User, related_name='sender_user', on_delete=models.CASCADE)
     target = models.ForeignKey(User, related_name='target_user', on_delete=models.CASCADE)
     header = models.CharField(max_length=50)
-    content = models.CharField(max_length=500)
+    content = models.TextField(max_length=500)
     time = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
     
@@ -350,24 +384,73 @@ class Resources(models.Model):
     stone = models.PositiveIntegerField(default=800)
     iron = models.PositiveIntegerField(default=800)
     grain = models.PositiveIntegerField(default=800)
-    token = models.PositiveIntegerField(default=0)
+    token = models.PositiveIntegerField(default=300)
+    rings = models.PositiveIntegerField(default=0)
+    the_one_ring = models.BooleanField(default=False)
     last_checkout = models.DateTimeField(auto_now_add=True)
 
 
-class Market(models.Model):
+class UserMarkets(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    current_capacity = models.PositiveIntegerField(default=0)
+
+    @property
+    def offer_capacity(self):
+        user_markets = UserBuildings.objects.filter(user=self.user, building__type = "market")
+        if user_markets.exists():
+            market_level = 0
+            for market in user_markets:
+                market_level += market.level
+            return market_level * 50000
+        else:
+            return 0
+    
+    @property
+    def current(self):
+        total_offer_amount = Exchanges.objects.filter(offer_user=self.user, is_complete = False).aggregate(models.Sum('offer_amount'))['offer_amount__sum'] or 0
+        total_on_way = MarketSent.objects.filter(sender=self.user, is_complete = False)
+        total_on_way_burden = 0 if not total_on_way.exists() else sum([obj.total_burden for obj in total_on_way])
+
+        return self.offer_capacity - total_offer_amount - total_on_way_burden
+
+
+
+
+class Exchanges(models.Model):
     RESOURCE_CHOICES = [
-        ("Wood", "Wood"),
-        ("Stone", "Stone"),
-        ("Iron", "Iron"),
-        ("Grain", "Grain")
+        ("wood", "Wood"),
+        ("stone", "Stone"),
+        ("iron", "Iron"),
+        ("grain", "Grain")
     ]
-    offer_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    offer_user = models.ForeignKey(User, related_name="offer_user", on_delete=models.CASCADE)
     offer_type = models.CharField(max_length=50, choices=RESOURCE_CHOICES)
     offer_amount = models.PositiveIntegerField()
+    client_user = models.ForeignKey(User, related_name="client_user", on_delete=models.CASCADE, null=True, blank=True)
     target_type = models.CharField(max_length=50, choices=RESOURCE_CHOICES)
     target_amount = models.PositiveIntegerField()
     is_complete = models.BooleanField(default=False)
+    added_time = models.DateTimeField(auto_now_add=True)
+    
 
+class MarketSent(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    target_location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    wood = models.PositiveIntegerField(default=0)
+    stone = models.PositiveIntegerField(default=0)
+    iron = models.PositiveIntegerField(default=0)
+    grain = models.PositiveIntegerField(default=0)
+    time_left = models.PositiveIntegerField(default=0)
+    is_complete = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def total_burden(self):
+        return self.wood + self.stone + self.iron + self.grain
+
+    @property
+    def arriving_time(self):
+        return self.timestamp + timedelta(seconds=self.time_left)
 
 
 class Statistic(models.Model):
@@ -403,12 +486,68 @@ class Settlement(models.Model):
     settlement_id = models.IntegerField()
 
 
-class Profile(models.Model):
+class WildData(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    statistic = models.ForeignKey(Statistic, on_delete=models.CASCADE)
-    description = models.CharField(max_length=280, blank=True, null=True)
+    resource_production_number = models.PositiveIntegerField(default=1)
+    troop_production_number = models.PositiveIntegerField(default=1)
+    resource_last_checkout = models.DateTimeField(auto_now_add=True)
+    troop_last_checkout = models.DateTimeField(auto_now_add=True)
+
+
+class SuperPower(models.Model):
+    user_building = models.ForeignKey(UserBuildings, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
+    power_damage = models.PositiveIntegerField(default=20000)
+    is_active = models.BooleanField(default=False)
+    last_checkout = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user} - {self.race}"
+        return self.name
+
+    @property
+    def next_round(self):
+        if not self.is_active:
+            return 86400
+        else:
+            time_left = round(((self.last_checkout + timedelta(days=1)) - timezone.now()).total_seconds())
+            time_left = time_left if time_left > 0 else 0
+            return time_left
+    
+    @property
+    def power_reports(self):
+        reports = SuperPowerReports.objects.filter(super_power = self)
+        if reports.exists():
+            return reports
+        else:
+            None
+
+
+
+class SuperPowerReports(models.Model):
+    super_power = models.ForeignKey(SuperPower, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    building = models.ForeignKey(Buildings, on_delete=models.SET_NULL, null=True, blank=True)
+    pre_level = models.PositiveIntegerField(default=0)
+    post_level = models.PositiveIntegerField(default=0)
+    troop = models.ForeignKey(Troops, related_name="troop_to_death", on_delete=models.SET_NULL, null=True, blank=True)
+    deads = models.PositiveIntegerField(default=0)
+    revealed_troop = models.ForeignKey(Troops, related_name="troop_to_reveal", on_delete=models.SET_NULL, null=True, blank=True)
+    revealed_count = models.PositiveIntegerField(default=0)
+    revealed_attack_level = models.FloatField(default=1.0)
+    revealed_defence_level = models.FloatField(default=1.0)
+    time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"vs. {self.location.user} ({self.location.location_name})"
+    
+    def attacker_race(self):
+        return self.super_power.user_building.building.race
+
+
+
+class Notifications(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    alliance = models.BooleanField(default=False)
+    report = models.BooleanField(default=False)
+    messages = models.BooleanField(default=False)

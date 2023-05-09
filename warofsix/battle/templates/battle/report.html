@@ -9,54 +9,114 @@
 
 
 {% block body %}
-<h4>BATTLE REPORT</h4>
-
-{{report}}
-
-<!--
-    BU OLMAZZZZZZ TÜM BLOCKLARI GÖSTERMİYOR. AYRICA ÇOK BÜYÜK OLUYOR İTEMLER
--->
-
-<hr>
+<h4 class="text-center">BATTLE REPORT</h4>
 
 
-    {% for att in report.attacker_group %}
-    <div class="battle-grid-item">
+
+<div class="report-container">
+
+    <div class="flex-column-center">
+
+        <div class="group-container">
+    
+    
+            {% for position, value in defender_data.items %}
         
-        <div>POS: {{att.position}}</div>
-        <div>STATUS: {{att.status}}</div>
-        <div>USER TROOP: {{att.user_troop}}</div>
-        <div>NUMBER: {{att.troop_count}}</div>
-        <div>DEAD: {{att.deads}}</div>
-        <div>ALIVE: {{att.troop_alive}}</div>
-        <div>HERO: {{att.user_hero}}</div>
-        <div>HERO REIN.: {{att.user_hero_troop}}</div>
-        <div>HERO REIN NUMBER: {{att.user_hero_troop_count}}</div>
-        <div>HERO REIN DEAD: {{att.user_hero_troop_dead}}</div>
-        <div>HERO REIN ALIVE: {{att.user_hero_troop_alive}}</div>
+                {% if value == '?' %}
+                <div class="group-item bold">?</div>
+
+                {% elif value %}
+                       
+                    <div class="group-item" {% if value.status == 'dead' %} id="group-dead" {% endif %}>
+                        {% if value.user_hero %}
+                        <div class="bold">
+                            <img class="mini-icon" src="{% get_static_prefix %}images/others/crown.png" alt="" title="{{value.user_hero.hero}}">  
+                            {{value.user_hero.hero}}</div>
+                        {% if value.user_hero_troop %}
+                        <div> {{value.user_hero_troop}} </div>
+                        <div> {{value.user_hero_troop_dead}} / {{value.user_hero_troop_count}} </div>
+                            
+                        {% endif %}
+                        {% endif %}
+                        
+                        <div>{{value.user_troop.troop}}</div>
+                        <div>{{value.deads}} / {{value.troop_count}}</div>
+                    </div>
+                {% else %}
+                <div class="group-item">X</div>
+                {% endif %}
+            
+            {% endfor %}
+            
+            
+        </div>
+    
+    
+        <div class="battle-field">
+            <span id="battle-field">BATTLE FIELD</span>
+        </div>
+    
+    
+        <div class="group-container">
+    
+    
+            {% for position, value in attacker_data.items %}
         
+                {% if value %}
+                       
+                    <div class="group-item" {% if value.status == 'dead' %} id="group-dead" {% endif %}>
+                        {% if value.user_hero %}
+                        <div class="bold">
+                            <img class="mini-icon" src="{% get_static_prefix %}images/others/crown.png" alt="" title="{{value.user_hero.hero}}">  
+                            {{value.user_hero.hero}}
+                        </div>
+                        {% if value.user_hero_troop %}
+                        <div> {{value.user_hero_troop}} </div>
+                        <div> {{value.user_hero_troop_dead}} / {{value.user_hero_troop_count}} </div>
+                            
+                        {% endif %}
+                        {% endif %}
+                        
+                        <div>{{value.user_troop.troop}}</div>
+                        <div>{{value.deads}} / {{value.troop_count}}</div>
+                    </div>
+                {% else %}
+                <div class="group-item">X</div>
+                {% endif %}
+            
+            {% endfor %}
+            
+            
+        </div>
+    
+    
+    
+    
     </div>
-    {% endfor %}
+
+
+    <div class="report-details">
+        <div class="bold text-center">{{report}}</div>
+        <div>Type: {{report.battle_type | upper}}</div>
+        <div> 
+            <img class="mini-icon" src="{% get_static_prefix %}images/others/time.png" alt="" title="time"> 
+            {{report.time|date:"d/m/Y H:i:s"}}  
+        </div>
+        <div>Wood: {{report.pillage.wood}}</div>
+        <div>Stone: {{report.pillage.stone}}</div>
+        <div>Iron: {{report.pillage.iron}}</div>
+        <div>Grain: {{report.pillage.grain}}</div>
+        <div>Rings: {{report.pillage.rings}}</div>
+
+
+    </div>
+</div>
 
 
 
 
-<hr>
-{% for att in report.defender_group %}
-<div>POS: {{att.position}}</div>
-<div>STATUS: {{att.status}}</div>
-<div>USER TROOP: {{att.user_troop}}</div>
-<div>NUMBER: {{att.troop_count}}</div>
-<div>DEAD: {{att.deads}}</div>
-<div>ALIVE: {{att.troop_alive}}</div>
-<div>HERO: {{att.user_hero}}</div>
-<div>HERO REIN.: {{att.user_hero_troop}}</div>
-<div>HERO REIN NUMBER: {{att.user_hero_troop_count}}</div>
-<div>HERO REIN DEAD: {{att.user_hero_troop_dead}}</div>
-<div>HERO REIN ALIVE: {{att.user_hero_troop_alive}}</div>
-<hr>
 
-{% endfor %}
+
 
 
 

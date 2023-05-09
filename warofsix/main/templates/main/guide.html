@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'style/index.css' %}" type='text/css'>
+    <link rel="stylesheet" href="{% static 'style/guide.css' %}" type='text/css'>
+
+
+    <title>War of The Six / Guide</title>
+</head>
+<body>
+
+    <div class="guide-container">
+
+
+        <div class="sidebar">
+          <dl>
+            <dt><a href="#top">TOP</a></dt>
+            <dt><a href="#general">General</a></dt>
+            <dt><a href="#settlement">Settlement</a></dt>
+            <dt><a href="#resources">Resources</a></dt>
+            <dt><a href="#encampment">Encampment</a></dt>
+            <dd><a href="#defensive">- Set Defensive Formation</a></dd>
+            <dd><a href="#send-troops">- Send Troops</a></dd>
+            <dt><a href="#alliances">Alliances</a></dt>
+            <dt><a href="#battles">Battles</a></dt>
+            <dd><a href="#battle-pillage">- Pillage Attack</a></dd>
+            <dd><a href="#battle-line">- Line Attack</a></dd>
+            <dd><a href="#battle-flank">- Flank Attack</a></dd>
+            <dt><a href="#buildings">Buildings</a></dt>
+            <dd><a href="#buildings-men">- Men</a></dd>
+            <dd><a href="#buildings-dwarves">- Dwarves</a></dd>
+            <dd><a href="#buildings-elves">- Elves</a></dd>
+            <dd><a href="#buildings-isengard">- Isengard</a></dd>
+            <dd><a href="#buildings-mordor">- Mordor</a></dd>
+            <dd><a href="#buildings-goblins">- Goblins</a></dd>
+            <dt><a href="#troops">Troops</a></dt>
+            <dd><a href="#troops-men">- Men</a></dd>
+            <dd><a href="#troops-dwarves">- Dwarves</a></dd>
+            <dd><a href="#troops-elves">- Elves</a></dd>
+            <dd><a href="#troops-isengard">- Isengard</a></dd>
+            <dd><a href="#troops-mordor">- Mordor</a></dd>
+            <dd><a href="#troops-goblins">- Goblins</a></dd>
+            <dt><a href="#upgrades">Upgrades</a></dt>
+            <dt><a href="#heroes">Heroes</a></dt>
+            <dt><a href="#super-powers">Super Powers</a></dt>
+            <dt><a href="#market">Market</a></dt>
+          </dl>
+
+
+        </div>
+    
+    
+        <div class="main">
+    
+    
+            <div id="top" class="index-bar">
+    
+                <div class="index-container">
+
+
+              
+                  <div class="menu-container">
+                    <a class="tag-small-black" href="/">
+                      <div class="menu-icon-container">
+                        <img id="icon-guide" src="{% get_static_prefix %}images/index/homeg.png">
+                      </div>
+                      Home
+                    </a>
+                  </div>
+              
+                  <div class="menu-container">
+                    <a class="tag-small-black" href="/#about">
+                      <div class="menu-icon-container">
+                        <img id="icon-about" src="{% get_static_prefix %}images/index/about.png">
+                      </div>
+                      About
+                    </a>
+                  </div>
+              
+              
+                  <div class="menu-container">
+                    <a class="tag-small-black" href="/#register">
+                      <div class="menu-icon-container">
+                        <img id="icon-register" src="{% get_static_prefix %}images/index/register.png">
+                      </div>
+                      Register
+                    </a>
+                  </div>
+              
+                  <div class="menu-container">
+                    <a class="tag-small-black" href="/accounts/login">
+                      <div class="menu-icon-container">
+                        <img id="icon-login" src="{% get_static_prefix %}images/index/login.png">
+                      </div>
+                      Login
+                    </a>
+                  </div>
+                </div>
+        
+            </div>
+    
+            <h5 id="general">General</h5>
+            <div class="justify">
+              <p>This is a browser strategy game which based on the great world that JRR Tolkien has created. In this game, you can choose a race, build your kingdom, raise your army, make alliances and defeat your enemies. Getting the One Ring might also help you to achieve this of course.</p>
+
+                <p>
+                  Game, basicly has 6 different races in 2 sides: Good <span class="italic">(Men, Dwarves, Elves)</span> and Evil <span class="italic">(Mordor, Isengard, Goblins)</span>. Each race has their own buildings, troops, heroes and Fortress SuperPower.
+                </p>
+
+                <p>
+                  In this fundamental version of the game, the last living alliance wins the game. To do this, getting the One Ring and the One Ring Hero <span class="italic">(Sauron or Galadriel)</span> might give you great power. However, there are many other power rings that spread around the map in the wildness. Each user can collect these rings to train one mighty hero as well. Please see <span class="bold"><a href="#heroes">Heroes</a></span> section for more information.
+                </p>
+
+                <p>
+                  <span class="bold">Watchout for Wildlings!!!</span> Our Wildlings do not just sit and wait for you to attack. The Wildlings who are closer than 7 square to you, might attack you, kill your troops and loot your resources.
+                </p>
+
+                <p>* And please note that, this is a testing and development server. During the game, some errors might accur or there might be some bugs. Please do not hestite to get in touch with the <span class="italic">admin</span> user in the game or send an email to <span class="italic">warofsix@gmail.com</span>. Thank you very much for being a part of this project.
+                </p>
+                <p><i>And sorry in advance for horrible frontend and visualizations :)</i></p>
+            </div>
+<hr>
+            <h5  id="settlement">Settlement</h5>
+            <div class="justify">
+              <p>
+                Settlement is the place that you can build your buildings. Each user has 20 empty spots for new buildings. At the begining, Players begin with a Fortress level 1. Then you can choose and build the buildings anywhere you want. Please see <span class="bold"><a href="#buildings">Buildings</a></span> section for more details.
+              </p>
+
+              <p>
+                At the Settlement page, you can build new buildings, see your current resources, building updates and encampment/troop actions. Note that, you need idled Builders to build somethings. While building somethings or updating, more Builder means, less build/update time.
+              </p>
+
+            </div>
+
+<hr>
+
+            <h5 id="resources">Resources</h5>
+            <div class="justify">
+              <p>
+                In game, resources are the key of the success. Mainly there are four different kind of resources: <span class="bold">Wood, Stone, Iron and Grain.</span>. Each of these resources are produced by different buildings. Production is increased by the level of these buildings and also Builder number of in these buildings.
+              </p>
+
+              <p>
+                At the Resources page, you might see your current resources, your resource buildings, resource production per hour and more importantly you can manage how many Builder works in these buildings. 
+              </p>
+
+              <img class="image-large" src="{% get_static_prefix %}images/index/resources.jpg">
+
+              <p>Between these resource types; Wood and Stone are mostly used in buildings; Iron and Grain are mostly used in training troops. So by managing your workers in the resources building, you are able to control your production and resources.</p>
+              <p>
+                When you got attack and if not the all attacker's troops dies, attacker loots your resources according to troops burden capacity.
+              </p>
+
+              <p>
+                Besides these 4 type of resources, there are also 2 others. <span class="bold">WoS Token</span> & <span class="bold">Rings</span>. <span class="bold">WoS Tokens</span> are special resources that allows you to get Heroes. Each user begins the game with some tokens and can get Heroes from their Fortress. WoS Tokens can not be loot/pillage by others. 
+              </p>
+              <p>
+                <span class="bold">Rings</span> are special objects that allows you to get a Special Ring Hero for each race. There are many rings in the map, in some/many wild camps. You can attack to that wild camps and loot the rings. Remember that, these rings <u>can be loot</u> by other players. So if you loose your rings and your Ring Hero dies, you are not able to regenarate Ring Hero without rings.
+              </p>
+
+
+            </div>
+
+<hr>
+            <h5 id="encampment">Encampment</h5>
+            <div class="justify">
+              <p>
+                Encampment is the place that you can set your defensive formation <span class="italic">(which really important I think)</span>, send your troops for attack or reinforcement, and track your actions.
+              </p>
+              <p>
+                In this game, each troop actions is formed in a 4x3 grid system. That allows you to set your troops' formations for both attacks and defends. Because every troop types has different weak and strong sides (See <a href="#troops">Troops</a>).
+              </p>
+
+              <h6 id="defensive">- Set Defensive Formation</h6>
+              <p class="justify">
+                When someone attacked you, your troops in the defensive formation mett the attack. So setting your defensive formation is crucical. <span class="italic">(If you do not have any troop in defensive formation, you might loose your most of the troop outside of the formation.)</span>
+              </p>
+
+              <p>
+                So in this section, you can manage which troop and what percent of them will place in where. Also you can set your heroes to defensive formation. Plus, if you have any reinforcement troop in your kingdom, you may/should add these troops to your defensive formation.
+                
+              </p>
+              <p>
+                <img class="image-large" src="{% get_static_prefix %}images/index/d-form.jpg">
+              </p>
+              <p>
+                <span class="bold italic">"Form ranks, you maggots! Form ranks! Pikes in front! Archers behind!.." </span> and yes, Archers can shoot the enemy one line in front. So, be careful.
+              </p>
+
+              <h6 id="send-troops">- Send Troops</h6>
+              <p>
+                In encampment page, you can also send your troops for attack or reinforcement. Again, for sending troops for attacks, you need to manage your positon and tactic. You may choose the troop, number and hero for the positions.
+              </p>
+              <p>
+                Then you enter the coordinates of the target, choose the reinforcement or attack type, and <span class="bold">TO WAR!</span>. Note that for sending reinforcement, positions are not really important. And another<span class="bold"> important note:</span> currenlty you will not able to cancel or callback an attack after you send it.
+              </p>
+              <img class="image-large" src="{% get_static_prefix %}images/index/sendtroop.jpg">
+            </div>
+
+<hr>
+            <h5 id="alliances">Alliances</h5>
+            <div class="justify">
+              <p>
+
+                The Alliances is the place that you can unite with others to defeat the enemies. Also the key of the success. In the game you create a new alliance or join to an existing one. The only rule in here is you can join to an alliance that you are at the same side. Good to Good, Evil to Evil. So when you choose a race at the begining, you might want to be at the same side with your friends.
+              </p>
+              
+              <img class="image-large" src="{% get_static_prefix %}images/index/alliance.jpg">
+              <p>
+                One of the best part of the alliance is, creating an Alliance Campaign for your enemies. At your alliance page, you can create a new campaign and save it, so other members can add troops or heroes to attack positions. When the campaign is ready, you can send your mighty army to the enemy. OR, you can see the current campaign of your alliance on the left section, where you can add your troops.
+              </p>
+              <p>
+                <i>Each member can contribute the campaign by troops and/or heroes. One of the important point is, when you assign troops or heroes to campaign, you can not use that troops or heroes in others attacks etc. until campaign is completed. Another point is, only the creator of the campaign can send the attack. So creator decide when to send the attack.</i>
+              </p>
+              <p>Besides, you can see the last battle reports of your friends. So check what is going on with your friends.</p>
+              <p>
+                Communication is important. In your alliance page, there is a alliance chat section where you can communicate with your group <span class="italic">(Nobody wants another WhatsApp group, right?). </span> 
+                
+                Note that, only last 20 messages is shown in chat.
+                And on right section, you can see the members of your alliance. There are three roles in an alliance; <span class="italic">Founder, Admin & Member.</span> Founders and admins can accept join request, change members roles, kick someone from alliance or delete an alliance campaign. Members... Well, just members.
+              </p>
+
+              </div>
+              
+<hr>
+            <h5 id="battles">Battles</h5>
+            <div class="justify">
+
+              <img class="image-large" src="{% get_static_prefix %}images/index/battle.gif">
+              <p><span class="bold">Battles!!..</span> Send your troops, kill your enemies, pillage their resources and tear down their buildings....</p>
+              <p>
+                In this game, users battle in some formations like 4x3 grid both defender and attacker. If you leave a position 0% in defensive formation, or 0 troop in attack, that position act like an empty. So this is a bit disadvantagous for you.
+              </p>
+              
+              <p>
+                Each attack type acts different. Please see the explanations below for details. But in a battle;
+                <li>Archers can shoot the enemy one line in front.</li>
+                <li>Siege type units can shoot the enemy one line in front.</li>
+                <li>When you send a siege type units in a battle, if you clean all enemy troops, these units can tear down a building.</li>
+                <li>When you got attack, if enemy kill all your troops in defensive formation, and if you still have another toops types that is not in the formation.... They are caught unprepared. So enemy kill your these troops in their sleep. More or less, you loose 2/3 of your unprepared troops.</li>
+                <li>You can see battle reports in Reports section.</li>
+              </p>
+  
+              <p>
+                Another key point in a battle: Troop Types. There 6 troops types in the game: <span class="bold italic">Infantry, Pike, Archer, Cavalry, Monster & Siege</span>. Each of these types has advantagous and disadvantagous to other ones. You can see the troops' power against each others below:
+              </p>
+
+            </div>
+
+
+
+            <div class="table-group-container" id="troop-type-table">
+
+              <div class="table-container">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Type</th>
+                      <th scope="col">Against</th>
+                      <th scope="col">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Infantry</th>
+                      <td>Pike</td>
+                      <td>Strong (1.4)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Archer</td>
+                      <td>Strong (1.2)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Cavalry</td>
+                      <td>Weak (0.8)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Monster</td>
+                      <td>Weak (0.8)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Siege</td>
+                      <td>Equal (1.0)</td>
+                    </tr>
+    
+                  </tbody>
+                </table>
+  
+              </div>
+  
+              <div class="table-container">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Type</th>
+                      <th scope="col">Against</th>
+                      <th scope="col">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Pike</th>
+                      <td>Infantry</td>
+                      <td>Weak (0.8)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Archer</td>
+                      <td>Equal (1.0)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Cavalry</td>
+                      <td>Strong (1.5)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Monster</td>
+                      <td>Strong (1.3)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Siege</td>
+                      <td>Equal (1.0)</td>
+                    </tr>
+    
+                  </tbody>
+                </table>
+  
+              </div>
+              
+
+              <div class="table-container">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Type</th>
+                      <th scope="col">Against</th>
+                      <th scope="col">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Archer</th>
+                      <td>Infantry</td>
+                      <td>Equal (1.0)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Pike</td>
+                      <td>Weak (0.8)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Cavalry</td>
+                      <td>Very Weak (0.6)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Monster</td>
+                      <td>Strong (1.2)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Siege</td>
+                      <td>Equal (1.0)</td>
+                    </tr>
+    
+                  </tbody>
+                </table>
+  
+              </div>
+
+
+              <div class="table-container">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Type</th>
+                      <th scope="col">Against</th>
+                      <th scope="col">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Cavalry</th>
+                      <td>Infantry</td>
+                      <td>Strong (1.2)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Pike</td>
+                      <td>Very Weak (0.6)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Archer</td>
+                      <td>Very Strong (1.8)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Monster</td>
+                      <td>Equal (1.0)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Siege</td>
+                      <td>Equal (1.0)</td>
+                    </tr>
+    
+                  </tbody>
+                </table>
+  
+              </div>
+
+
+
+              <div class="table-container">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Type</th>
+                      <th scope="col">Against</th>
+                      <th scope="col">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Monster</th>
+                      <td>Infantry</td>
+                      <td>Strong (1.3)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Pike</td>
+                      <td>Very Weak (0.7)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Archer</td>
+                      <td>Strong (1.2)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Cavalry</td>
+                      <td>Equal (1.0)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Siege</td>
+                      <td>Equal (1.0)</td>
+                    </tr>
+    
+                  </tbody>
+                </table>
+  
+              </div>
+
+
+              <div class="table-container">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Type</th>
+                      <th scope="col">Against</th>
+                      <th scope="col">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Siege</th>
+                      <td>Infantry</td>
+                      <td>Very Weak (0.2)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Pike</td>
+                      <td>Very Weak (0.2)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Archer</td>
+                      <td>Very Weak (0.25)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Cavalry</td>
+                      <td>Very Very Weak (0.1)</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Monster</td>
+                      <td>Very Weak (0.15)</td>
+                    </tr>
+    
+                  </tbody>
+                </table>
+  
+              </div>
+
+              
+            </div>
+
+
+            <p class="quote">
+             "Éomer! Take your eored down the left side. Gamling, follow the King's banner down the center. Grimbold, take your company right, after you pass the wall. Forth, and fear no darkness!..."
+            </p>
+
+            <h6 id="battle-pillage">- Pillage Attack</h6>
+            <p>Pillage attack type, does not intend to kill all enemy troops. The aim is, make an attack and get the enemy's resources. Therefore, defence or attack positions does not matter, but troops' types do.</p>
+            <h6 id="battle-line">- Line Attack</h6>
+            <p>In line attacks, troops fight line by line. When all troops in user's one line dies, troops go and fight with next line. So we can assume that first lines always die first. </p>
+            <p>During the line attack, the line's position matches with the opponent position. So in here, it is important which troop types match, and get advantage. In these matches, if one of the position is empty or died early, opponent opsition's troops help the other positions until end of a line. You can see a demo of line attack below. Line attacks continue until all defender positions are dead or all attacker troops dead.</p>
+            <img class="image-demo" src="{% get_static_prefix %}images/index/line-demo.gif">
+
+
+            <h6 id="battle-flank">- Flank Attack</h6>
+            <p>In flank attack, different from the line attack, when two positions are macthed, and defender troops die; attacker position do not wait for all line troops to die, they keep moving forward for next position. They aim to get behind the defensive group. So behind lines are not safe! If a position's troops kill all the troops in front, they get behind the group and keep fighting with the behind positions. You can see a demo of the line attack below.Flank attacks continue until all defender positions are dead or all attacker troops dead.</p>
+            <img class="image-demo" src="{% get_static_prefix %}images/index/flank-demo.gif">
+
+<hr>
+            <h5 id="buildings">Buildings</h5>
+            <p>To build or update something, you need three things: Resources, Builder & empty or existing place. All your buildings are placed in your settlement. Go to an empty place or existing building, choose how many Builders will work and build/update. More Builders mean faster works. So you can use Builders however you want. Note that, each building can update to max 20th level. By increasing the building level, building health increase, training time decrease.</p>
+            <p>
+              Each race, has spesific buildings with some differences. Mainly there these kind of buildings;
+              <li><span class="bold">Resource Buildings:</span> Allows you product wood, stone, iron & grain. More buildings mean more resource production. However, the builders inside the resource building make the main increase for production.</li>
+              <li><span class="bold">Fortress:</span> Fortresses are the main building to train Builders, get or revive heroes and use the Super Power against someone else. Fortress is one of the most important building for your kingdom. If you loose your Fortress and no Builder, that means you are about to defeated.</li>
+              <li><span class="bold">Army Buildings:</span> Like barracks, archeries etc. These buildings allows you to train troops. There is no limit for these buildings. Higher level means faster troop training.</li>
+              <li><span class="bold">Armories:</span> Each race has one spesific building for upgrading the troops equipment. Each user can build only one armory.</li>
+              <li><span class="bold">Defensive Building:</span> Each race has defensive towers that helps you against enemies. Isengard race has an extra Warg Sentry that provide wargs to defend.</li>
+              <li><span class="bold">Markets:</span> Markets is the place that you can make commercial, buy or sell resources & send resources to others. Each market has a market capacity. Higher level mean more capacity.</li>
+            </p>
+            
+            <h6 id="buildings-men">- Men</h6>
+              <p>Details of the Men buildings are:</p>
+              <div class="table-container-large">
+
+                <table class="table table-sm table-hover  table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Building</th>
+                      <th scope="col">Base Health</th>
+                      <th scope="col">Base Update Time</th>
+                      <th scope="col">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for building in buildings.Men %}
+                    
+                    <tr>
+                      <td class="name-and-image">
+                        <img class="building-mini" src="{% get_static_prefix %}images/buildings/{{building.id}}.png">
+                        {{building.name}}
+                      </td>
+                      <td>{{building.health}}</td>
+                      <td>{{building.update_time}} sec.</td>
+                      <td class="text-small">{{building.description}}</td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+
+              </div>
+
+<hr>
+
+            <h6 id="buildings-dwarves">- Dwarves</h6>
+            <p>Details of the Dwarves' buildings:</p>
+
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover  table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Building</th>
+                    <th scope="col">Base Health</th>
+                    <th scope="col">Base Update Time</th>
+                    <th scope="col">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for building in buildings.Dwarves %}
+                  
+                  <tr>
+                    <td scope="row" class="name-and-image">
+                      <img class="building-mini" src="{% get_static_prefix %}images/buildings/{{building.id}}.png">
+                      {{building.name}}
+                    </td>
+                    <td>{{building.health}}</td>
+                    <td>{{building.update_time}} sec.</td>
+                    <td class="text-small">{{building.description}}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+<hr>
+
+            <h6 id="buildings-elves">- Elves</h6>
+            <p>Details of the Elves' buildings:</p>
+
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover  table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Building</th>
+                    <th scope="col">Base Health</th>
+                    <th scope="col">Base Update Time</th>
+                    <th scope="col">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for building in buildings.Elves %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="building-mini" src="{% get_static_prefix %}images/buildings/{{building.id}}.png">
+                      {{building.name}}
+                    </td>
+                    <td>{{building.health}}</td>
+                    <td>{{building.update_time}} sec.</td>
+                    <td class="text-small">{{building.description}}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+
+<hr>
+
+            <h6 id="buildings-isengard">- Isengard</h6>
+            <p>Details of the Isengard's buildings:</p>
+
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Building</th>
+                    <th scope="col">Base Health</th>
+                    <th scope="col">Base Update Time</th>
+                    <th scope="col">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for building in buildings.Isengard %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="building-mini" src="{% get_static_prefix %}images/buildings/{{building.id}}.png">
+                      {{building.name}}
+                    </td>
+                    <td>{{building.health}}</td>
+                    <td>{{building.update_time}} sec.</td>
+                    <td class="text-small">{{building.description}}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+<hr>
+
+            <h6 id="buildings-mordor">- Mordor</h6>
+            <p>Details of the Mordor's buildings:</p>
+
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Building</th>
+                    <th scope="col">Base Health</th>
+                    <th scope="col">Base Update Time</th>
+                    <th scope="col">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for building in buildings.Mordor %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="building-mini" src="{% get_static_prefix %}images/buildings/{{building.id}}.png">
+                      {{building.name}}
+                    </td>
+                    <td>{{building.health}}</td>
+                    <td>{{building.update_time}} sec.</td>
+                    <td class="text-small">{{building.description}}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+<hr>
+            <h6 id="buildings-goblins">- Goblins</h6>
+            <p>Details of the Goblins' buildings:</p>
+
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Building</th>
+                    <th scope="col">Base Health</th>
+                    <th scope="col">Base Update Time</th>
+                    <th scope="col">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for building in buildings.Goblins %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="building-mini" src="{% get_static_prefix %}images/buildings/{{building.id}}.png">
+                      {{building.name}}
+                    </td>
+                    <td>{{building.health}}</td>
+                    <td>{{building.update_time}} sec.</td>
+                    <td class="text-small">{{building.description}}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+
+
+
+            <h5 id="troops">Troops</h5>
+
+            <div class="justify">
+              Each race has their own spesific troops. And each troops has different types. There 6 troops types in the game: <span class="bold italic">Infantry, Pike, Archer, Cavalry, Monster & Siege</span>. Each of these types has advantagous and disadvantagous to other ones. See the <a href="#troop-type-table">Troop Type Comparasion Table</a> for details.
+              <p>In troop units, one of the most important unit is Builder. Builders help you build somethings and increase resources production. Each user begin the game with 5 Builders and can train Builders up to 100 in current time. If you loose all your Builders and Fortress, you can not build anything either train new Builders, so you can assume that end is near for you.</p>
+              <p>You can upgrade your troops damage, health and speeds through your armory type buildings. See <a href="#upgrades"><b>Upgrades</b></a> for details. </p>
+              <p>Each race's troops details are given below.</p>
+            </div>
+
+            <h6 id="troops-men">- Men</h6>
+
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Troop</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Health</th>
+                    <th scope="col">Damage</th>
+                    <th scope="col">Crash Bonus</th>
+                    <th scope="col">Speed</th>
+                    <th scope="col">Grain Consuption</th>
+                    <th scope="col">Burden</th>
+                    <th scope="col">Building & Level</th>
+                    <th scope="col">Training Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for troop in troops.Men %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="troop-mini" src="{% get_static_prefix %}images/troops/{{troop.id}}.png">
+                      {{troop.name}}
+                    </td>
+                    <td>{{troop.type}}</td>
+                    <td>{{troop.health}}</td>
+                    <td>{{troop.damage}}</td>
+                    <td> {% if troop.crash_bonus == 0 %}- {% else %}{{troop.crash_bonus}} {% endif %} </td>
+                    <td>{{troop.speed}}</td>
+                    <td>{{troop.consuption}} <img class="mini-grain-icon" src="{% get_static_prefix %}images/others/grain.png"></td>
+                    <td>{{troop.burden}}</td>
+                    <td class="text-small">{{troop.building}} Level:{{troop.prerequisite }}</td>
+                    <td>{{troop.training_time}} sec.</td>
+
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+<hr>
+
+            <h6 id="troops-dwarves">- Dwarves</h6>
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Troop</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Health</th>
+                    <th scope="col">Damage</th>
+                    <th scope="col">Crash Bonus</th>
+                    <th scope="col">Speed</th>
+                    <th scope="col">Grain Consuption</th>
+                    <th scope="col">Burden</th>
+                    <th scope="col">Building & Level</th>
+                    <th scope="col">Training Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for troop in troops.Dwarves %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="troop-mini" src="{% get_static_prefix %}images/troops/{{troop.id}}.png">
+                      {{troop.name}}
+                    </td>
+                    <td>{{troop.type}}</td>
+                    <td>{{troop.health}}</td>
+                    <td>{{troop.damage}}</td>
+                    <td> {% if troop.crash_bonus == 0 %}- {% else %}{{troop.crash_bonus}} {% endif %} </td>
+                    <td>{{troop.speed}}</td>
+                    <td>{{troop.consuption}} <img class="mini-grain-icon" src="{% get_static_prefix %}images/others/grain.png"></td>
+                    <td>{{troop.burden}}</td>
+                    <td class="text-small">{{troop.building}} Level:{{troop.prerequisite }}</td>
+                    <td>{{troop.training_time}} sec.</td>
+
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+<hr>
+            <h6 id="troops-elves">- Elves</h6>
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Troop</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Health</th>
+                    <th scope="col">Damage</th>
+                    <th scope="col">Crash Bonus</th>
+                    <th scope="col">Speed</th>
+                    <th scope="col">Grain Consuption</th>
+                    <th scope="col">Burden</th>
+                    <th scope="col">Building & Level</th>
+                    <th scope="col">Training Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for troop in troops.Elves %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="troop-mini" src="{% get_static_prefix %}images/troops/{{troop.id}}.png">
+                      {{troop.name}}
+                    </td>
+                    <td>{{troop.type}}</td>
+                    <td>{{troop.health}}</td>
+                    <td>{{troop.damage}}</td>
+                    <td> {% if troop.crash_bonus == 0 %}- {% else %}{{troop.crash_bonus}} {% endif %} </td>
+                    <td>{{troop.speed}}</td>
+                    <td>{{troop.consuption}} <img class="mini-grain-icon" src="{% get_static_prefix %}images/others/grain.png"></td>
+                    <td>{{troop.burden}}</td>
+                    <td class="text-small">{{troop.building}} Level:{{troop.prerequisite }}</td>
+                    <td>{{troop.training_time}} sec.</td>
+
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+<hr>
+            <h6 id="troops-isengard">- Isengard</h6>
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Troop</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Health</th>
+                    <th scope="col">Damage</th>
+                    <th scope="col">Crash Bonus</th>
+                    <th scope="col">Speed</th>
+                    <th scope="col">Grain Consuption</th>
+                    <th scope="col">Burden</th>
+                    <th scope="col">Building & Level</th>
+                    <th scope="col">Training Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for troop in troops.Isengard %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="troop-mini" src="{% get_static_prefix %}images/troops/{{troop.id}}.png">
+                      {{troop.name}}
+                    </td>
+                    <td>{{troop.type}}</td>
+                    <td>{{troop.health}}</td>
+                    <td>{{troop.damage}}</td>
+                    <td> {% if troop.crash_bonus == 0 %}- {% else %}{{troop.crash_bonus}} {% endif %} </td>
+                    <td>{{troop.speed}}</td>
+                    <td>{{troop.consuption}} <img class="mini-grain-icon" src="{% get_static_prefix %}images/others/grain.png"></td>
+                    <td>{{troop.burden}}</td>
+                    <td class="text-small">{{troop.building}} Level:{{troop.prerequisite }}</td>
+                    <td>{{troop.training_time}} sec.</td>
+
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+
+<hr>
+            <h6 id="troops-mordor">- Mordor</h6>
+
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Troop</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Health</th>
+                    <th scope="col">Damage</th>
+                    <th scope="col">Crash Bonus</th>
+                    <th scope="col">Speed</th>
+                    <th scope="col">Grain Consuption</th>
+                    <th scope="col">Burden</th>
+                    <th scope="col">Building & Level</th>
+                    <th scope="col">Training Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for troop in troops.Mordor %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="troop-mini" src="{% get_static_prefix %}images/troops/{{troop.id}}.png">
+                      {{troop.name}}
+                    </td>
+                    <td>{{troop.type}}</td>
+                    <td>{{troop.health}}</td>
+                    <td>{{troop.damage}}</td>
+                    <td> {% if troop.crash_bonus == 0 %}- {% else %}{{troop.crash_bonus}} {% endif %} </td>
+                    <td>{{troop.speed}}</td>
+                    <td>{{troop.consuption}} <img class="mini-grain-icon" src="{% get_static_prefix %}images/others/grain.png"></td>
+                    <td>{{troop.burden}}</td>
+                    <td class="text-small">{{troop.building}} Level:{{troop.prerequisite }}</td>
+                    <td>{{troop.training_time}} sec.</td>
+
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+<hr>
+
+            <h6 id="troops-goblins">- Goblins</h6>
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Troop</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Health</th>
+                    <th scope="col">Damage</th>
+                    <th scope="col">Crash Bonus</th>
+                    <th scope="col">Speed</th>
+                    <th scope="col">Grain Consuption</th>
+                    <th scope="col">Burden</th>
+                    <th scope="col">Building & Level</th>
+                    <th scope="col">Training Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for troop in troops.Goblins %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="troop-mini" src="{% get_static_prefix %}images/troops/{{troop.id}}.png">
+                      {{troop.name}}
+                    </td>
+                    <td>{{troop.type}}</td>
+                    <td>{{troop.health}}</td>
+                    <td>{{troop.damage}}</td>
+                    <td> {% if troop.crash_bonus == 0 %}- {% else %}{{troop.crash_bonus}} {% endif %} </td>
+                    <td>{{troop.speed}}</td>
+                    <td>{{troop.consuption}} <img class="mini-grain-icon" src="{% get_static_prefix %}images/others/grain.png"></td>
+                    <td>{{troop.burden}}</td>
+                    <td class="text-small">{{troop.building}} Level:{{troop.prerequisite }}</td>
+                    <td>{{troop.training_time}} sec.</td>
+
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+
+            <h6 id="troops-goblins">- Wild</h6>
+            <div class="table-container-large">
+
+              <table class="table table-sm table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Troop</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Health</th>
+                    <th scope="col">Damage</th>
+                    <th scope="col">Crash Bonus</th>
+                    <th scope="col">Speed</th>
+                    <th scope="col">Grain Consuption</th>
+                    <th scope="col">Burden</th>
+                    <th scope="col">Building & Level</th>
+                    <th scope="col">Training Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for troop in troops.Wild %}
+                  
+                  <tr>
+                    <td class="name-and-image">
+                      <img class="troop-mini" src="{% get_static_prefix %}images/troops/{{troop.id}}.png">
+                      {{troop.name}}
+                    </td>
+                    <td>{{troop.type}}</td>
+                    <td>{{troop.health}}</td>
+                    <td>{{troop.damage}}</td>
+                    <td> {% if troop.crash_bonus == 0 %}- {% else %}{{troop.crash_bonus}} {% endif %} </td>
+                    <td>{{troop.speed}}</td>
+                    <td>{{troop.consuption}} <img class="mini-grain-icon" src="{% get_static_prefix %}images/others/grain.png"></td>
+                    <td>{{troop.burden}}</td>
+                    <td class="text-small">{{troop.building}} Level:{{troop.prerequisite }}</td>
+                    <td>{{troop.training_time}} per day</td>
+
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+
+<hr>            
+            <h5 id="upgrades">Upgrades</h5>
+            <div class="justify">
+              <p>
+                You can upgrade your troops' damages, healths and speeds in armory type buildings. There are four type of upgrades: <span class="bold">Banner Carrier, Heavy Armory, Forge Blades & Flaming Arrow.</span>
+              </p>
+              <p>
+                You can upgrade these fields to maxiumum for your armory's level. And armory can update until 20th level. In each level of these fields, troops' abilities increase 1%.
+              </p>
+              <p>
+                <li><span class="bold">Banner Carrier:</span> This upgrade increases your all troops' speed 1% by each level.</li>
+                <li><span class="bold">Heavy Armory:</span> This upgrade increases your all troops' health 1% by each level.</li>
+                <li><span class="bold">Forge Blades:</span> This upgrade increases your troops' <span class="italic">(except archer types)</span> damage 1% by each level.</li>
+                <li><span class="bold">Flaming Arrow:</span> This upgrade increases your archer type troops' damage 1% by each level.</li>
+              </p>
+            </div>
+
+
+<hr>
+
+            <h5 id="heroes">Heroes</h5>
+            <div class="justify">
+              <p>
+                <a href="#hero-men">Men Heroes</a> - 
+                <a href="#hero-dwarves">Dwarves Heroes</a> - 
+                <a href="#hero-elves">Elves Heroes</a> - 
+                <a href="#hero-isengard">Isengard Heroes</a> - 
+                <a href="#hero-mordor">Mordor Heroes</a> - 
+                <a href="#hero-goblins">Goblin Heroes</a>
+              </p>
+              <p>
+                Heroes are powerful leader who lead our armies. Each race has their own heroes with different abilities. Heroes can be got in Fortresse for exchange of Wos Tokens.
+                <li>Users can only get 3 regular Heroes max.</li>
+                <li>You can set heroes to positions in defence and attacks (including alliance campaign). However can not send as reinforcements currently.</li>
+                <li>When a hero is on a journey/campaign, it can not be send another or fight when you got an attack.</li>
+                <li>In battles, Heroes can got damage and heal by time slowly. You need to check & refresh their health in a Fortress.</li>
+                <li>In battles, Heroes can die. You can revive your hero in Fortress in exchange of 7,500 resources from each <span class="italic">(Wood, Stone, Iron, Grain).</span> It takes time to hero revive.</li>
+                <li>You can return a hero for a half price WoS Tokens.</li>
+                <li>Each race has a Ring Hero that can be got in exchange of Rings. <span class="italic">(You can get rings by attacking Wildlings.)</span> </li>
+                <li>You can get only one Ring Hero.</li>
+                <li>Ring Heroes can die as well. You need to hold enough Rings to Ring Hero and 10,000 resources from each Resources.</li>
+                <li>You can get the <b><i>ONE RING HERO</i></b> <span class="italic">(Galadirel / Sauron)</span> if you can get the ONE RING from the holder. <i>You can see the ONE RING's holder in the map.</i> </li>
+              </p>
+              <img class="image-large" src="{% get_static_prefix %}images/index/heroes.jpg">
+            </div>
+
+            <h6>Men Heroes</h6>
+              <div id="hero-men" class="table-container-large">
+
+                <table class="table table-sm table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Hero</th>
+                      <th scope="col">Health</th>
+                      <th scope="col">Damage</th>
+                      <th scope="col">Crash Bonus</th>
+                      <th scope="col">Speed</th>
+                      <th scope="col">Inf. AB</th>
+                      <th scope="col">Inf. DB</th>
+                      <th scope="col">Pike AB</th>
+                      <th scope="col">Pike DB</th>
+                      <th scope="col">Archer AB</th>
+                      <th scope="col">Archer DB</th>
+                      <th scope="col">Cavalry AB</th>
+                      <th scope="col">Cavalry DB</th>
+                      <th scope="col">Monster AB</th>
+                      <th scope="col">Monster DB</th>
+                      <th scope="col">Summon Troop Type</th>
+                      <th scope="col">Summon Number</th>
+                      <th scope="col">Price</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for hero in heroes.Men %}
+                    
+                    <tr {% if hero.rings != 0 %} class="table-warning" {% endif %} >
+                      <td id="hero{{hero.id}}">
+                        {{hero.name}}
+                      </td>
+                      <td>{{hero.health}}</td>
+                      <td>{{hero.damage}}</td>
+                      <td> {% if hero.crash_bonus == 0 %}- {% else %}{{hero.crash_bonus}} {% endif %} </td>
+                      <td>{{hero.speed}}</td>
+                      <td> {% if hero.infantry_attack_bonus == 1.0 %}- {% else %} {{hero.infantry_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.infantry_defence_bonus == 1.0 %}- {% else %} {{hero.infantry_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.pike_attack_bonus == 1.0 %}- {% else %} {{hero.pike_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.pike_defence_bonus == 1.0 %}- {% else %} {{hero.pike_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.archer_attack_bonus == 1.0 %}- {% else %} {{hero.archer_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.archer_defence_bonus == 1.0 %}- {% else %} {{hero.archer_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.cavalry_attack_bonus == 1.0 %}- {% else %} {{hero.cavalry_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.cavalry_defence_bonus == 1.0 %}- {% else %} {{hero.cavalry_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.monster_attack_bonus == 1.0 %}- {% else %} {{hero.monster_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.monster_defence_bonus == 1.0 %}- {% else %} {{hero.monster_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_type}} {% endif %} </td>
+                      <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_amount}} {% endif %} </td>
+                      <td> {{hero.token}} token </td>
+  
+                    </tr>
+                    {% endfor %}
+  
+                  </tbody>
+                </table>
+                <p><i>*AB: Attack Bonus; DB: Defence Bonus.</i></p>
+  
+              </div>
+
+<hr>
+              <h6>Dwarven Heroes</h6>
+              <div id="hero-dwarves" class="table-container-large">
+
+                <table class="table table-sm table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Hero</th>
+                      <th scope="col">Health</th>
+                      <th scope="col">Damage</th>
+                      <th scope="col">Crash Bonus</th>
+                      <th scope="col">Speed</th>
+                      <th scope="col">Inf. AB</th>
+                      <th scope="col">Inf. DB</th>
+                      <th scope="col">Pike AB</th>
+                      <th scope="col">Pike DB</th>
+                      <th scope="col">Archer AB</th>
+                      <th scope="col">Archer DB</th>
+                      <th scope="col">Cavalry AB</th>
+                      <th scope="col">Cavalry DB</th>
+                      <th scope="col">Monster AB</th>
+                      <th scope="col">Monster DB</th>
+                      <th scope="col">Summon Troop Type</th>
+                      <th scope="col">Summon Number</th>
+                      <th scope="col">Price</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for hero in heroes.Dwarves %}
+                    
+                    <tr {% if hero.rings != 0 %} class="table-warning" {% endif %} >
+                      <td id="hero{{hero.id}}">
+                        {{hero.name}}
+                      </td>
+                      <td>{{hero.health}}</td>
+                      <td>{{hero.damage}}</td>
+                      <td> {% if hero.crash_bonus == 0 %}- {% else %}{{hero.crash_bonus}} {% endif %} </td>
+                      <td>{{hero.speed}}</td>
+                      <td> {% if hero.infantry_attack_bonus == 1.0 %}- {% else %} {{hero.infantry_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.infantry_defence_bonus == 1.0 %}- {% else %} {{hero.infantry_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.pike_attack_bonus == 1.0 %}- {% else %} {{hero.pike_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.pike_defence_bonus == 1.0 %}- {% else %} {{hero.pike_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.archer_attack_bonus == 1.0 %}- {% else %} {{hero.archer_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.archer_defence_bonus == 1.0 %}- {% else %} {{hero.archer_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.cavalry_attack_bonus == 1.0 %}- {% else %} {{hero.cavalry_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.cavalry_defence_bonus == 1.0 %}- {% else %} {{hero.cavalry_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.monster_attack_bonus == 1.0 %}- {% else %} {{hero.monster_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.monster_defence_bonus == 1.0 %}- {% else %} {{hero.monster_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_type}} {% endif %} </td>
+                      <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_amount}} {% endif %} </td>
+                      <td> {{hero.token}} token </td>
+
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+                <p><i>*AB: Attack Bonus; DB: Defence Bonus.</i></p>
+
+              </div>
+
+<hr>
+
+              <h6>Elven Heroes</h6>
+              <div id="hero-elves" class="table-container-large">
+
+                <table class="table table-sm table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Hero</th>
+                      <th scope="col">Health</th>
+                      <th scope="col">Damage</th>
+                      <th scope="col">Crash Bonus</th>
+                      <th scope="col">Speed</th>
+                      <th scope="col">Inf. AB</th>
+                      <th scope="col">Inf. DB</th>
+                      <th scope="col">Pike AB</th>
+                      <th scope="col">Pike DB</th>
+                      <th scope="col">Archer AB</th>
+                      <th scope="col">Archer DB</th>
+                      <th scope="col">Cavalry AB</th>
+                      <th scope="col">Cavalry DB</th>
+                      <th scope="col">Monster AB</th>
+                      <th scope="col">Monster DB</th>
+                      <th scope="col">Summon Troop Type</th>
+                      <th scope="col">Summon Number</th>
+                      <th scope="col">Price</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for hero in heroes.Elves %}
+                    
+                    <tr {% if hero.rings != 0 %} class="table-warning" {% endif %} >
+                      <td  id="hero{{hero.id}}">
+                        {{hero.name}}
+                      </td>
+                      <td>{{hero.health}}</td>
+                      <td>{{hero.damage}}</td>
+                      <td> {% if hero.crash_bonus == 0 %}- {% else %}{{hero.crash_bonus}} {% endif %} </td>
+                      <td>{{hero.speed}}</td>
+                      <td> {% if hero.infantry_attack_bonus == 1.0 %}- {% else %} {{hero.infantry_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.infantry_defence_bonus == 1.0 %}- {% else %} {{hero.infantry_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.pike_attack_bonus == 1.0 %}- {% else %} {{hero.pike_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.pike_defence_bonus == 1.0 %}- {% else %} {{hero.pike_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.archer_attack_bonus == 1.0 %}- {% else %} {{hero.archer_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.archer_defence_bonus == 1.0 %}- {% else %} {{hero.archer_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.cavalry_attack_bonus == 1.0 %}- {% else %} {{hero.cavalry_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.cavalry_defence_bonus == 1.0 %}- {% else %} {{hero.cavalry_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.monster_attack_bonus == 1.0 %}- {% else %} {{hero.monster_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.monster_defence_bonus == 1.0 %}- {% else %} {{hero.monster_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_type}} {% endif %} </td>
+                      <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_amount}} {% endif %} </td>
+                      <td> {{hero.token}} token </td>
+
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+                <p><i>*AB: Attack Bonus; DB: Defence Bonus.</i></p>
+
+              </div>
+
+
+<hr>
+
+
+              <h6>Isengard Heroes</h6>
+              <div id="hero-isengard" class="table-container-large">
+
+                <table class="table table-sm table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Hero</th>
+                      <th scope="col">Health</th>
+                      <th scope="col">Damage</th>
+                      <th scope="col">Crash Bonus</th>
+                      <th scope="col">Speed</th>
+                      <th scope="col">Inf. AB</th>
+                      <th scope="col">Inf. DB</th>
+                      <th scope="col">Pike AB</th>
+                      <th scope="col">Pike DB</th>
+                      <th scope="col">Archer AB</th>
+                      <th scope="col">Archer DB</th>
+                      <th scope="col">Cavalry AB</th>
+                      <th scope="col">Cavalry DB</th>
+                      <th scope="col">Monster AB</th>
+                      <th scope="col">Monster DB</th>
+                      <th scope="col">Summon Troop Type</th>
+                      <th scope="col">Summon Number</th>
+                      <th scope="col">Price</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for hero in heroes.Isengard %}
+                    
+                    <tr {% if hero.rings != 0 %} class="table-warning" {% endif %} >
+                      <td id="hero{{hero.id}}">
+                        {{hero.name}}
+                      </td>
+                      <td>{{hero.health}}</td>
+                      <td>{{hero.damage}}</td>
+                      <td> {% if hero.crash_bonus == 0 %}- {% else %}{{hero.crash_bonus}} {% endif %} </td>
+                      <td>{{hero.speed}}</td>
+                      <td> {% if hero.infantry_attack_bonus == 1.0 %}- {% else %} {{hero.infantry_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.infantry_defence_bonus == 1.0 %}- {% else %} {{hero.infantry_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.pike_attack_bonus == 1.0 %}- {% else %} {{hero.pike_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.pike_defence_bonus == 1.0 %}- {% else %} {{hero.pike_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.archer_attack_bonus == 1.0 %}- {% else %} {{hero.archer_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.archer_defence_bonus == 1.0 %}- {% else %} {{hero.archer_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.cavalry_attack_bonus == 1.0 %}- {% else %} {{hero.cavalry_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.cavalry_defence_bonus == 1.0 %}- {% else %} {{hero.cavalry_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.monster_attack_bonus == 1.0 %}- {% else %} {{hero.monster_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.monster_defence_bonus == 1.0 %}- {% else %} {{hero.monster_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_type}} {% endif %} </td>
+                      <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_amount}} {% endif %} </td>
+                      <td> {{hero.token}} token </td>
+
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+                <p><i>*AB: Attack Bonus; DB: Defence Bonus.</i></p>
+
+              </div>
+
+
+<hr>
+
+
+              <h6>Mordor Heroes</h6>
+              <div id="hero-mordor" class="table-container-large">
+
+                <table class="table table-sm table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Hero</th>
+                      <th scope="col">Health</th>
+                      <th scope="col">Damage</th>
+                      <th scope="col">Crash Bonus</th>
+                      <th scope="col">Speed</th>
+                      <th scope="col">Inf. AB</th>
+                      <th scope="col">Inf. DB</th>
+                      <th scope="col">Pike AB</th>
+                      <th scope="col">Pike DB</th>
+                      <th scope="col">Archer AB</th>
+                      <th scope="col">Archer DB</th>
+                      <th scope="col">Cavalry AB</th>
+                      <th scope="col">Cavalry DB</th>
+                      <th scope="col">Monster AB</th>
+                      <th scope="col">Monster DB</th>
+                      <th scope="col">Summon Troop Type</th>
+                      <th scope="col">Summon Number</th>
+                      <th scope="col">Price</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for hero in heroes.Mordor %}
+                    
+                    <tr {% if hero.rings != 0 %} class="table-warning" {% endif %} >
+                      <td id="hero{{hero.id}}">
+                        {{hero.name}}
+                      </td>
+                      <td>{{hero.health}}</td>
+                      <td>{{hero.damage}}</td>
+                      <td> {% if hero.crash_bonus == 0 %}- {% else %}{{hero.crash_bonus}} {% endif %} </td>
+                      <td>{{hero.speed}}</td>
+                      <td> {% if hero.infantry_attack_bonus == 1.0 %}- {% else %} {{hero.infantry_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.infantry_defence_bonus == 1.0 %}- {% else %} {{hero.infantry_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.pike_attack_bonus == 1.0 %}- {% else %} {{hero.pike_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.pike_defence_bonus == 1.0 %}- {% else %} {{hero.pike_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.archer_attack_bonus == 1.0 %}- {% else %} {{hero.archer_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.archer_defence_bonus == 1.0 %}- {% else %} {{hero.archer_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.cavalry_attack_bonus == 1.0 %}- {% else %} {{hero.cavalry_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.cavalry_defence_bonus == 1.0 %}- {% else %} {{hero.cavalry_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if hero.monster_attack_bonus == 1.0 %}- {% else %} {{hero.monster_attack_bonus}} {% endif %} </td>
+                      <td> {% if hero.monster_defence_bonus == 1.0 %}- {% else %} {{hero.monster_defence_bonus}} {% endif %} </td>
+
+                      <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_type}} {% endif %} </td>
+                      <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_amount}} {% endif %} </td>
+                      <td> {{hero.token}} token </td>
+
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+                <p><i>*AB: Attack Bonus; DB: Defence Bonus.</i></p>
+
+              </div>
+
+
+<hr>
+
+                <h6>Goblin Heroes</h6>
+                <div id="hero-goblins" class="table-container-large">
+
+                  <table class="table table-sm table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Hero</th>
+                        <th scope="col">Health</th>
+                        <th scope="col">Damage</th>
+                        <th scope="col">Crash Bonus</th>
+                        <th scope="col">Speed</th>
+                        <th scope="col">Inf. AB</th>
+                        <th scope="col">Inf. DB</th>
+                        <th scope="col">Pike AB</th>
+                        <th scope="col">Pike DB</th>
+                        <th scope="col">Archer AB</th>
+                        <th scope="col">Archer DB</th>
+                        <th scope="col">Cavalry AB</th>
+                        <th scope="col">Cavalry DB</th>
+                        <th scope="col">Monster AB</th>
+                        <th scope="col">Monster DB</th>
+                        <th scope="col">Summon Troop Type</th>
+                        <th scope="col">Summon Number</th>
+                        <th scope="col">Price</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for hero in heroes.Goblins %}
+                      
+                      <tr {% if hero.rings != 0 %} class="table-warning" {% endif %} >
+                        <td id="hero{{hero.id}}">
+                          {{hero.name}}
+                        </td>
+                        <td>{{hero.health}}</td>
+                        <td>{{hero.damage}}</td>
+                        <td> {% if hero.crash_bonus == 0 %}- {% else %}{{hero.crash_bonus}} {% endif %} </td>
+                        <td>{{hero.speed}}</td>
+                        <td> {% if hero.infantry_attack_bonus == 1.0 %}- {% else %} {{hero.infantry_attack_bonus}} {% endif %} </td>
+                        <td> {% if hero.infantry_defence_bonus == 1.0 %}- {% else %} {{hero.infantry_defence_bonus}} {% endif %} </td>
+
+                        <td> {% if hero.pike_attack_bonus == 1.0 %}- {% else %} {{hero.pike_attack_bonus}} {% endif %} </td>
+                        <td> {% if hero.pike_defence_bonus == 1.0 %}- {% else %} {{hero.pike_defence_bonus}} {% endif %} </td>
+
+                        <td> {% if hero.archer_attack_bonus == 1.0 %}- {% else %} {{hero.archer_attack_bonus}} {% endif %} </td>
+                        <td> {% if hero.archer_defence_bonus == 1.0 %}- {% else %} {{hero.archer_defence_bonus}} {% endif %} </td>
+
+                        <td> {% if hero.cavalry_attack_bonus == 1.0 %}- {% else %} {{hero.cavalry_attack_bonus}} {% endif %} </td>
+                        <td> {% if hero.cavalry_defence_bonus == 1.0 %}- {% else %} {{hero.cavalry_defence_bonus}} {% endif %} </td>
+
+                        <td> {% if hero.monster_attack_bonus == 1.0 %}- {% else %} {{hero.monster_attack_bonus}} {% endif %} </td>
+                        <td> {% if hero.monster_defence_bonus == 1.0 %}- {% else %} {{hero.monster_defence_bonus}} {% endif %} </td>
+
+                        <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_type}} {% endif %} </td>
+                        <td> {% if not hero.summon_type %}- {% else %} {{hero.summon_amount}} {% endif %} </td>
+                        <td> {{hero.token}} token </td>
+
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+                  <p><i>*AB: Attack Bonus; DB: Defence Bonus.</i></p>
+
+                </div>
+
+
+                <hr>
+
+
+            
+            
+            <h5 id="super-powers">Super Powers</h5>
+            <div class="justify">
+              <p>
+                In game, each race's Fortress has a Super Power that can bu used against enemies. To activate the Super Power, the Fortress must be at 20th level. You can use or check the previous attack's report in Fortress, as well. To use Super Power, in Fortress, enter the target's coordinates, and BUMM!. It happens instantly.
+                <li>After activating the Super Power, you can use it in every 24 hours.</li>
+                <li>You can see last 3 incame or outgone Super Power attacks.</li>
+              </p>
+              <p>
+                Races' Super Power Attacks:
+                <li><b><u>Men - Ivory Tower:</u></b> In Ivory Tower, user can see enemy's one random troops informations which is included troop number, attack and defence upgrades.</li>
+                <li><b><u>Dwarves - The Mighty Catapult:</u></b> The Mighty Catapult lets you make a powerfull attack to an enemy's random building. That attack can demolish or make serious damage. You can see the building's level before and after attack in the report.</li> 
+                <li><b><u>Elves - Giant Eagle Strike:</u></b> Elven Giant Eagle Strike lets you make a powerful attack to an enemy's random troops. You can see how many troops are died in the report.</li> 
+                <li><b><u>Isengard - Wizard Tower:</u></b> Wizard Tower lets you make a powerful lightning attack to an enemy's random troops. You can see how many troops are died in the report.</li>
+                <li><b><u>Mordor - Gorgoroth Spire:</u></b> The Gorgoroth Spire lets you make a powerful meteor attack to an enemy's random building. You can see the building's level before and after attack in the report.</li>
+                <li><b><u>Goblins - Dragon Strike:</u></b> Drogon Strike lets you make a powerful dragon fire attack to an enemy's random troops. You can see how many troops are died in the report.</li>
+              </p>
+
+              <img class="image-large" src="{% get_static_prefix %}images/index/superpower.jpg">
+            </div>
+
+<hr>
+            
+            <h5 id="market">Market</h5>
+            <div class="justify">
+              <p>
+                Markets are the buildings where you can trade resources or send resources to someone. Each race has a market building to manage these jobs and track current situation. Each user's market has capaacity to handle these jobs. You can increase your capacity by upgrading your building level.
+                <ul>
+                  <b>Trading</b>
+                  <li>You can set an offer for exchange between two types of resources. Enter the type and amount that you offer, and enter the type and amount you want.</li>
+                  <li>When you list an offer, your offered resources is saved and decrease your capacity. You can cancel an offer whenever you want.</li>
+                  <li>When someone or you accept an offer, exchange happens instantly.</li>
+                  <li>You can not set an offer two times higher or less than your target amount!</li>
+                </ul>
+                
+                <ul>
+                  <b>Sending Resources</b>
+                  <li>You can send resources to your friends or whoever you want. <i>(Multi accounts are not welcomed!)</i> </li>
+                  <li>For sending resources you can enter target's location, enter the amounts and send it.</li>
+                  <li>Total sending amount can not higher than your market capacity and it occupies the current market capacity.</li>
+                  <li>Sending resources do not happen instantly. The market's based speed is 25 square per hour.</li>
+                </ul>
+              </p>
+              <img class="image-large" src="{% get_static_prefix %}images/index/market.jpg">
+            </div>
+
+
+
+
+
+      </div>
+
+
+    </div>
+
+
+
+    
+</body>
+</html>

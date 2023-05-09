@@ -1,0 +1,34 @@
+{% extends 'main/layout.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/alliances.css' %}" type='text/css'>
+{% endblock head %}
+
+
+{% block body %}
+
+<div> Name: {{alliance.name}} </div>
+<div> Name: {{alliance.founder}} </div>
+<div> Name: {{alliance.description}} </div>
+
+<img id="img{{number}}" class="banner-img" src="{% get_static_prefix %}images/banners/{{ alliance.banner }}.gif" alt="">
+
+
+<form method="POST">
+    {% csrf_token %}
+
+    {% if request_sent %}  
+    <button type="submit" class="btn btn-success" disabled>REQUEST HAS BEEN SENT</button>
+    
+    {% elif have_alliance %}
+    <button type="submit" class="btn btn-success" disabled>YOU ALREADY HAVE AN ALLY</button>
+
+    {% else %}  
+    <button type="submit" class="btn btn-success">SEND JOIN REQUEST</button>
+    {% endif %}
+</form>
+
+{% endblock body %}
+

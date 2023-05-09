@@ -1,0 +1,142 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'style/accounts.css' %}" type="text/css">
+
+
+{% endblock head %}
+
+
+{% block body %}
+
+
+<div class="flex-column-center">
+
+    <div class="profile-top-menu">
+        <div class="menu-line">
+            <a href="/accounts/profiles">
+                User List
+            </a>
+        </div>
+        <div class="menu-line">
+            <a href="/alliances/">
+                Alliance List
+            </a>
+        </div>
+
+    </div>
+
+    <div class="profile-list-container">
+
+  
+
+        <div class="profile-table">
+
+
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Race</th>
+                    <th scope="col">Location</th>
+                    <th scope="col" class="alliance">Alliance</th>
+                    <th scope="col">Kingdom Size</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                    {% for profile in profiles %}
+                    
+                    <tr>
+                        <th scope="row">{{profile.seq}} </th>
+                        <td><a href="/user/{{profile.user.id}}">{{profile.user}}</a>  </td>
+                        <td>{{profile.race}} </td>
+                        <td>{{profile.location.locx}}|{{profile.location.locy}} </td>
+                        <td class="alliance-row"> <a href="/alliances/{{profile.alliance.id}}">{{profile.alliance}}</a>  </td>
+                        <td class="size-row">{{profile.size_number}} </td>
+
+                    </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+        <div class="profile-top-container">
+
+            <div class="profile-top-killer">
+                <h6 style="text-align:center; font-weight:bold;">TOP KILLERS</h6>
+
+                <table class="table table-striped table-danger table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Race</th>
+                        <th scope="col">Total Kills</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for profile in top_killers %}
+                        
+                        <tr>
+                            <th scope="row">{{profile.seq}} </th>
+                            <td><a href="/user/{{profile.user.id}}">{{profile.user}}</a>  </td>
+                            <td>{{profile.race}} </td>
+                            <td>{{profile.statistic.kill}} </td>
+                        </tr>
+                        
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="profile-top-hero-killer">
+                <h6 style="text-align:center; font-weight:bold;">TOP HERO KILLERS</h6>
+                <table class="table table-striped table-success table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Race</th>
+                        <th scope="col">Total Hero Kills</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for profile in top_killers %}
+                        
+                        <tr>
+                            <th scope="row">{{profile.seq}} </th>
+                            <td><a href="/user/{{profile.user.id}}">{{profile.user}}</a>  </td>
+                            <td>{{profile.race}} </td>
+                            <td>{{profile.statistic.hero_kill}} </td>
+                        </tr>
+                        
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+

@@ -1,14 +1,11 @@
-from django.shortcuts import render, redirect
-from .models import DepartingTroops, ArrivingTroops, DepartingCampaigns, ArrivingCampaigns, DefencePosition, ReinforcementTroops
-from main.models import UserTroops, Location, UserTracker, Troops, UserHeroes
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from .models import DepartingCampaigns, ArrivingCampaigns, DefencePosition, ReinforcementTroops
+from main.models import UserTroops, Location, UserTracker, Troops, UserHeroes, Notifications
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils import timezone
-from datetime import timedelta
 from django.contrib import messages
-from main.signals import departing_campaign_created_signal
 from django.views.generic import ListView
 from .management import TroopManagements
+import json
 
 
 # Create your views here.
@@ -34,10 +31,11 @@ class EncampmentListView(LoginRequiredMixin, ListView):
         user_heroes = UserHeroes.objects.filter(user=self.request.user)
 
         arriving_campaigns = ArrivingCampaigns.objects.filter(user=self.request.user)
+        arriving_attacks = DepartingCampaigns.objects.filter(target_location__user = self.request.user).exclude(campaign_type = "reinforcement").order_by('arriving_time')
 
         departing_campaigns = DepartingCampaigns.objects.filter(user=self.request.user)
         departing_reinforcements = departing_campaigns.filter(campaign_type="reinforcement").order_by('arriving_time')
-        departing_attacks = departing_campaigns.filter(campaign_type="attackblock").order_by('arriving_time')
+        departing_attacks = departing_campaigns.exclude(campaign_type="reinforcement").order_by('arriving_time')
       
         user_counted_troops = UserTroops.objects.filter(user=self.request.user).exclude(count=0).order_by('troop_id')
         if user_counted_troops.exists():
@@ -50,28 +48,43 @@ class EncampmentListView(LoginRequiredMixin, ListView):
         my_loc = Location.objects.get(user=self.request.user)
         reinforcements = ReinforcementTroops.objects.filter(location=my_loc)
 
+        my_reinforcements = ReinforcementTroops.objects.filter(owner = self.request.user)
+
         user_troops = UserTroops.objects.filter(user=self.request.user)
         user_troops = list(user_troops) + [troop.user_troop for troop in reinforcements] 
         blocks = range(1,13)
         positions = ["11","12","13","14","21","22","23","24","31","32","33","34"]
 
+
+         # All location data
+        locations = Location.objects.all()
+        location_data = dict()
+        for obj in locations:
+            location_data.update(
+                {f"{obj.locx},{obj.locy}": f"{obj.user} | {obj.location_name}"}
+            )
+        location_data = json.dumps(location_data)
+
         context["reinforcements"] = reinforcements
-        context["defensive_formation_data"] = defensive_formation_data(self.request.user)
         context["defensive_formation_data2"] = defensive_formation_data2(self.request.user)
         context["user_heroes"] = user_heroes
 
         context["union_troops"] = user_troops
         context["blocks"] = blocks
-        context["departing_campaigns"] = departing_attacks
+        context["departing_attacks"] = departing_attacks
+        context["departing_reinforcements"] = departing_reinforcements
         context["arriving_campaigns"] = arriving_campaigns
         context["positions"] = positions
-        
+        context["location_data"] = location_data
+        context["arriving_attacks"] = arriving_attacks
+        context["my_reinforcements"] = my_reinforcements
+        notify = Notifications.objects.get(user = self.request.user)
+        context["notify"] = notify
         return context
     
     def post(self, request, *args, **kwargs):
         form_data = request.POST.dict()
         print(form_data)
-        print("****************")
         
         troop_management = TroopManagements(form_data, self.request.user)
         if request.POST.get("form_type") == "defence":
@@ -79,9 +92,22 @@ class EncampmentListView(LoginRequiredMixin, ListView):
             messages.add_message(request, messages.SUCCESS, f"{message}")
             return redirect("/encampment")                
         elif request.POST.get("form_type") == "send":
+            if form_data["sendType"] == "reinforcement":
+                message = troop_management.send_reinforcement()
+                messages.add_message(request, messages.WARNING, message)
+                return redirect('/encampment')
             message = troop_management.send_troop()
             messages.add_message(request, messages.SUCCESS, f"{message}")   
             return redirect("/encampment")
+        
+        elif request.POST.get("form_type") == "callback":
+            troop_management.reinforcement_callback()
+            return redirect("/encampment")
+        
+        elif request.POST.get("form_type") == "sendback":
+            troop_management.reinforcement_sendback()
+            return redirect('/encampment')   
+        
         else:
             messages.add_message(request, messages.SUCCESS, "Ooopps. Error")
             return redirect("/encampment")   
@@ -89,7 +115,7 @@ class EncampmentListView(LoginRequiredMixin, ListView):
 
 
 # DEFENCE FORMATION DATA
-
+# OLD VERSION
 def defensive_formation_data(user):
     positions = DefencePosition.objects.filter(user=user)
     defence_data = {
@@ -133,6 +159,8 @@ def defensive_formation_data(user):
     }
     return defence_data
 
+
+#NEW VERSION
 def defensive_formation_data2(user):
     positions = DefencePosition.objects.filter(user=user)
 

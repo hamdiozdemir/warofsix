@@ -1,0 +1,75 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/accounts.css' %}" type='text/css'>
+{% endblock head %}
+
+{% block body %}
+
+<div class="profile-section">
+
+    <div class="profile-column column-left">
+        <div class="bold">{{profile.user}} </div>
+        <div><i>{{profile.location.location_name}}</i></div>
+        <div class="bold">{{profile.race|upper}} </div>
+
+        <div>
+            <img id="location-icon" class="small-icon" src="{% get_static_prefix %}images/others/map-pin.svg" alt="">
+            {{profile.location.locx}}|{{profile.location.locy}} 
+    
+        </div>
+
+    </div>
+
+
+    <div class="profile-column column-center">
+        <div class="profile-fortress">
+            <img class="profile-main-building" src="{% get_static_prefix %}images/buildings/fort-{{profile.race}}.png" alt="">
+        </div>
+
+    </div>
+
+
+    <div class="profile-column column-right">
+        {% if profile.alliance %}
+        <div class="bold">{{profile.alliance}}</div>
+
+        {% else %}
+        <div><i>No alliance</i></div>
+        
+        {% endif %}
+
+
+        <div><b>Total Kills:</b> {{profile.statistic.total_kill}}</div>
+        <div><b>Total Deads:</b> {{profile.statistic.total_dead}} </div>
+            
+    </div>
+
+
+</div>
+
+<div class="flex-column-center">
+    <div> {{profile.description}} </div>
+    <div class="flex-column-center">
+        <b>TROOPS</b>
+        {% for troop in troops %}
+        <div><b>{{troop.troop|upper}}</b>: {{troop.count}}</div>
+        
+        {% endfor %}
+    </div>
+    <br>
+    <div class="loc-link"><a href="/encampment?locx={{profile.location.locx}}&locy={{profile.location.locy}}#locx">Send Troops</a></div>
+
+    <div class="loc-link"><a href="/fortress/10?locx={{profile.location.locx}}&locy={{profile.location.locy}}">Use Super Power</a></div>
+
+</div>
+
+
+
+
+
+
+
+
+{% endblock body %}

@@ -1,73 +1,222 @@
-{% extends 'main/layout.html' %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/main.css' %}" type='text/css'>
     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <link rel="stylesheet" href="{% static 'style/settlement.css' %}" type='text/css'>
+    <title>War of Six</title>
+</head>
+<body>
+    <div class="background">
+        <div>
 
-{% block body %}
+            {% include 'main/navbar.html' %}
+        </div>
 
 
-<div class="resources">
-    <div class="resource-item">
-        {% load static %}
-    <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood"> =  {{resources.wood}}
-    </div>
 
-    <div class="resource-item">
-        {% load static %}
-    <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood"> = {{resources.stone}}
-    </div>
+        <div class="flex-column-center">
+            {% include 'main/mini_resources.html' %}
 
-    <div class="resource-item">
-        {% load static %}
-    <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> = {{resources.iron}}
-    </div>
+            <div class="settlement-container">
+                <div class="settlement-main-section">
 
-    <div class="resource-item">
-        {% load static %}
-    <img class="resource-icon" src="{% static 'images/others/grain.png' %}" alt="Grain"> = {{resources.grain}}
-    </div>
-</div>
+                    {% for bloc, object in settlements.items %}
+                        <div class="settlement-unit">
+
+                            
+                                {% if not object %}
+
+                                {% elif object.building %}
+                                {{object.building.building}} ({{object.building.level}})
+                                <a href="/building/{{object.settlement_id}}">
+
+                                    <img class="building-image" src="{% get_static_prefix %}images/buildings/{{object.building.building.id}}.png"  title="{{object.building.building}}">
+
+
+
+
+                                </a>
+                                    
+
+                                {% else %}
+                                
+                                <a href="/new_building/{{object.settlement_id}}">
+                                <div class="empty-area">
+
+                                        <img class="resource-icon" src="{% static 'images/others/builder.png' %}" alt="Builder">
+                                        
+                                    </div>
+                                </a>
+                                
+                                {% endif %}
+
+
+
+
+                        </div>
+                    
+                    {% endfor %}
+
+                </div>
+
+                <div class="management-right-bar">
+                    <h6>CAMPAIGNS</h6>
+
+                    {% for attack in arriving_attacks %}
+                    <div class="line-item">
+                        <a href="/encampment#{{attack.id}}">
+
+                            <img class="line-icon" src="{% get_static_prefix %}images/others/attack-incoming.gif">
+                            From {{attack.user}}. <span class="countdown">{{attack.arriving_time|date:"d/m/Y H:i:s"}} </span>  
+                            
+                        </a>
+                    </div>
+                    
+                    {% endfor %}
+
+                    {% for attack in departing_attacks %}
+                    <div class="line-item">
+                        <a href="/encampment#{{attack.id}}">
+
+                            <img class="line-icon" src="{% get_static_prefix %}images/others/attack-outgoing.gif">
+                            To {{attack.target_location.user}}. <span class="countdown">{{attack.arriving_time|date:"d/m/Y H:i:s"}} </span>  
+                            
+                        </a>
+                    </div>
+                    
+                    {% endfor %}
+
+
+                    {% for camp in arriving_campaigns %}
+                    <div class="line-item">
+                        <a href="/encampment#{{camp.id}}">
+
+                            <img class="line-icon" src="{% get_static_prefix %}images/others/return.gif">
+                            From {{camp.main_location.user}}. <span class="countdown">{{camp.arriving_time|date:"d/m/Y H:i:s"}} </span>  
+                            
+                        </a>
+                    </div>
+
+                    
+                    {% endfor %}
+
+
+                    {% for rein in departing_reinforcements %}
+                    <div class="line-item">
+                        <a href="/encampment#{{rein.id}}">
+
+                            <img class="line-icon" src="{% get_static_prefix %}images/others/rein-outgoing.gif">
+                            To {{rein.target_location.user}}. <span class="countdown">{{rein.arriving_time|date:"d/m/Y H:i:s"}} </span>  
+                            
+                        </a>
+                    </div>
+                    
+                    {% endfor %}
+
+
 
 
 
 <br>
-<hr>
-
-
-{% for place in places %}
-
-<a href="/building/{{place.settlement_id}}/">
-
-No: {{place.settlement_id}}
-Building: {{place.building.building.id}} - {{place.building}}
-</a>
-
-<br>
-{% endfor %}
 
 
 
 
+                    <h6>BUILDINGS</h6>
+                    {% for obj in buildings %}
 
- 
-<!--           CURRENTLY GOİNG UPDATES         -->
-    {% for obj in buildings %}
+                    <div class="line-item">
 
-        {% if obj.time_left != 0 %}
+                        
+                        {% if obj.time_left != 0 %}
+                        <img class="line-icon" src="{% get_static_prefix %}images/others/update.gif"  title="{{object.building.building}}">
+                        
+                        <p> {{obj}} to level {{obj.next_level}}. <span class="building-countdown">{{obj.time_left}} </span> left </p>
+                        
+                        
+                        {% else %}
+                        {% endif %}
+                        
+                        
+                    </div>
+                    
+                
+                {% endfor %}
+                </div>
 
+            </div>
         
 
-        <p> {{obj}} is updating to level {{obj.next_level}}. {{obj.time_left}} seconds left </p>
-
         
-        {% else %}
-        {% endif %}
-
-
+        </div>
         
+
+
+    </div>
     
-    {% endfor %}
 
 
 
 
-{% endblock body %} 
+
+    
+    <!--           CURRENTLY GOİNG UPDATES         -->
+
+
+    <script>
+
+        $(document).ready(function() {
+          $(".countdown").each(function() {
+            var datetimeStr = $(this).text().trim();
+            var datetime = moment.utc(datetimeStr);
+        
+            var x = setInterval(function() {
+              var now = moment.utc();
+              var distance = moment.duration(datetime.diff(now));
+        
+              if (distance.asSeconds() < 0) {
+                location.reload();
+              }
+        
+              var hours = Math.floor(distance.asHours() % 24);
+              var minutes = Math.floor(distance.asMinutes() % 60);
+              var seconds = Math.floor(distance.asSeconds() % 60);
+        
+              $(this).html((minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds + " left");
+            }.bind(this), 1000);
+          });
+        });
+        
+      </script>
+
+
+<script>
+// Loop through all the span elements with the class "countdown"
+$('.building-countdown').each(function() {
+    var countdownValue = parseInt($(this).text().replace(',', '')); // Get the numerical value of the countdown
+    var countdownInterval = setInterval(function() {
+      countdownValue--; // Decrement the countdown value
+      if (countdownValue <= 0) { // If countdown value reaches zero, clear the interval
+        clearInterval(countdownInterval);
+      }
+      var minutes = Math.floor(countdownValue / 60); // Calculate the number of minutes
+      var seconds = countdownValue % 60; // Calculate the number of seconds
+      var countdownText = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds; // Format the countdown as minutes:seconds
+      $(this).text(countdownText); // Update the span element with the new countdown value
+    }.bind(this), 1000); // Set interval to decrement the value every second
+  });
+  
+  
+</script>
+
+</body>
+</html>

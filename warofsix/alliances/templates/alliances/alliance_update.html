@@ -1,0 +1,58 @@
+{% extends 'main/layout.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/alliances.css' %}" type='text/css'>
+{% endblock head %}
+
+
+
+
+{% block body %}
+
+<h4>Update the Ally</h4>
+
+{{'banner'|add:5}}
+
+<div class="alliance-create-form-container">
+    <form method="post">
+        {% csrf_token %}
+
+        {{alliance.description}}
+
+        <div class="form-floating">
+            <textarea class="form-control" name="description" placeholder="Leave a nice description for your new ally." id="floatingTextarea" style="height: 200px" maxlength="200">{{alliance.description}}</textarea>
+            <label for="floatingTextarea">Description</label>
+        </div>
+    
+        <div class="banner-parent-container">
+
+            <div class="banner-container">
+
+                {% for number in banner_range %}
+                
+                
+                <div class="banner-card">
+                    <input class="form-check-input banner-input" type="radio" name="banner-choice" id="banner{{number}}" value="banner{{number}}">
+                    <label class="form-check-label" for="banner{{number}}">
+                        <div class="banner-card">
+                            <img id="img{{number}}" class="banner-img" src="{% get_static_prefix %}images/banners/banner{{ number  }}.gif" alt="">
+                        </div>
+                    </label>
+                    
+                </div>
+                {% endfor %}
+            </div>
+    
+        </div>
+    
+    
+        <button type="submit">Update</button>
+      </form>
+
+</div>
+
+
+
+{% endblock body %}

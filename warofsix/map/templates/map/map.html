@@ -1,0 +1,48 @@
+{% extends 'main/layout.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/map.css' %}" type='text/css'>
+{% endblock head %}
+
+
+{% block body %}
+
+<div class="map-parent">
+
+
+    <div class="map-container">
+        <div class="map-background">
+            <img id="map-background" src="{% get_static_prefix %}images/others/map311.jpg" >
+
+        </div>
+
+        {% for loc in locations %}
+        <div class="map-unit {{loc.type}}" {% if loc.user == request.user %} id='self' {% endif %}>
+
+        {% if loc.user %}
+
+        <a href="/user/{{loc.user.id}}">
+            {% if loc.has_ring %}
+                <img id="one-ring" src="{% get_static_prefix %}images/others/onering.png">
+            {% endif %}
+
+
+            <img class="map-icon {{loc.race}}" src="{% get_static_prefix %}images/buildings/fort-{{loc.race}}.png" alt="{{hero.hero}}" title="{{loc}}">
+            
+        </a>
+        
+        
+        {% else %}
+        <div class="empty-area"> {{loc.locx}}|{{loc.locy}} </div>
+        {% endif %}
+        </div>
+        
+        {% endfor %}
+
+        
+    </div>
+
+</div>
+{% endblock body %}

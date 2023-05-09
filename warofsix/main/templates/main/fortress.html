@@ -3,6 +3,7 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'style/fortress.css' %}" type='text/css'>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock head %}
 
 {% block body %}
@@ -12,13 +13,30 @@
     {% include "main/mini_resources.html" %}
 </div>
 
+<div class="flex-center">
+    <div class="mini-resource">
+
+        <img class="ring-resource-icon" src="{% static 'images/others/rings.png' %}" title="Rings">  {{resources.rings}}
+
+
+        <img
+        {% if not resources.the_one_ring %}  style="filter:grayscale(100%);"{% endif %}
+        
+        class="ring-resource-icon" src="{% static 'images/others/one-ring.png' %}" title="The One Ring">
+
+    </div>
+</div>
+
 <div style="text-align:center;">
     <h2><b>{{building.building}}</b></h2>
     Level: {{building.level}}
 </div>
 
+{% if building.level != 0 %}
 
-    {% if building.level != 0 %}
+<div class="train-section">
+
+    <div class="builder-train-container">
         {% for troop in trainings %}
 
             <div class="troop-frame">
@@ -45,8 +63,10 @@
                         <img class="resource-icon" src="{% static 'images/others/grain2.png' %}" alt="Grain">  {{troop.troop.grain}}
 
                     </div>
-                    <div>Training Time Per Troop: {{troop.training_time }} <span id="trainingtime"></span> seconds</div>
-                    <p></p>
+
+                        <div>Training Time Per Troop: {{troop.training_time }} <span id="trainingtime"></span> seconds
+                        </div>
+                    <br>
                     <form method="post" class="troop-train">
                         {% csrf_token %}
 
@@ -56,10 +76,9 @@
                     
                         <button type="submit" class="btn btn-secondary">TRAIN</button>
                     </form>
-                </div>
-            </div>
 
-                {% if troop.training %}
+
+                    {% if troop.training %}
 
                     <div class="troop-frame2">
                         <div class="troop-frame-left">
@@ -75,9 +94,31 @@
 
                 {% endif %}
 
+
+
+
+                </div>
+            </div>
+
+
+
             <hr>
 
         {% endfor %}
+
+
+
+        
+    </div>
+
+{% include "main/super_power_section.html" %}
+
+
+</div>
+
+
+    
+
 
 
         <div class="user-heroes-container">
@@ -151,7 +192,7 @@
                     {% endif %}
                     <div class="hero-token-row"> <span class="text-medium-bold">Token: {{hero.token}}</span> <img id="hero.id" class="hero-token" src="{% get_static_prefix %}images/others/token2.png" alt="" title="WoS Token"></div>
                     
-                    <div> <a href="#"> <b>Detail</b> </a> </div>
+                    <div> <a href="/guide#hero{{hero.id}}" target="_blank"> <b>Detail</b> </a> </div>
                     <div class="button-push" style="margin-top:auto;">
 
                         <form method="POST" id="hero-buy">
@@ -166,9 +207,132 @@
                 </div>
                 
                 {% endfor %}
+
+
+
+                <div class="buy-ring-hero">
+                    <div class="text-medium-bold">{{ring_hero}}</div>
+                    <div><div><img id="hero.id" class="user-hero-image ring-hero-good" src="{% get_static_prefix %}images/heroes/{{ring_hero.id}}.png" alt=""></div></div>
+                    <div> <span class="text-small-bold">Health:</span> {{ring_hero.health}} | <span class="text-small-bold">Damage:</span> {{ring_hero.damage}}  </div>
+                    {% if ring_hero.crash_bonus > 0 %}
+                    <div> <span class="text-small-bold">Crash Bonus:</span> {{ring_hero.crash_bonus}} </div>
+                    {% endif %}
+
+                    {% if ring_hero.attack_bonus_types %}
+                    <div> <span class="text-small-bold">Attack Bonus:</span> {{ring_hero.attack_bonus_types}} </div>
+                    {% endif %}
+
+                    {% if ring_hero.defence_bonus_types %}
+                    <div> <span class="text-small-bold">Defence Bonus:</span> {{ring_hero.defence_bonus_types}} </div>
+                    {% endif %}
+                    <div class="hero-token-row"> <span class="text-medium-bold">Rings: {{ring_hero.rings}}</span> </div>
+                    
+                    <div> <a href="/guide#hero{{ring_hero.id}}" target="_blank"> <b>Detail</b> </a> </div>
+                    <div class="button-push" style="margin-top:auto;">
+
+                        <form method="POST" id="ring-hero-buy">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="ring-hero-buy">
+                            <input type="hidden" name="hero_id" value="{{ring_hero.id}}">
+                            <button type="submit" class="btn btn-success btn-sm" style="width: 120px;" onclick="return confirm('You will get the {{ring_hero}}. Are you sure?')">GET</button>
+                            
+                        </form>
+                    </div>
+
+
+                </div>
+
+
+                {% if resources.the_one_ring %}
+
+   
+
+
+                    <div class="buy-ring-hero" style="background:#303030bf; color: white; border:black;">
+                        <div class="text-medium-bold">{{one_ring_hero}}</div>
+                        <div><div><img style="border:black;" id="hero.id" class="user-hero-image ring-hero-good" src="{% get_static_prefix %}images/heroes/{{one_ring_hero.id}}.png" alt=""></div></div>
+                        <div> <span class="text-small-bold">Health:</span> {{one_ring_hero.health}} | <span class="text-small-bold">Damage:</span> {{one_ring_hero.damage}}  </div>
+                        <div> <span class="text-small-bold">Crash Bonus:</span> {{one_ring_hero.crash_bonus}} </div>
+
+
+                        <div class="button-push" style="margin-top:auto;">
+
+                            <form method="POST" id="one-ring-hero-buy">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="one-ring-hero-buy">
+                                <input type="hidden" name="hero_id" value="{{one_ring_hero.id}}">
+                                <button type="submit" class="btn btn-success btn-sm" style="width: 120px;" onclick="return confirm('You will get the {{one_ring_hero}}. Are you sure?')">GET</button>
+                                
+                            </form>
+                        </div>
+
+
+                    </div>
+
+
+
+                {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 
                 
-            </div>
+            
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             
         </div>
 
@@ -224,22 +388,69 @@
 
 
 <script>
-    var countdownElement = document.getElementById('countdown2');
-var remainingTime2 = {{ troop.time_left_per_troop }}; // assuming integer_object is the integer object you sent to the template
-
-function updateCountdown2() {
-    if (remainingTime2 <= 0) {
-        countdownElement.innerHTML = 'Countdown finished!';
-    } else {
-        var minutes = Math.floor(remainingTime2 / 60);
-        var seconds = remainingTime2 % 60;
-        countdownElement.innerHTML = 'Time remaining: ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-        remainingTime2--;
-        setTimeout(updateCountdown2, 1000);
+    function updateCountdown(initialValue) {
+      var timeLeft = initialValue;
+    
+      var intervalId = setInterval(function() {
+        if (timeLeft <= 0) {
+          clearInterval(intervalId);
+          document.getElementById("countdown").innerHTML = "Power is READY!";
+        } else {
+          var hours = Math.floor(timeLeft / (60 * 60));
+          var minutes = Math.floor((timeLeft % (60 * 60)) / 60);
+          var seconds = Math.floor(timeLeft % 60);
+          document.getElementById("countdown").innerHTML = hours + ":" + minutes + ":" + seconds;
+          timeLeft--;
+        }
+      }, 1000);
     }
-}
+    
+    var initialValue = parseInt(document.getElementById("countdown").textContent.replace(",", ""), 10);
+    updateCountdown(initialValue);
+    </script>
 
-updateCountdown2();
-</script>
+
+  <!--  FOR LOCATION CHECK  -->
+
+  <script>
+    $(document).ready(function() {
+      // Define your data dictionary with coordinates and names
+      var data = JSON.parse('{{location_data|escapejs}}') ;
+  
+      // Listen for changes to the input fields
+      $('#locx, #locy').on('change', function() {
+        // Get the values of the input fields
+        var locx = $('#locx').val();
+        var locy = $('#locy').val();
+  
+        // Build the coordinate key for the data dictionary
+        var key = locx + ',' + locy;
+  
+        // Check if the key exists in the data dictionary
+        if (key in data) {
+          // If it does, show the corresponding name
+          $('#result').text(data[key]);
+        } else {
+          // If it doesn't, show an error message
+          $('#result').text('Not found');
+        }
+      });
+    });
+  </script>
+
+
+
+   <!--  Incoming link with params  -->
+<script>
+    // Get the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const locx = urlParams.get('locx');
+    const locy = urlParams.get('locy');
+  
+    // Set the values of the input fields
+    document.getElementById('locx').value = locx;
+    document.getElementById('locy').value = locy;
+  </script>
+ 
 
 {% endblock body %}

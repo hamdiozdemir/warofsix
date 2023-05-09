@@ -5,34 +5,290 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="{% static 'style/main.css' %}" type='text/css'>
+    <link rel="stylesheet" href="{% static 'style/index.css' %}" type='text/css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700;800&display=swap" rel="stylesheet">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-
+    <script defer src="{% static 'scripts/index.js' %}"></script>
     <title>War of The SIX</title>
 </head>
-<body class="body">
+<body>
 
+  <div id="background">
+    <img src="{% get_static_prefix %}images/index/{{image}}.jpg">
+    <div class="color-overlay">
 
-<div class="section">
-  <h1>THIS IS THE WAR OF THE SIX</h1>
+    </div>
+        
+    
+  </div>
 
-  <div class="video-container">
-    <div class="color-overlay"></div>
-
-    <video autoplay loop muted>
-        <source src="{% static 'videos/isengard_1.mp4' %}">
-    </video>
+  <div class="ring">
+    <img id="ring" src="{% get_static_prefix %}images/index/ring.png">
 
   </div>
+  
+  <div class="index-bar">
+
+    <div class="index-container">
+      <div class="menu-container">
+        <a class="tag-small-black" href="#overview">
+          <div class="menu-icon-container">
+            <img id="icon-overview" src="{% get_static_prefix %}images/index/overview.png">
+          </div>
+          Overview
+        </a>
+      </div>
+  
+      <div class="menu-container">
+        <a class="tag-small-black" href="/guide">
+          <div class="menu-icon-container">
+            <img id="icon-guide" src="{% get_static_prefix %}images/index/guide.png">
+          </div>
+          Guide
+        </a>
+      </div>
+  
+      <div class="menu-container">
+        <a class="tag-small-black" href="#about">
+          <div class="menu-icon-container">
+            <img id="icon-about" src="{% get_static_prefix %}images/index/about.png">
+          </div>
+          About
+        </a>
+      </div>
+  
+  
+      <div class="menu-container">
+        <a class="tag-small-black" href="#register">
+          <div class="menu-icon-container">
+            <img id="icon-register" src="{% get_static_prefix %}images/index/register.png">
+          </div>
+          Register
+        </a>
+      </div>
+  
+      <div class="menu-container">
+        <a class="tag-small-black" href="/accounts/login">
+          <div class="menu-icon-container">
+            <img id="icon-login" src="{% get_static_prefix %}images/index/login.png">
+          </div>
+          Login
+        </a>
+      </div>
+    </div>
+
+
+  
+
+
+
+
+
+
+  </div>
+
+
+<div id="overview" class="second">
+  <div class="color-overlay">
+
+  </div>
+
+    <div class="section-line hidden">
+      <div class="mini-sections card1">6 Different Races</div>
+      <div class="mini-sections card2">Advanced Battle Options</div>
+      <div class="mini-sections card3">Spesific Troops, Heroes & Powers</div>
+    </div>
+
+    <div class="section-line hidden">
+
+      <div class="mini-sections card4">Raise Your Kingdom</div>
+      <div class="mini-sections card5">Grow Your Army</div>
+      <div class="mini-sections card6">Make Alliances</div>
+      <div class="mini-sections card7">Defeat the Enemies</div>
+      
+    </div>
+
+    <div class="section-line hidden">
+
+      <div style="margin-top: 5vh;">Are you ready?</div>
+    </div>
+    
+    <div class="section-line hidden">
+
+      <div class="mini-sections cardg small">
+        <a class="linkable" href="/guide">
+          Read the Guide
+        </a>
+      </div>
+
+      or
+
+      <div class="mini-sections cardr small">
+        <a class="linkable" href="#register">
+          Register Now
+        </a>
+      </div>
+ 
+    </div>
+  
+</div>
+
+
+<div class="third" id="register">
+
+
+  <div class="third-container">
+
+    <div class="input-line hidden2">
+
+      <h2>REGISTER</h2>
+    </div>
+    <form method="post">
+      {% csrf_token %}
+  
+        <div class="input-line hidden2">
+          <div class="input-label">
+            Username
+          </div>
+          <div class="input-input hidden2">
+            {{form.username}}
+          </div>
+        </div>
+        <div class="input-line hidden2">
+          <div class="input-label">
+            First Name
+          </div>
+          <div class="input-input">
+            {{form.first_name}}
+          </div>
+        </div>
+        <div class="input-line hidden2">
+          <div class="input-label">
+            Email Adress
+          </div>
+          <div class="input-input">
+            {{form.email}}
+          </div>
+        </div>
+        <div class="input-line hidden2">
+          <div class="input-label">
+            Password
+          </div>
+          <div class="input-input">
+            {{form.password}}
+          </div>
+        </div>
+        <div class="input-line hidden2">
+          <div class="input-label">
+            Repeat Password
+          </div>
+          <div class="input-input">
+            {{form.password2}}
+          </div>
+        </div>
+
+        <div class="race-container  hidden2">
+          <input type="radio" name="race" id="isengard" value="Isengard">
+          <input type="radio" name="race" id="men" value="Men">
+          <input type="radio" name="race" id="goblins" value="Goblins">
+          <input type="radio" name="race" id="dwarves" value="Dwarves">
+          <input type="radio" name="race" id="mordor" value="Mordor">
+          <input type="radio" name="race" id="elves" value="Elves">
+
+          <label for="isengard"> <div class="race-card isengard card-element">ISENGARD</div> </label>
+          <label for="men"> <div class="race-card men card-element">MEN</div> </label>
+          <label for="goblins"> <div class="race-card goblins card-element">GOBLINS</div> </label>
+          <label for="dwarves"> <div class="race-card dwarves card-element">DWARVES</div> </label>
+          <label for="mordor"> <div class="race-card mordor card-element">MORDOR</div> </label>
+          <label for="elves"> <div class="race-card elves card-element">ELVES</div> </label>
+
+        </div>
+  
+  
+  
+      <button class="hidden2" type="submit">Register</button>
+    </form>
+
+
+
+
+
+
+
+  </div>
+
+
+  
+
 
 </div>
 
 
+<div class="forth">
+  <h5 class="small-header">ROADMAP</h5>
+  <div>
+    <img class="road-icon" src="{% get_static_prefix %}images/index/sign2.png" title="">
+    <i> User Tests & Bug Fixes</i>
+  </div>
+  <div>
+    <img class="road-icon" src="{% get_static_prefix %}images/index/sign2.png" title="">
+    <i> Frontend Fixes</i>
+  </div>
 
-<div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odio sunt fugit illum hic rem, inventore possimus placeat? Quis iure exercitationem quasi incidunt a corporis praesentium iste, consequuntur tenetur quae harum iusto accusamus fugit officia soluta maiores animi quam temporibus commodi obcaecati eveniet? Iusto dolorum repellat hic magnam delectus sequi, a quo excepturi quam amet, id libero temporibus, autem illum quasi. Minus ea veritatis blanditiis odit doloribus consequuntur provident qui similique veniam ut, vitae inventore asperiores. Consequatur sint veniam aut ea voluptates dignissimos tempora cupiditate esse libero molestiae, animi id eligendi laboriosam amet quasi doloribus quaerat ratione totam, soluta dolor? Itaque quia esse fuga tempore minima vitae inventore dolorem nulla labore officiis deserunt, dicta odit aut, iste saepe eligendi? Inventore, similique eligendi. Quos quia unde eius soluta voluptates hic officiis officia? Odit qui porro blanditiis maxime! Nemo quas cum dolorem distinctio officiis beatae. Modi, et vel corrupti saepe officia repellendus quae impedit corporis illo quis a recusandae, dolorum culpa voluptates exercitationem cum vero nobis labore! Dicta delectus neque tenetur placeat minus sint quam unde ea vitae, non odio, tempore deserunt maiores mollitia beatae sit facilis ad nisi. Sint provident inventore repudiandae eum laudantium ratione culpa fuga modi esse nemo ullam aliquid accusamus temporibus libero voluptatem praesentium quia ea, totam omnis eos. Eaque fugiat odio est officia totam laboriosam illo expedita libero explicabo fuga dicta doloremque, odit, amet perferendis distinctio! Incidunt quis unde aspernatur hic voluptatibus reprehenderit repellendus, ab impedit saepe molestias quam odit placeat nostrum commodi provident perspiciatis blanditiis quisquam natus delectus architecto iste aut? Odit porro dicta quo voluptatem placeat iure veniam, nulla minima suscipit asperiores quidem quas alias. Iure facilis animi sapiente, ullam nostrum ducimus repellendus beatae nihil blanditiis sequi consequuntur dicta. Laudantium, optio eveniet dicta quos unde tempora quidem in. Error, reprehenderit mollitia! Praesentium, nobis molestiae laudantium impedit, similique doloribus, ipsa facilis molestias sequi vitae culpa corrupti minima eveniet adipisci eum deserunt perferendis consequatur. Voluptates facere veritatis nulla beatae error, velit similique, praesentium aut soluta dicta fugit! Quae mollitia placeat autem deleniti nemo vitae modi quo nulla laborum quibusdam obcaecati totam dolore quis earum quaerat aliquam voluptates, corporis amet ullam sapiente quam cumque odit tenetur. Porro cum vel voluptatem dolorem! Odio fuga animi magnam illo, nihil ab fugiat debitis, modi iste perspiciatis obcaecati quidem? Corrupti iste deserunt quisquam quia facilis assumenda, quibusdam aspernatur quae itaque illum, fuga nostrum voluptas commodi dignissimos doloremque hic cupiditate? Dicta laborum molestias pariatur.</div>
+  <div>
+    <img class="road-icon" src="{% get_static_prefix %}images/index/sign2.png" title="">
+    <i> Live Battle Features</i>
+  </div>
+
+  <div>
+    <img class="road-icon" src="{% get_static_prefix %}images/index/sign2.png" title="">
+    <i> Mobile Responsive Design</i>
+  </div>
+
+  <footer>
+
+    <div class="site-links">
+      <a class="linkable" href="/">Home</a>
+      <a class="linkable" href="/guide">Guide</a>
+      <a class="linkable" href="#register">Register</a>
+      <a class="linkable" href="/accounts/login">Login</a>
+
+    </div>
+
+
+    <div id="about" class="about">
+      <i class="font-small">This project has been developed by hamdiozdemir.</i>
+      <div class="font-small">Please do not hestite to get in touch with <i class="font-small">warofsix@gmail.com</i> </div>
+
+    </div>
+
+    <div class="tech-stacks">
+      Tech stacks
+      <div class="tech-logo-container">
+        <img class="tech-icon" src="{% get_static_prefix %}images/index/html.png" title="HTML">
+        <img class="tech-icon" src="{% get_static_prefix %}images/index/css.png" title="CSS">
+        <img class="tech-icon" src="{% get_static_prefix %}images/index/js.png" title="Javascript">
+        <img class="tech-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1869px-Python-logo-notext.svg.png" title="Python">
+        <img class="tech-icon" src="{% get_static_prefix %}images/index/django.png" title="Django">
+        <img class="tech-icon" src="{% get_static_prefix %}images/index/postgres.png" title="Postgres">
+        <img class="tech-icon" src="{% get_static_prefix %}images/index/celery.gif" title="Celery">
+        <img class="tech-icon" src="{% get_static_prefix %}images/index/rabbitmq.png" title="Rabbit MQ">
+        <img class="tech-icon" src="{% get_static_prefix %}images/index/amazon-s3.png" title="Amazon S3">
+
+
+      </div>
+    </div>
+
+
+
+    
+  </footer>
+
+</div>
 
       
 </body>

@@ -1,0 +1,279 @@
+{% extends 'main/layout.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/alliances.css' %}" type='text/css'>
+{% endblock head %}
+
+
+{% block body %}
+
+<h3 class="align-head">{{alliance_campaign.creator_user.member}} vs. <u>{{alliance_campaign.target_location.user}}</u> </h3>
+
+<div class="alliance-encampment-container">
+
+    <div class="alliance-left-troop-section">
+
+        <div class="current-troop-container">
+            <h4 style="width: 100%; text-align:center;">CURRENT TROOPS</h4>
+                
+            {% for troop in user_troops %}
+            
+            <div class="current-troop-box">
+              <label for="{{troop.troop}}"> <i>{{troop.troop}}</i> </label>
+              <img class="troop-icon-camp" src="{% get_static_prefix %}images/troops/{{troop.troop.id}}.png" alt="{{troop.troop.name}}">
+              <div> <b>{{troop.count}}</b> </div>
+            </div>
+            
+            {% endfor %}
+            
+        </div>
+      
+        <div class="current-hero-container">
+          <h5 style="width: 100%; text-align:center;">CURRENT HEROES</h5>
+          {% for hero in user_heroes %}
+          <div class="current-hero-box">
+            <div class="hero-heading"><label for="{{hero.hero}}"> <i>{{hero.hero}}</i> </label></div>
+            <img class="troop-icon-camp" src="{% get_static_prefix %}images/heroes/{{hero.hero.id}}.png" alt="{{hero.hero}}">
+            Current Health: {{hero.current_health}}
+            <div><i>{{hero.status}}</i></div>
+            {% if hero.hero.summon_amount == 0 %}
+            {% else %}
+            <div>{{hero.hero.summon_amount}} {{hero.hero.summon_type}}</div>
+            {% endif %}
+          </div>
+        
+          {% endfor %}
+      </div>
+    </div>
+
+
+    
+    <div class="alliance-troop-management-section">
+        
+        <form method="POST" id="alliance-campaign-detail">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="alliance_campaign_save">
+
+            <div class="alliance-campaign-position-container">
+
+              
+              
+              {% for position, value in campaign_data.items %}
+              
+              <div class="alliance-position-item" id="{{position}}">
+                {% if value.available %}
+
+                    <div class="hero-select-container">
+                      <div class="hero-select-menu">
+                        <select name="herod{{position}}" id="herod-{{position}}" class="form-select form-select-sm">
+                          <option id ="99">Add Hero</option>
+                          
+                            {% for hero in user_heroes %}
+                            <option id="{{hero.hero.id}}" value="{{hero.id}}">{{hero.hero}}</option>
+                            
+                            {% endfor %}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="hero-small-image">
+                        <img id="imgh{{position}}" class="hero-img" src="{% get_static_prefix %}images/heroes/99.png" alt="">
+                      </div>
+
+
+                    </div>
+
+                    <select name="troop{{position}}" id="slc-{{position}}" class="troop-select">
+                      {% for troop in user_troops %}
+                      <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
+                      {% endfor %}
+                    </select>
+
+                    <img id="img{{position}}" class="formation-img" src="{% get_static_prefix %}images/troops/99.png" alt="">
+                    
+                    <input class="troop-input" type="number" id="num{{position}}" name="num{{position}}" min="0"  value="0">
+                
+                
+                {% else %}
+                
+                    <div class="hero-select-container">
+                      <div class="hero-select-menu">
+                        {% if value.hero %}
+                            <select name="herod{{position}}" id="herod-{{position}}" class="form-select form-select-sm hero-selected" disabled>
+
+                            <option id="{{value.hero.hero.id}}" value="{{value.hero.id}}" selected>{{value.hero.hero}}</option>
+                          
+                            </select>
+                          
+                          
+                          {% else %}
+                            <select name="herod{{position}}" id="herod-{{position}}" class="form-select form-select-sm" disabled>
+                            <option id="{{value.hero.hero.id}}" value="{{value.hero.id}}">No Hero</option>
+
+                          </select>
+                          
+                          {% endif %}
+
+                            
+                        
+                        
+                      </div>
+
+                      <div class="hero-small-image">
+                        <img id="imgh{{position}}" class="hero-img" src="{% get_static_prefix %}images/heroes/{{value.hero.hero.id}}.png" alt="">
+                      </div>
+
+
+                    </div>
+
+                    {% if value.user_troop %}
+                    
+                    
+                      <select name="troop{{position}}" id="slc-{{position}}" class="troop-select" disabled>
+
+                        <option id="{{value.user_troop.troop.id}}" value="{{value.user_troop.id}}" selected>{{value.user_troop.troop}}</option>
+                      </select>
+
+                      <img id="img{{position}}" class="formation-img" src="{% get_static_prefix %}images/troops/{{value.user_troop.troop.id}}.png" alt="">
+                      
+                      <input class="troop-input" type="number" id="num{{position}}" name="num{{position}}" min="0"  value="{{value.count}}" disabled>
+
+                      <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='/alliances/cancel-campaign-troop/{{alliance_campaign.id}}/{{position}}/';">Cancel Troop</button>
+
+
+                      {% else %}
+                      <select name="troop{{position}}" id="slc-{{position}}" class="troop-select" disabled>
+
+                        <option id="{{value.user_troop.troop.id}}" value="{{value.user_troop.id}}">No Troop</option>
+
+
+                      </select>
+                      
+                      <img id="img{{position}}" class="formation-img" src="{% get_static_prefix %}images/troops/99.png" alt="">
+                      
+                      <input class="troop-input" type="number" id="num{{position}}" name="num{{position}}" min="0"  value="{{value.count}}" disabled>
+                      {% endif %}
+                      
+                {% endif %}
+              </div>
+              
+              {% endfor %}
+              
+            </div>
+
+            <div class="campaign-details-container">
+
+              
+              <div class="campaign-details">
+                
+                <div>Campaign: {{alliance_campaign.creator_user.member}} vs. {{alliance_campaign.target_location.user}} </div>
+                
+                <div> Type: {{alliance_campaign.campaign_type}} </div>
+                <div> Est. Duration: <span id="seconds">{{alliance_campaign.time_left}}</span>  </div>
+                <div> Distance: {{alliance_campaign.distance}} </div>
+                <div> Current Speed: {{alliance_campaign.speed}} </div>
+                
+                
+              </div>
+              <div>
+
+                <button type="submit" class="btn btn-warning" style="width:150px; height:80px;">SAVE CHANGES</button>
+              </div>
+              
+            </div>
+
+        </form>
+
+        <form method="POST" id="alliance-campaign-send">
+          {% csrf_token %}
+          <input type="hidden" name="form_type" value="alliance_campaign_send">
+
+          {% if alliance_campaign.creator_user.member == request.user %}
+          
+          <button type="submit" class="btn btn-danger" style="width:90%;" onclick="return confirm('Remember the saving last changes before sending. Are sure to send campaing?')">SEND the CAMPAIGN</button>
+          {% else %}
+
+          <button type="submit" class="btn btn-danger" style="width:90%;" disabled>SEND the CAMPAIGN</button>
+
+          {% endif %}
+
+
+
+        </form>
+    </div>
+    
+    
+    
+</div>
+
+
+
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  const selectImgPairs = document.querySelectorAll('[id^="slc-"]');
+  selectImgPairs.forEach(pair => {
+    const imgd = document.querySelector(`#img${pair.id.slice(4)}`);
+
+    // add event listener to select element
+    pair.addEventListener('change', (event) => {
+      console.log('Attack çalıştı');
+      const selected = pair.querySelector(`option[value="${event.target.value}"]`);
+      const idd = selected.id
+      imgd.src = `{% get_static_prefix %}images/troops/${idd}.png`;
+    });
+  });
+</script>
+
+
+<script>
+  const selectImgPairsh = document.querySelectorAll('[id^="herod-"]');
+  selectImgPairsh.forEach(pair => {
+    const imgh = document.querySelector(`#imgh${pair.id.slice(6)}`);
+    
+    // add event listener to select element
+    pair.addEventListener('change', (event) => {
+      console.log('Hero çalıştı');
+      const selected = pair.querySelector(`option[value="${event.target.value}"]`);
+      const idh = selected.id
+      console.log(idh);
+      imgh.src = `{% get_static_prefix %}images/heroes/${idh}.png`;
+    });
+  });
+</script>
+
+
+
+<script>
+  // Get the span element that includes the seconds value
+  const secondsSpan = document.getElementById('seconds');
+  
+  // Get the seconds value as an integer, removing the comma as the thousands separator
+  const seconds = parseInt(secondsSpan.innerText.replace(',', ''));
+  
+  // Convert the seconds to hours, minutes, and seconds
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+  
+  // Format the time string as "hours:minutes:seconds"
+  const timeString = `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  
+  // Set the span text to the time string
+  secondsSpan.innerText = timeString;
+  </script>
+
+{% endblock body %}
+

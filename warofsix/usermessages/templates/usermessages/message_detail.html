@@ -1,34 +1,52 @@
 {% extends 'main/layout.html' %}
 {% load static %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/usermessages.css' %}" type="text/css">
+{% endblock head %}
+
 
 {% block body %}
-<a href="/usermessages/inbox">
-    <button type="button" class="btn btn-primary">INBOX</button>
-</a>
 
-<a href="/usermessages/sent">
-    <button type="button" class="btn btn-info">SENTBOX</button>
-</a>
+<div class="message-container">
 
-<br>
-<br>
-<br>
+    <div class="menu-bar">
+      <div class="menu-line"><a href="/usermessages/new_message">New Message</a></div>
+      <div class="menu-line active"><a href="/usermessages/inbox">Inbox</a></div>
+      <div class="menu-line"><a href="/usermessages/sent">Sent</a></div>
+    </div>
+  
+  
+    <div class="message-box">
 
-<h3>MESSAGE</h3>
 
-<div class="message-detail">
-    <div class="sender">
-        <b>FROM:</b> {{message.sender}}  <b>TO:</b> {{message.target}}
+        <div class="message-detail">
+            <div class="sender">
+                <b>FROM:</b> {{message.sender}}
+            </div>
+        
+        
+            <div class="message-content">
+                <span class="header">{{message.header}}</span>
+                <br>
+                {{message.content}}
+            </div>
+            
+<p></p>
+            <p><a class="reply" href="/usermessages/new_message?user_id={{message.sender.id}}&header=RE:{{message.header}}">Reply</a></p>
+
+                    
+        </div>
     </div>
 
 
-    <div class="message-content">
-        <span class="header">{{message.header}}</span>
-        <br>
-        {{message.content}}
-    </div>
-</div>
+
+
+  </div>
+
+
+
+
 
 
 

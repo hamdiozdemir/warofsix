@@ -1,0 +1,153 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/fortress.css' %}" type='text/css'>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock head %}
+
+
+
+{% block body %}
+
+<div class="power-report-container">
+
+    
+    {% if report.attacker_race == "Goblins" %}
+
+
+    <div> <h4> <b> {{report.super_power}}</b></h4>  </div>
+    <div>vs. {{report.location.user}} | {{report.location.location_name}} </div>
+    <div>
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/time.png" alt="" title="time">
+        {{report.time | date:'Y-m-d H:i'}} 
+    </div>
+    <div>
+        
+        <img class="mini-icon" src="{% get_static_prefix %}images/troops/{{report.troop.id}}.png" alt="" title="{{report.troop}}">
+        
+        {{report.troop}}
+    </div>
+    
+    <div> 
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/deads.png" alt="" title="deads">
+        {{report.deads}} 
+    </div>
+    
+
+    {% elif report.attacker_race == "Elves" %}
+
+    <div> <h4> <b> {{report.super_power}}</b></h4>  </div>
+    <div>vs. {{report.location.user}} | {{report.location.location_name}} </div>
+    <div>
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/time.png" alt="" title="time">
+        {{report.time | date:'Y-m-d H:i'}} 
+    </div>
+    <div>
+        
+        <img class="mini-icon" src="{% get_static_prefix %}images/troops/{{report.troop.id}}.png" alt="" title="{{report.troop}}">
+        
+        {{report.troop}}
+    </div>
+    
+    <div> 
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/deads.png" alt="" title="deads">
+        {{report.deads}} 
+    </div>
+
+
+    {% elif report.attacker_race == "Isengard" %}
+
+    <div> <h4> <b> {{report.super_power}}</b></h4>  </div>
+    <div>vs. {{report.location.user}} | {{report.location.location_name}} </div>
+    <div>
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/time.png" alt="" title="time">
+        {{report.time | date:'Y-m-d H:i'}} 
+    </div>
+    <div>
+        
+        <img class="mini-icon" src="{% get_static_prefix %}images/troops/{{report.troop.id}}.png" alt="" title="{{report.troop}}">
+        
+        {{report.troop}}
+    </div>
+    
+    <div> 
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/deads.png" alt="" title="deads">
+        {{report.deads}} 
+    </div>
+
+
+    {% elif report.attacker_race == "Men" %}
+
+    <div> <h4> <b> {{report.super_power}}</b></h4>  </div>
+    <div>vs. {{report.location.user}} | {{report.location.location_name}} </div>
+    <div>
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/time.png" alt="" title="time">
+        {{report.time | date:'Y-m-d H:i'}} 
+    </div>
+    <div>
+        
+        <img class="mini-icon-troop" src="{% get_static_prefix %}images/troops/{{report.revealed_troop.id}}.png" alt="" title="{{report.revealed_troop}}">
+        
+        {{report.revealed_troop}}
+    </div>
+    
+    <div> 
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/reveal.png" alt="" title="reveal">
+        {{report.revealed_count}} 
+    </div>
+
+    <div> 
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/defence.png" alt="" title="revealed_defence_level">
+        {{report.revealed_defence_level}} 
+    </div>
+
+    <div> 
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/attack.png" alt="" title="revealed_attack_level">
+        {{report.revealed_attack_level}} 
+    </div>
+
+
+    {% else %}
+
+
+    <div> <h4> <b> {{report.super_power}}</b></h4>  </div>
+    <div>vs. {{report.location.user}} | {{report.location.location_name}} </div>
+    <div>
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/time.png" alt="" title="time">
+        {{report.time | date:'Y-m-d H:i'}} 
+    </div>
+    <div>
+        
+        <img class="mini-icon-troop" src="{% get_static_prefix %}images/buildings/{{report.building.id}}.png" alt="" title="{{report.building}}">
+        
+        {{report.building}}
+    </div>
+    
+    <div> 
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/pre_level.png" alt="" title="Pre Level">
+        {{report.pre_level}} 
+    </div>
+
+    <div> 
+        <img class="mini-icon" src="{% get_static_prefix %}images/others/post_level.png" alt="" title="Post Level">
+        {{report.post_level}} 
+    </div>
+
+
+
+    
+    {% endif %}
+
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock body %}
+

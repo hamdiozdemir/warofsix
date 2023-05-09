@@ -2,9 +2,9 @@ from django.dispatch import Signal
 from datetime import timedelta
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from .models import UserTroops, Race, Troops, Buildings, UserBuildings, Resources, Location, UserTracker, Settlement, Statistic, UserTroopTraining, TroopUpgrades, Profile
-from encampment.models import DepartingCampaigns, DepartingTroops, ArrivingCampaigns, ArrivingTroops, DefencePosition
-from battle.models import Battles, AttackerDeads, DefenderDeads
+from .models import UserTroops, Race, Troops, Buildings, UserBuildings, Resources, Location, UserTracker, Settlement, Statistic, UserTroopTraining, TroopUpgrades, WildData, UserMarkets, SuperPower,  Notifications, Messages
+from encampment.models import DefencePosition, ReinforcementTroops
+from accounts.models import Profile
 from .views import positive_or_zero
 from django.utils import timezone
 # import csv
@@ -12,8 +12,7 @@ import random, math
 from math import floor
 from django.db.models import F, Q
 from django.contrib.auth.models import User
-
-
+from decouple import config
 
 
 profile_description_samples = {
@@ -22,6 +21,7 @@ profile_description_samples = {
     "You shall not pass!",
     "Fly, you fools!",
     "Forth.. And fear no darkness!",
+    "An hour of wolves and shattered shields, when the age of men comes crashing down! But it is not this day! This day we fight!",
 
 
 
@@ -30,6 +30,10 @@ profile_description_samples = {
 
     "Elves":[
     "You have been called here to answer the threat of Mordor. Middle-earth stands upon the brink of destruction; none can escape it. You will unite or you will fall.",
+    "Such is the nature of evil. In time, all foul things come forth.",
+    "Why do you come to me? What do you seek?",
+
+
     
     ],
 
@@ -49,6 +53,9 @@ profile_description_samples = {
     "The age of Men is over. The time of the Orc has come.",
     "The old world will burn in the fires of industry. The forests will fall. A new order will rise.",
     "the wolf that one hears is worse than the orc that one fears.",
+    "There will be no dawn for Men.",
+    "We will make such a feast in the land of Mordor as has not been seen since the days of our Kings!",
+
 
 
 
@@ -61,7 +68,8 @@ profile_description_samples = {
     "Slay them all",
     "Fear.. The city is rank with it! Let us ease their suffering.",
     "Grond... Grond... Grond...",
-    ""
+    "I am fire... I am... death!",
+    
 
     
     ],
@@ -70,6 +78,8 @@ profile_description_samples = {
     "Oh, but I'm forgetting, you don't have a mountain, and you're not a king, which makes you nobody, really.",
     "Bones will be shattered, necks will be wrung!",
     "Abominations, disfigurations, mutilations, and repulsions... That's all you're going to find down here.",
+    "We shall wipe the dwarves out, utterly!",
+
     
     ]
 }
@@ -101,15 +111,6 @@ def create_instances(sender, instance, created, **kwargs):
             race = Race.objects.get(user=user)
             race.is_selected = True
             race.save()
-
-
-@receiver(post_save, sender=DepartingCampaigns)
-def create_battle_task(sender, instance, created, **kwargs):
-    if created:
-        print(instance)
-        print("signal emcampment")
-        # print(instance.speed)
-
 
 
 @receiver(post_save, sender=Race)
@@ -145,6 +146,9 @@ def create_buildings(sender, instance, created, **kwargs):
             fortress.building = UserBuildings.objects.get(user=user, building__name = "Fortress")
             fortress.save()
 
+            # Create super power row
+            create_super_power(race, fortress.building)
+
             # create a profile
             Profile.objects.create(
                 user=user,
@@ -160,6 +164,13 @@ def create_buildings(sender, instance, created, **kwargs):
             # Create a tracker
             UserTracker.objects.create(user=user)
 
+            # Create Market
+            UserMarkets.objects.create(user=user)
+
+            # Create Notifications
+            Notifications.objects.create(user=user)
+
+
             # Create a Defensive Position
             positions_list = [11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 34]
             default_builder = UserTroops.objects.get(user=user, troop__name="Builder")
@@ -171,8 +182,8 @@ def create_buildings(sender, instance, created, **kwargs):
 
 
 
-# İLERİDE SERVER'DA BU SİGNAL'İN BELİRLİ ARALIKLARLA ÇALIŞMASI GEREKİYOR
 
+# get tracker to update user instances
 @receiver(post_save, sender=UserTracker)
 def catch_request(sender, instance, **kwargs):
     user = instance.user
@@ -183,71 +194,75 @@ def catch_request(sender, instance, **kwargs):
     resource_production(user)
     current_resources(user)
     armory_update_check(user)
-    # create_wild_good_easy()
+
+
+    # CREATE WILD
+    # wild_user = create_wild_user()
+
+    # create_wild_good(wild_user, "hard", "Beornings", 20,40,4)
+
+
+    #Update burdens
+    # alltroops = Troops.objects.filter(race="Goblins")
+    # for troop in alltroops:
+    #     troop.burden = round(troop.burden * 1.5)
+    #     troop.save()
 
 
 
+from battle.models import Battles
+
+@receiver(post_save, sender=Battles)
+def catch_battle(sender, instance, created, **kwargs):
+    if created:
+        notifi = Notifications.objects.get(user=instance.attacker)
+        notifi.report = True
+        notifi.save()
+
+        notifi2 = Notifications.objects.get(user=instance.defender)
+        notifi2.report = True
+        notifi2.save()
 
 
+from alliances.models import AllianceMembers, AllianceChats, AllianceJoinRequest
+
+@receiver(post_save, sender=AllianceChats)
+def alliance_chat_catch(sender, instance, created, **kwargs):
+    if created:
+        members = AllianceMembers.objects.filter(alliance = instance.alliance)
+        for obj in members:
+            notifi = Notifications.objects.get(user = obj.member)
+            notifi.alliance = True
+            notifi.save()
+
+@receiver(post_save, sender=AllianceJoinRequest)
+def alliance_request_catch(sender, instance, created, **kwargs):
+    if created:
+        members = AllianceMembers.objects.filter(alliance = instance.alliance)
+        for obj in members:
+            notifi = Notifications.objects.get(user = obj.member)
+            notifi.alliance = True
+            notifi.save()    
 
 
-departing_campaign_created_signal = Signal()
+@receiver(post_save, sender=Messages)
+def message_catch(sender, instance, created, **kwargs):
+    if created:
+        notifi = Notifications.objects.get(user = instance.target)
+        notifi.messages = True
+        notifi.save()
 
-def departing_campaign_created(sender, instance, **kwargs):
-    print("Departing Campaign signals")
-    print(instance)
-    print(f"Hız: {instance.speed}")
-    print(f"Varış Zamanı: {instance.arriving_time}")
-
-
-departing_campaign_created_signal.connect(departing_campaign_created)
-
-
-arriving_campaign_created_signal = Signal()
-
-def arriving_campaign_created(sender, instance, **kwargs):
-    print("Arriving Campaing Created")
-    print(instance)
-    print(f"Hız: {instance.speed}")
-    print(f"Varış Zamanı: {instance.arriving_time}")
-
-arriving_campaign_created_signal.connect(arriving_campaign_created)
 
 
 
 # Hızları ayarlamak için lazım olduğunda kullandım.
-def speed_dec():
+def speed_dec(divide_number):
     troops = Troops.objects.all()
     for troop in troops:
-        troop.speed = round(troop.speed / 3)
+        troop.speed = round(troop.speed / divide_number)
         print(f"{troop} yeni hızı {troop.speed} oldu.")
         troop.save()
 
-# tracker'da sorun yaşıyor
-def create_wild_good_easy():
-    number = random.choice(range(99999))
-    user = User.objects.create(username=f"wild1{number}", password="Galadriel123", is_staff=False, is_active=True, is_superuser=False)
-    race = Race.objects.create(user=user, name="Wild", is_selected=True)
-
-    loc = random.choice(Location.objects.filter(type="wild"))
-    loc.user = user
-    loc.location_name = "Wildling Camp"
-    loc.save()
-
-    buildings = Buildings.objects.filter(race="Wild")
-    for building in buildings:
-        UserBuildings.objects.create(user=user, building=building, level=5, resource_worker=5)
-    troops = Troops.objects.filter(race="Wild")
-    troops = random.choices(troops, k=2)
-    for troop in troops:
-        UserTroops.objects.create(user=user, troop=troop, count=random.randint(13,30))
-    
-    resource = Resources.objects.create(user=user, wood=random.randint(12000,19000), stone=random.randint(12000,19000), iron=random.randint(12000,19000), grain=random.randint(12000,22000))
-
-    stat = Statistic.objects.create(user=user)
-
-    profile = Profile.objects.create(user=user, race=race, location=loc, statistic=stat)
-    tracker = UserTracker.objects.create(user=user)
 
 
 def resource_production(user):
@@ -290,8 +305,13 @@ def resource_production(user):
     consuption = 0
     for user_troop in user_troops:
         consuption += user_troop.troop.consuption * user_troop.count
+    reinforcements = ReinforcementTroops.objects.filter(location__user = user)
+    for rein_troop in reinforcements:
+        print(rein_troop.user_troop)
+        consuption += rein_troop.user_troop.troop.consuption * rein_troop.count
     
     grain_production -= consuption
+
 
     production = {
         "wood": round(wood_production),
@@ -299,7 +319,6 @@ def resource_production(user):
         "iron": round(iron_production),
         "grain": round(grain_production)
     }
-    print(production)
     return production
 
 
@@ -416,12 +435,9 @@ def armory_update_check(user):
         
         if positive_or_zero(new_time_left) == 0:
             field = upgrades.upgrading_field
-            print("***************************")
-            print(field)
             current_value = getattr(upgrades, field)
             current_value += 1
             setattr(upgrades, field, current_value)
- 
             upgrades.last_checkout = timezone.now()
             upgrades.time_left = 0
             upgrades.save()
@@ -446,9 +462,109 @@ def armory_update_check(user):
     return True
 
 
+def create_wild_user():
+    number = random.choice(range(99999))
+    passw = config("WILD_PASS")
+    user = User.objects.create(username=f"wild1{number}", password=passw, is_staff=False, is_active=True, is_superuser=False)
+    race = Race.objects.create(user=user, name="Wild", is_selected=True)
+    return user
+
+def create_wild_good(user, level, troop_name, range_start, range_end, ring_chance):
+    # create location
+    locs = Location.objects.filter(user=None, type="wild")
+    loc = random.choice(locs)
+    loc.user = user
+    loc.save()
+    
+    # create user troops objects
+    troop = Troops.objects.get(name = troop_name)
+    troop_count = random.choice(range(range_start, range_end))
+    user_troop = UserTroops.objects.create(user=user, troop=troop, count=troop_count)
+
+    # create resources
+        # get a lucky choice. make probability 1/4
+    ring_number = random.choice(range(ring_chance))
+    rings = 1 if ring_number == 1 else 0
+    Resources.objects.create(user=user, rings=rings, token=0)
+
+    # statistic
+    user_statistic = Statistic.objects.create(user=user)
+    race = Race.objects.get(user=user)
+
+    # profile
+    Profile.objects.create(
+        user = user,
+        race = race,
+        location = loc,
+        statistic = user_statistic,
+        description = "Wildlings"
+    )
+
+    # create defensive positions
+    positions_list = [11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 34]
+    for pos in positions_list:
+        if pos in [11,12,13,14]:
+            DefencePosition.objects.create(user=user, position=pos, user_troop=user_troop, percent=25)
+        else:
+            DefencePosition.objects.create(user=user, position=pos, user_troop=user_troop)
+    
+    if level == "easy":
+        res_prod_number = random.choice(range(500,750))
+    elif level == "medium":
+        res_prod_number = random.choice(range(1200,2000))
+    elif level == "hard":
+        res_prod_number = random.choice(range(1200,2000))
+    else:
+        res_prod_number = random.choice(range(3000, 4500))
+    
+    WildData.objects.create(user=user, resource_production_number = res_prod_number)
 
 
-
+def create_super_power(race, fortress):
+    if race == "Men":
+        SuperPower.objects.create(
+            user_building = fortress,
+            name = "Ivory Tower",
+            description = "Ivory Tower lets you reveal an enemy's troop's number.",
+            power_damage = 0
+        )
+    elif race == "Elves":
+        SuperPower.objects.create(
+            user_building = fortress,
+            name = "Giant Eagle Strike",
+            description = "Giant Eagle Strike lets you make a powerful attack to an enemy's random troops.",
+            power_damage = 30000
+        )
+    elif race == "Dwarves":
+        SuperPower.objects.create(
+            user_building = fortress,
+            name = "The Mighty Catapult",
+            description = "The Mighty Catapult lets you make a powerful attack to an enemy's random building.",
+            power_damage = 17500
+        )
+    elif race == "Isengard":
+        SuperPower.objects.create(
+            user_building = fortress,
+            name = "Wizard Tower",
+            description = "Wizard Tower lets you make a powerful attack to an enemy's random troops.",
+            power_damage = 31000
+        )
+    elif race == "Mordor":
+        SuperPower.objects.create(
+            user_building = fortress,
+            name = "Gorgoroth Spire",
+            description = "The Gorgoroth Spire lets you make a powerful attack to an enemy's random building.",
+            power_damage = 18000
+        )
+    elif race == "Goblins":
+        SuperPower.objects.create(
+            user_building = fortress,
+            name = "Dragon Strike",
+            description = "Drogon Strike lets you make a powerful attack to an enemy's random troops.",
+            power_damage = 32000
+        )
+    else:
+        pass
 
 
 # THESE LINES ARE USED TO ENTER LOCATIONS TO DB

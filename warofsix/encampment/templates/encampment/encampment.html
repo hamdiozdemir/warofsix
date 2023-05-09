@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-
+<link rel="stylesheet" href="{% static 'style/encampment.css' %}" type='text/css'>
 <script src="{% static 'encampment/scripts/scripts.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
@@ -13,12 +13,13 @@
 {% block body %}
 
 
+
 <div class="encampment-container">
 
   <div class="left-troop-bar">
 
       <div class="current-troop-container">
-        <h4 style="width: 100%; text-align:center;">CURRENT TROOPS</h4>
+        <h6 style="width: 100%; text-align:center;">MY TROOPS</h6>
         
         
 
@@ -35,12 +36,13 @@
     </div>
   
     <div class="current-hero-container">
-      <h5 style="width: 100%; text-align:center;">CURRENT HEROES</h5>
+      <h6 style="width: 100%; text-align:center;">MY HEROES</h6>
       {% for hero in user_heroes %}
       <div class="current-hero-box">
         <div class="hero-heading"><label for="{{hero.hero}}"> <i>{{hero.hero}}</i> </label></div>
         <img class="troop-icon-camp" src="{% get_static_prefix %}images/heroes/{{hero.hero.id}}.png" alt="{{hero.hero}}">
         Current Health: {{hero.current_health}}
+        <div><b><i>{{hero.status}}</i> </b></div>
         {% if hero.hero.summon_amount == 0 %}
         {% else %}
         <div>{{hero.hero.summon_amount}} {{hero.hero.summon_type}}</div>
@@ -51,7 +53,7 @@
   </div>
 
   <div class="current-troop-container">
-    <h4 style="width: 100%; text-align:center;">REINFORCEMENT TROOPS</h4>
+    <h6 style="width: 100%; text-align:center;">REINFORCEMENT TROOPS</h6>
     
     {% for rein in reinforcements %}
     
@@ -59,11 +61,44 @@
       <label for="{{rein.user_troop.troop}}"> <i>{{rein.user_troop.troop}}</i> </label>
       <img class="troop-icon-camp" src="{% get_static_prefix %}images/troops/{{rein.user_troop.troop.id}}.png" alt="{{rein.user_troop.troop.name}}">
       <div> <b>{{rein.count}}</b> </div>
+      <div>{{rein.owner}}</div>
+      <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="sendback">
+        <input type="hidden" name="sendback" value="{{rein.id}}">
+        <button type="submit" class="btn btn-primary btn-sm">Sendback</button>
+      </form>
     </div>
     
     {% endfor %}
     
   </div>
+
+  <div class="current-troop-container">
+    <h6 style="width: 100%; text-align:center;">MY REINFORCEMENTS</h6>
+    
+    {% for rein in my_reinforcements %}
+    
+    <div class="current-reinforcement-box">
+      <label for="{{rein.user_troop.troop}}"> <i>{{rein.user_troop.troop}}</i> </label>
+      <img class="troop-icon-camp" src="{% get_static_prefix %}images/troops/{{rein.user_troop.troop.id}}.png" alt="{{rein.user_troop.troop.name}}">
+      <div> <b>{{rein.count}}</b> </div>
+      <div>{{rein.location.user}}</div>
+      <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="callback">
+        <input type="hidden" name="callback" value="{{rein.id}}">
+        <button type="submit" class="btn btn-primary btn-sm">Callback</button>
+      </form>
+    </div>
+    
+    {% endfor %}
+    
+  </div>
+
+
+
+
 </div>
   
   
@@ -131,7 +166,7 @@
 
     </form>
 
-
+ 
 
 <!------------------------------------------------------------------------>
 
@@ -140,8 +175,6 @@
         <hr>
       <h4>SEND TROOPS</h4>
 
-      <hr>
-      <h6><b>FORMATIONS</b></h6>
 
 
         <form method="post" id="attack"> {% csrf_token %}
@@ -158,11 +191,10 @@
               {% for position in positions %}
 
               <div class="formation-item2" id="{{position}}">
-                <b>{{position}}</b>
                 
                 <div class="hero-select-container">
                   <div class="hero-select-menu">
-                        <select id="herod-{{position}}" name="herod{{position}}" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <select id="heroa-{{position}}" name="herod{{position}}" class="form-select form-select-sm" aria-label=".form-select-sm example">
                           <option id ="99">Add Hero</option>
                           {% for hero in user_heroes %}
                           <option id="{{hero.hero.id}}" value="{{hero.id}}">{{hero.hero}}</option>
@@ -171,7 +203,7 @@
                       </div>
                       
                       <div class="hero-small-image">
-                      <img id="imgh{{position}}" class="hero-img" src="{% get_static_prefix %}images/heroes/{{99}}.png" alt="">
+                      <img id="imgha{{position}}" class="hero-img" src="{% get_static_prefix %}images/heroes/99.png" alt="">
                     </div>
                   </div>
                   
@@ -188,196 +220,13 @@
               </div>
               
               {% endfor %}
-            </div>
+          </div>
 
 
             <hr>
 
             <!--
-            
-
-            <div class="formation-table">
-            
-              <div class="battle-field">
-                <span id="battle-field">BATTLE FIELD</span>
-              </div>
-
-
-              <div class="formation-row">
-                <div class="formation-item" id="11">
-                  <b>11</b>
-                    <select id="slc-11" name="troop11" class="troop-select" aria-label="Default select example">
-                      {% for troop in user_counted_troops %}
-                      <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                      {% endfor %}
-                    </select>
-
-                    <img id="img11" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                    <input class="troop-input" type="number" id="num11" name="num11" min="0"  value="0">
-                </div>
-
-                <div class="formation-item" id="12">
-                  <b>12</b>    
-                  
-                  <select id="slc-12" name="troop12" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                    {% endfor %}
-                  </select>
-
-                  <img id="img12" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                  <input class="troop-input" type="number" id="num12" name="num12" min="0"  value="0">
-                </div>
-
-                <div class="formation-item"  id="13">
-                  <b>13</b>
-
-                  <select id="slc-13" name="troop13" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                    {% endfor %}
-                  </select>
-                  
-                  <img id="img13" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                  <input class="troop-input" type="number" id="num13" name="num13" min="0"  value="0">
-                </div>
-
-                <div class="formation-item"  id="14">
-                  <b>14</b>
-
-                  <select id="slc-14" name="troop14" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                    {% endfor %}
-                  </select>
-                  
-                  <img id="img14" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                  <input class="troop-input" type="number" id="num14" name="num14" min="0"  value="0">
-                </div>
-
-              </div>
-
-              <div class="formation-row">
-                <div class="formation-item" id="21">
-                  <b>21</b>
-                    <select id="slc-21" name="troop21" class="troop-select" aria-label="Default select example">
-                      {% for troop in user_counted_troops %}
-                      <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                      {% endfor %}
-                    </select>
-
-                    <img id="img21" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                    <input class="troop-input" type="number" id="num21" name="num21" min="0"  value="0">
-                </div>
-
-                <div class="formation-item" id="22">
-                  <b>22</b>    
-                  
-                  <select id="slc-22" name="troop22" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                    {% endfor %}
-                  </select>
-
-                  <img id="img22" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                  <input class="troop-input" type="number" id="num22" name="num22" min="0"  value="0">
-                </div>
-
-                <div class="formation-item"  id="23">
-                  <b>23</b>
-
-                  <select id="slc-23" name="troop23" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                    {% endfor %}
-                  </select>
-                  
-                  <img id="img23" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                  <input class="troop-input" type="number" id="num23" name="num23" min="0"  value="0">
-                </div>
-
-                <div class="formation-item"  id="24">
-                  <b>24</b>
-
-                  <select id="slc-24" name="troop24" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                    {% endfor %}
-                  </select>
-                  
-                  <img id="img24" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                  <input class="troop-input" type="number" id="num24" name="num24" min="0"  value="0">
-                </div>
-
-              </div>
-
-              <div class="formation-row">
-                <div class="formation-item" id="31">
-                  <b>31</b>
-                    <select id="slc-31" name="troop31" class="troop-select" aria-label="Default select example">
-                      {% for troop in user_counted_troops %}
-                      <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                      {% endfor %}
-                    </select>
-
-                    <img id="img31" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                    <input class="troop-input" type="number" id="num31" name="num31" min="0"  value="0">
-                </div>
-
-                <div class="formation-item" id="32">
-                  <b>32</b>    
-                  
-                  <select id="slc-32" name="troop32" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                    {% endfor %}
-                  </select>
-
-                  <img id="img32" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                  <input class="troop-input" type="number" id="num32" name="num32" min="0"  value="0">
-                </div>
-
-                <div class="formation-item"  id="33">
-                  <b>33</b>
-
-                  <select id="slc-33" name="troop33" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                    {% endfor %}
-                  </select>
-                  
-                  <img id="img33" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                  <input class="troop-input" type="number" id="num33" name="num33" min="0"  value="0">
-                </div>
-
-                <div class="formation-item"  id="34">
-                  <b>34</b>
-
-                  <select id="slc-34" name="troop34" class="troop-select" aria-label="Default select example">
-                    {% for troop in user_counted_troops %}
-                    <option id="{{troop.troop.id}}" value="{{troop.id}}">{{troop.troop}}</option>
-                    {% endfor %}
-                  </select>
-                  
-                  <img id="img34" class="formation-img" src="{% get_static_prefix %}images/troops/{{user_counted_troops.0.troop.id}}.png" alt="">
-
-                  <input class="troop-input" type="number" id="num34" name="num34" min="0"  value="0">
-                </div>
-
-              </div>
-
-            </div>
+            COMMENTS OLD
 
 -->
 
@@ -388,10 +237,15 @@
               <label for="locy">Y: </label>
               <input type="number" id="locy" name="locy" min="0" max="30" required>
 
-              <input class="form-check-input" type="radio" value="True" id="flexCheckCheckedDisabled" name="auto" checked>
-              <label class="form-check-label" for="flexCheckCheckedDisabled" >
-                Auto Battle
-              </label>
+              <span class="small-icon"><img id="location-icon" class="small-icon" src="{% get_static_prefix %}images/others/map-pin.svg" alt=""></span>  <span class="bold" id="result"></span>
+              
+              <div>
+                
+                <input class="form-check-input" type="radio" value="True" id="flexCheckCheckedDisabled" name="auto" checked disabled>
+                <label class="form-check-label" for="flexCheckCheckedDisabled" >
+                  Auto Battle
+                </label>
+              </div>
 
               <div class="form-check">
                 <input class="form-check-input" type="radio" value="reinforcement" id="reinforcement" name="sendType" checked>
@@ -430,14 +284,55 @@
 
         </form>
 
-      <hr>
 
-      <br>
 
       <h4>DEPARTING CAMPAIGNS</h4>
+      <h6>ATTACKS</h6>
 
-      {% for camp in departing_campaigns %}
-      <div>TO: {{camp.target_location}}  </div>
+      
+      {% for camp in departing_attacks %}
+      
+    <div class="campaign-group">
+      
+      <div id="{{camp.id}}">TO: {{camp.target_location}}  </div>
+      <div>Type: {{camp.campaign_type}}  </div>
+      <div>Arriving at: {{camp.arriving_time}} | <span class="countdown">{{camp.arriving_time|date:"c"}} </span>  </div>
+      <div class="battle-field">
+        <span id="battle-field">BATTLE FIELD</span>
+      </div>
+      <div class="departing-camp-container">
+        {% for group in camp.group %}
+        <div class="departing-troop-item">
+              {% if group.count == 0 %}
+                {% if group.position_hero %}
+                
+                <div style="font-size:0.8rem; font-weight:bold;"> {{group.position_hero.user_hero.hero}}</div>
+                
+                {% endif %}
+              x
+              {% else %}
+                {% if group.position_hero %}
+               
+                <div style="font-size:0.8rem; font-weight:bold;"> {{group.position_hero.user_hero.hero}}</div>
+                
+                {% endif %}
+              <div>{{group.user_troop.troop}}</div>
+              <div>{{group.count}}</div>
+              {% endif %}
+            </div>
+        {% endfor %}
+        
+      </div>
+
+
+      <hr>
+    </div>
+      
+      {% endfor %}
+
+      <h6>REINFORCEMENTS</h6>
+      {% for camp in departing_reinforcements %}
+      <div id="{{camp.id}}">TO: <a href="/user/{{camp.target_location.user.id}}/"> {{camp.target_location}}</a>  </div>
       <div>Type: {{camp.campaign_type}}  </div>
       <div>Arriving at: {{camp.arriving_time}} | <span class="countdown">{{camp.arriving_time|date:"c"}} </span>  </div>
       <div class="battle-field">
@@ -460,16 +355,24 @@
       
       {% endfor %}
 
-
-      <h4>Arriving CAMPAIGNS</h4>
+<br>
+      <h4>ARRIVING CAMPAIGNS</h4>
+      <h6>RETURNS/REINFORCEMENTS</h6>
 
       {% for camp in arriving_campaigns %}
-      <div>FROM: {{camp.target_location}}  </div>
+
+      {% if camp.campaign_type == "reinforcement" %}
+
+      <div id="{{camp.id}}">FROM:
+        <a href="/user/{{camp.main_location.user.id}}">
+           {{camp.main_location.user}} 
+        </a>
+        </div>
       <div>Type: {{camp.campaign_type}}  </div>
       <div>Arriving at: {{camp.time_left}} | 
-        <!--
+        
           <span class="countdown">{{camp.arriving_time|date:"c"}} </span>  
-        -->
+        
       </div>
       <div class="arriving-camp-container">
         {% for group in camp.group %}
@@ -482,12 +385,59 @@
               {% endif %}
             </div>
         {% endfor %}
-        <div> Wood: {{camp.arriving_wood}} | Stone: {{camp.arriving_stone}} | Iron: {{camp.arriving_iron}} | Grain: {{camp.arriving_grain}} </div>
       </div>
       <hr>
       
+      {% else %}
+      
+      
+      <div id="{{camp.id}}">FROM: {{camp.main_location}}  </div>
+      <div>Type: {{camp.campaign_type}}  </div>
+      <div> 
+        
+          <span class="countdown">{{camp.arriving_time|date:"c"}} </span>  
+     
+      </div>
+      <div class="arriving-camp-container">
+        {% for group in camp.group %}
+        <div class="arriving-troop-item">
+              {% if group.count == 0 %}
+              x
+              {% else %}
+              <div>{{group.user_troop.troop}}</div>
+              <div>{{group.count}}</div>
+              {% endif %}
+        </div>
+            {% endfor %}
+
+            {% for heroes in camp.heroes %}
+
+            <div class="arriving-troop-item" style="background: #d95252bf;">
+              <img class="camp-hero-image" src="{% get_static_prefix %}images/heroes/{{heroes.user_hero.hero.id}}.png">
+              <div>{{heroes.user_hero.hero}}</div>
+            </div>
+            
+            {% endfor %}
+          </div>
+          <div> Wood: {{camp.arriving_wood}} | Stone: {{camp.arriving_stone}} | Iron: {{camp.arriving_iron}} | Grain: {{camp.arriving_grain}} </div>
+      <hr>
+      {% endif %}
+      
       {% endfor %}
 
+
+
+      <h6>INCOMING ATTACKS</h6>
+
+      {% for incoming in arriving_attacks %}
+      <div id="{{incoming.id}}">
+        <img style="height:22px;" class="line-icon" src="{% get_static_prefix %}images/others/attack-incoming.gif">
+        
+        FROM: <a href="/user/{{incoming.user.id}}"> {{incoming.user}}</a></div>
+      <div>Arriving at: {{incoming.arriving_time}} | <span class="countdown">{{incoming.arriving_time|date:"c"}} </span>  </div>
+
+      
+      {% endfor %}
 
   </div>
 </div>
@@ -540,6 +490,23 @@
 </script>
 
 
+<script>
+  const selectImgPairshat = document.querySelectorAll('[id^="heroa-"]');
+  selectImgPairshat.forEach(pair => {
+    const imgha = document.querySelector(`#imgha${pair.id.slice(6)}`);
+    
+    // add event listener to select element
+    pair.addEventListener('change', (event) => {
+      console.log('Hero att çalıştı');
+      const selected = pair.querySelector(`option[value="${event.target.value}"]`);
+      const idh = selected.id
+      console.log(idh);
+      imgha.src = `{% get_static_prefix %}images/heroes/${idh}.png`;
+    });
+  });
+</script>
+
+
 
 <script>
   {% for block in positions %}
@@ -567,9 +534,8 @@
         var distance = moment.duration(datetime.diff(now));
   
         if (distance.asSeconds() < 0) {
-          clearInterval(x);
-          $(this).html("ARRIVED");
-          return;
+          location.reload();
+          
         }
   
         var hours = Math.floor(distance.asHours() % 24);
@@ -581,8 +547,49 @@
     });
   });
   
-  
-  
+</script>
+
+
+
+  <!--  FOR LOCATION CHECK  -->
+<script>
+  $(document).ready(function() {
+    // Define your data dictionary with coordinates and names
+    var data = JSON.parse('{{location_data|escapejs}}') ;
+
+    // Listen for changes to the input fields
+    $('#locx, #locy').on('change', function() {
+      // Get the values of the input fields
+      var locx = $('#locx').val();
+      var locy = $('#locy').val();
+
+      // Build the coordinate key for the data dictionary
+      var key = locx + ',' + locy;
+
+      // Check if the key exists in the data dictionary
+      if (key in data) {
+        // If it does, show the corresponding name
+        $('#result').text(data[key]);
+      } else {
+        // If it doesn't, show an error message
+        $('#result').text('Not found');
+      }
+    });
+  });
+</script>
+
+
+
+ <!--  Incoming link with params  -->
+<script>
+  // Get the URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const locx = urlParams.get('locx');
+  const locy = urlParams.get('locy');
+
+  // Set the values of the input fields
+  document.getElementById('locx').value = locx;
+  document.getElementById('locy').value = locy;
 </script>
 
     {% endblock body %}

@@ -1,61 +1,103 @@
 {% extends 'main/layout.html' %}
 {% load static %}
 
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'style/resources.css' %}" type='text/css'>
+
+{% endblock head %}
+
 {% block body %}
 
+
+
+<div class="flex-column-center">
+    
     <h2>RESOURCES</h2>
+        {% include 'main/mini_resources.html' %}
+    
+    <h2>PRODUCTION</h2>
 
-    <h6>Recources</h6>
+    <div class="resource-production">
 
-    <div class="resources">
-        <div class="resource-item">
-            {% load static %}
-        <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood"> =  {{resources.wood}}
+        <div class="production-box wood">
+            <div class="bold">Wood</div>
+            <div class="bold">{{wood}} /hr</div>
+
         </div>
 
-        <div class="resource-item">
-            {% load static %}
-        <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood"> = {{resources.stone}}
+        <div class="production-box stone">
+            <div class="bold">Stone</div>
+            <div class="bold">{{stone}} /hr</div>
+
         </div>
 
-        <div class="resource-item">
-            {% load static %}
-        <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> = {{resources.iron}}
+        <div class="production-box iron">
+            <div class="bold">Iron</div>
+            <div class="bold">{{iron}} /hr</div>
+
         </div>
 
-        <div class="resource-item">
-            {% load static %}
-        <img class="resource-icon" src="{% static 'images/others/grain.png' %}" alt="Grain"> = {{resources.grain}}
+        <div class="production-box grain">
+            <div class="bold">Grain</div>
+            <div class="bold">{{grain}} /hr</div>
+
         </div>
+
+        <div class="builder-box">
+            <div class="bold">Available Builders</div>
+            <div class="bold"> <img class="resource-icon" src="{% static 'images/others/builder.png' %}" alt="Builder">  {{builders.count}}</div>
+    
+        </div>
+
+    </div>
+<br>
+
+
+  
+ 
+    <div class="resource-buildings">
+
+        {% for building in resource_buildings %}
         
+        
+        <div class="building-box {{building.building.type}}">
+            <div class="resource-left">
+                <img class="resource-building-image" src="{% get_static_prefix %}images/buildings/{{building.building.type}}.png" title="{{building.building}}">
+                <div class="bold"> {{building.building}} </div> 
+                <div>Level {{building.level}} </div>
+                
+            </div>
+            
+            <div class="resource-right">
+                <i>Currently Working Builders: {{building.resource_worker}}</i>
+                
+                    <form method="post" class="">
+                        {% csrf_token %}
+                        <div>
+                            <input type="number" style="line-height: 2rem;"  id="builder" name="{{building.id}}" placeholder="" value={{building.resource_worker}}>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-secondary" onclick="checkNumber()">UPDATE</button>
+                        </div>
+                        
+                    </form>
+                
+                
+            </div>
+            
+        </div>
+        {% endfor %}
+
 
     </div>
 
-
-
-
-    <h6>PRODUCTION</h6>
-
-    <h3>WOOD: {{wood}}</h3>
-    <h3>STONE: {{stone}}</h3>
-    <h3>IRON: {{iron}}</h3>
-    <h3>GRAIN: {{grain}}</h3>
-
-    <hr>
-    <h5>BUILDERS</h5>
-    <i>Currently Available Builders: {{builders.count}} </i>
-
-
-
-    {% for building in  resource_buildings %}
-    <p>{{building}} - <i>Level: {{building.level}}</i></p>
-    <i>Currently Working Builders: {{building.resource_worker}}</i>
-    <form method="post" class="troop-train">
-        {% csrf_token %}
-        <input type="number" style="line-height: 2rem;"  id="builder" name="{{building.id}}" placeholder="" value={{building.resource_worker}}>
+  
     
-        <button type="submit" class="btn btn-secondary" onclick="checkNumber()">UPDATE</button>
-    </form>
-    <hr>
-    {% endfor %}
+    
+   
+            
+</div>
+            
 {% endblock body %}

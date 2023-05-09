@@ -7,34 +7,48 @@
 
 {% for building in buildings %}
 
-<h4> {{building.name}} - {{building.id}}</h4>
+<div class="new-building-container">
 
-<div class="mini-resource">
-    {% load static %}
-    <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood">  {{building.wood}}
 
-    {% load static %}
-    <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood">  {{building.stone}}
+      <h5><b>{{building.name}}</b> </h5>
+      <div>
+        <img class="building-image" class="user-hero-image ring-hero-good" src="{% get_static_prefix %}images/buildings/{{building.id}}.png" title="{{building.name}}">
+        {{building.description}}
 
-    {% load static %}
-    <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> {{building.iron}}
+      </div>
+      
+      <div class="mini-resource">
+          {% load static %}
+          <img class="resource-icon" src="{% static 'images/others/wood.png' %}" alt="Wood">  {{building.wood}}
 
-    {% load static %}
-    <img class="resource-icon" src="{% static 'images/others/grain2.png' %}" alt="Grain">  {{building.grain}}
+          {% load static %}
+          <img class="resource-icon" src="{% static 'images/others/stone.png' %}" alt="Wood">  {{building.stone}}
+
+          {% load static %}
+          <img class="resource-icon" src="{% static 'images/others/iron.png' %}" alt="Wood"> {{building.iron}}
+
+          {% load static %}
+          <img class="resource-icon" src="{% static 'images/others/grain2.png' %}" alt="Grain">  {{building.grain}}
+      </div>
+
+        <p>Duration: {{building.update_time}} sec</p>
+
+        <form method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="building" value="{{building.id}}" display="none">
+          <select name="builder" id="my-select">
+              {% for number in builder_iterator %}
+              <option value="{{number}}"> {{number}} Builders </option>
+              {% endfor %}
+          </select>
+          <button class="btn btn-success" type="submit" onclick="submitForm()">BUILD</button>
+        </form>
+
 </div>
 
-  <p>Duration: {{building.update_time}} sec</p>
 
-  <form method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="building" value="{{building.id}}" display="none">
-    <select name="builder" id="my-select">
-        {% for number in builder_iterator %}
-        <option value="{{number}}"> {{number}} Builders </option>
-        {% endfor %}
-    </select>
-    <button class="btn btn-success" type="submit" onclick="submitForm()">BUILD</button>
-  </form>
+
+
 
 <hr>
 

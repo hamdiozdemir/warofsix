@@ -1,0 +1,114 @@
+{% load static %}
+
+
+<div class="mini-nav">
+    <div>
+        <a href="/">
+        <img class="mini-nav-icon" src="{% get_static_prefix %}images/others/home.png" title="Home Page">
+        </a>
+    </div>
+    
+    <div>
+        <a href="/guide">
+            <img class="mini-nav-icon" src="{% get_static_prefix %}images/others/help.png" title="Documents">
+        </a>
+    </div>
+    <div>
+        <a href="/accounts/profile/edit">
+            <img class="mini-nav-icon" src="{% get_static_prefix %}images/others/edit2.png" title="Edit Profile">
+        </a>
+    </div>
+
+    <div>
+        <a href="/accounts/logout">
+            <img class="mini-nav-icon" src="{% get_static_prefix %}images/others/logout.png" title="Logout">
+        </a>
+    </div>
+
+</div>
+
+<nav class="navibar">
+
+    <div class="navi-item">
+        <a href="/resources">
+            <div class="navi-button">
+                <img class="nav-button-image" src="{% get_static_prefix %}images/others/button-resources.png" title="Resources">
+            </div>
+        </a>
+        <div class="navi-text bold">Resources</div>
+    </div>
+
+    <div class="navi-item">
+        <a href="/settlement">
+
+            <div class="navi-button">
+                <img class="nav-button-image" src="{% get_static_prefix %}images/others/button-settlement.png" title="Settlement">
+            </div>
+        </a>
+        <div class="navi-text bold">Settlement</div>
+    </div>
+
+    <div class="navi-item">
+        <a href="/encampment">
+
+            <div class="navi-button">
+                <img class="nav-button-image" src="{% get_static_prefix %}images/others/button-encampment.png" title="Encampment">
+            </div>
+        </a>
+        <div class="navi-text bold">Encampment</div>
+    </div>
+
+    <div class="navi-item">
+        <a href="/map">
+
+            <div class="navi-button">
+                <img class="nav-button-image" src="{% get_static_prefix %}images/others/button-map.png" title="Map">
+            </div>
+        </a>
+        <div class="navi-text bold">Map</div>
+    </div>
+
+    <div class="navi-item {% if notify.alliance %} nav-active {% endif %}">
+        <a href="/alliances/my_ally">
+
+            <div class="navi-button">
+                <img class="nav-button-image" src="{% get_static_prefix %}images/others/button-alliances.png" title="Alliances">
+            </div>
+        </a>
+        <div class="navi-text bold">Alliances</div>
+    </div>
+
+    <div class="navi-item {% if notify.report %} nav-active {% endif %}">
+        <a href="/battle/reports">
+
+            <div class="navi-button">
+                <img class="nav-button-image" src="{% get_static_prefix %}images/others/button-reports.png" title="Reports">
+                
+            </div>
+            
+        </a>
+        <div class="navi-text bold">Reports</div>
+    </div>
+
+    <div class="navi-item {% if notify.messages %} nav-active {% endif %}">
+        <a href="/usermessages/inbox">
+
+            <div class="navi-button">
+                <img class="nav-button-image" src="{% get_static_prefix %}images/others/button-messages.png" title="Messages">
+            </div>
+        </a>
+        <div class="navi-text bold">Messages</div>
+    </div>
+
+    <div class="navi-item">
+        <a href="/accounts/profiles">
+
+            <div class="navi-button">
+                <img class="nav-button-image" src="{% get_static_prefix %}images/others/lists.png" title="Profile">
+            </div>
+        </a>
+        <div class="navi-text bold">Lists</div>
+    </div>
+
+
+</nav>

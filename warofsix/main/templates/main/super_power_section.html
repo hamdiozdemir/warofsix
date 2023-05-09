@@ -1,0 +1,104 @@
+{% load static %}
+
+<div class="super-power-container">
+
+    <div class="detail-container">
+
+        <div class="power-image">
+            <div class="bold"> {{power}} </div>
+            <div>  
+                <img class="troop-icon" src="{% get_static_prefix %}images/others/{{building.building.race}}Power.png" alt="{{troop.troop.name}}"> 
+            </div>
+            <div><i>Requires Fortress level 20</i></div>
+            <div style="font-size:0.9rem;"><i> {{power.description}} </i></div>
+
+            {% if power.is_active %}
+            <div>Time Left for Use: <span id="countdown">{{power.next_round}}</span> </div>
+            {% endif %}
+    
+        </div>
+
+        
+        <div class="power-use">
+
+            {% if power.is_active %}
+            
+            
+            <form method="POST" class="center-form">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="power_use">
+                <div class="campaign-location">
+                    
+                    <label for="locx">X: </label>
+                    <input type="number" id="locx" name="locx" min="1" max="30" required>
+                    |
+                    <label for="locy">Y: </label>
+                    <input type="number" id="locy" name="locy" min="1" max="30" required>
+                    <div>
+                        
+                        <span class="small-icon"><img id="location-icon" class="small-icon" src="{% get_static_prefix %}images/others/map-pin.svg" alt=""></span>  <span id="result"></span>
+                    </div>
+                </div>
+                
+                
+                <button type="submit" class="btn btn-danger btn-lg">
+                    USE THE POWER
+                </button>
+                
+            </form>
+            
+            {% else %}
+            
+            <form method="POST" class="center-form">
+                {% csrf_token %}
+                
+                <input type="hidden" name="form_type" value="power_upgrade">
+                
+                <button type="submit" class="btn btn-warning btn-lg" {% if not building.level == 20 %}disabled{% endif %} >
+                    UPGRADE THE POWER
+                    <p class="text-small-bold">Requires 10,000 resources each.</p>
+                </button>
+            </form>
+            
+            {% endif %}
+        </div>
+
+    </div>
+____________________________________
+
+{% if power.power_reports %}
+
+<div class="power-history">
+    <div class="power-outgone">
+        <div>OUTGONE ATTACK</div>
+        {% for out in outgone_attack %}
+        <div> <a href="/fortress/power_report/{{out.id}}"> {{out}} </a></div>
+        
+        {% endfor %}
+
+    </div>
+
+
+    <div class="power-incame">
+        <div>INCAME ATTACK</div>
+
+        {% for incame in incame_attack %}
+        <div> <a href="/fortress/power_report/{{incame.id}}"> {{incame}} </a></div>
+        {% endfor %}
+
+    </div>
+
+
+</div>
+
+
+{% else %}
+
+{% endif %}
+
+
+
+    
+</div>
+
+ <!--  FOR LOCATION CHECK  -->

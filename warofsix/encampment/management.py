@@ -1,8 +1,10 @@
 from main.models import UserTroops, Location, Resources, UserHeroes
-from .models import DefencePosition, DepartingCampaigns, DepartingTroops, ArrivingCampaigns, ArrivingTroops, ReinforcementTroops, DepartingHeroes
+from .models import DefencePosition, DepartingCampaigns, DepartingTroops, ArrivingCampaigns, ArrivingTroops, ReinforcementTroops, DepartingHeroes, ReinforcementTroops
 from django.utils import timezone
 from datetime import timedelta
-from main.signals import departing_campaign_created_signal, current_resources
+from main.signals import current_resources
+from django.shortcuts import get_object_or_404
+
 
 
 
@@ -52,9 +54,10 @@ class TroopManagements():
                     pos.percent = int(self.data[f"numd{pos.position}"])
                     pos.save()
                 else:
-                    pos.user_troop = UserTroops.objects.get(id = int(self.data[f"troop{pos.position}"]))
-                    pos.percent == int(self.data[f"numd{pos.position}"])
+                    pos.user_troop = UserTroops.objects.get(id = int(self.data[f"troop{pos.position}"])) 
+                    pos.percent = int(self.data["numd"+str(pos.position)])
                     pos.save()
+
             for key, value in filtered_hero_data.items():
                 if value == "Add Hero":
                     pass
@@ -99,7 +102,6 @@ class TroopManagements():
         else:
             user_hero_ids = [int(x) for x in filtered_data.values()]
             check = [UserHeroes.objects.get(id = id_data).is_available for id_data in user_hero_ids]
-            print(check)
             if all(check):
                 message = "OK"
                 return True, message
@@ -108,6 +110,12 @@ class TroopManagements():
                 return False, message
                 
 
+    def send_reinforcement_hero_check(self):
+        filtered_data = {k:v for k,v in self.data.items() if k.startswith('herod') and v != "Add Hero"}
+        if filtered_data == {}:
+            return True, "OK"
+        else:
+            return False, "You can not send any hero as Reinforcement."
 
 
     # returns two location obj. - main_location and target_location
@@ -119,7 +127,7 @@ class TroopManagements():
 
     def send_troop(self):
         main_location, target_location = self.main_and_target_locations()
-        if target_location.type == "nature":
+        if target_location.type == "nature" or target_location.user == None:
             message = f"X:{target_location.locx} | Y:{target_location.locy} is not a place to send troop"
             return message
         
@@ -163,14 +171,146 @@ class TroopManagements():
             campaign.time_left = round(campaign.distance / campaign.speed * 3600)
             campaign.arriving_time = timezone.now() + timedelta(seconds=campaign.time_left)
             campaign.save()
-            # send signal for tasks
-            self.send_campaign_created_signal(campaign)
             message = f"Troops has left to {target_location.user}"
+            from battle.tasks import battle_task
+            battle_task.apply_async(args=[campaign.id], countdown=campaign.time_left)
+            # battle_task.apply_async(args=[campaign.id], countdown=15)
             return message
 
 
-    def send_campaign_created_signal(self, campaign):
-        departing_campaign_created_signal.send(sender=None, instance=campaign)
+
+    def send_reinforcement(self):
+        main_location, target_location = self.main_and_target_locations()
+        if target_location.type == "nature" or target_location.user == None:
+            message = f"X:{target_location.locx} | Y:{target_location.locy} is not a place to send troop"
+            return message
+        
+        elif not self.send_troop_number_check():
+            message = "You do not have enough troop!"
+            return message
+        elif not all(self.send_reinforcement_hero_check()):
+            check, message = self.send_reinforcement_hero_check()
+            return message
+        else:
+            # Create departing campaign object
+            departing_campaign = DepartingCampaigns.objects.create(
+                user = self.user,
+                main_location = main_location,
+                target_location = target_location,
+                campaign_type = "reinforcement",
+                arriving_time = timezone.now()
+            )
+
+            # create departing troops
+            for position in self.positions:
+                user_troop = UserTroops.objects.get(id= self.data["troop"+str(position)])
+                DepartingTroops.objects.create(
+                    user= self.user,
+                    position = position,
+                    user_troop = user_troop,
+                    count = int(self.data["num"+str(position)]),
+                    campaign = departing_campaign
+                )
+                user_troop.count -= int(self.data["num"+str(position)])
+                user_troop.save()
+
+            departing_campaign.time_left = round(departing_campaign.distance / departing_campaign.speed * 3600)
+            departing_campaign.arriving_time = timezone.now() + timedelta(seconds=departing_campaign.time_left)
+            departing_campaign.save()
+            message = f"Reinforcement troops has left to {target_location.user}"
+
+            # CREATE ARRIVING AT THE SAME TIME
+
+            arriving_campaign = ArrivingCampaigns.objects.create(
+                user = target_location.user,
+                main_location = main_location,
+                target_location = target_location,
+                campaign_type = "reinforcement",
+            )
+
+            # TROOPS
+            arriving_troops = dict()
+            for obj in departing_campaign.group:
+                if obj.count == 0:
+                    pass
+                elif obj.user_troop in arriving_troops.keys():
+                    arriving_troops[obj.user_troop] += obj.count
+                else:
+                    arriving_troops.update({obj.user_troop: obj.count})
+            
+            for troop, count in arriving_troops.items():
+                ArrivingTroops.objects.create(
+                    user = target_location.user,
+                    user_troop = troop,
+                    count = count,
+                    campaign = arriving_campaign
+                )
+
+            arriving_campaign.time_left = round(arriving_campaign.distance / arriving_campaign.speed * 3600)
+            arriving_campaign.arriving_time = timezone.now() + timedelta(seconds=arriving_campaign.time_left)
+            arriving_campaign.save()
+
+
+            from battle.tasks import send_reinforcement_task
+            send_reinforcement_task.apply_async(args=[departing_campaign.id, arriving_campaign.id], countdown=arriving_campaign.time_left)
+            return message
+
+
+
+    def reinforcement_callback(self):
+        reinforcement = get_object_or_404(ReinforcementTroops, id=int(self.data["callback"]))
+        if reinforcement.owner == self.user:
+            arriving = ArrivingCampaigns.objects.create(
+                user = self.user,
+                main_location = reinforcement.location,
+                target_location = Location.objects.get(user=self.user),
+                campaign_type = "return"
+            )
+
+            ArrivingTroops.objects.create(
+                user = self.user,
+                user_troop = reinforcement.user_troop,
+                count = reinforcement.count,
+                campaign = arriving
+            )
+            arriving.time_left = round(arriving.distance / arriving.speed * 3600)
+            arriving.arriving_time = timezone.now() + timedelta(seconds=arriving.time_left)
+            arriving.save()
+
+            from battle.tasks import reinforcement_return
+            reinforcement_return.apply_async(args=[arriving.id], countdown=arriving.time_left)
+            reinforcement.delete()
+        else:
+            pass
+
+
+    def reinforcement_sendback(self):
+        reinforcement = get_object_or_404(ReinforcementTroops, id=int(self.data["sendback"]))
+        if reinforcement.location.user == self.user:
+            arriving = ArrivingCampaigns.objects.create(
+                user = reinforcement.owner,
+                main_location = Location.objects.get(user=self.user),
+                target_location = Location.objects.get(user=reinforcement.owner),
+                campaign_type = "return"
+            )
+
+            ArrivingTroops.objects.create(
+                user = reinforcement.owner,
+                user_troop = reinforcement.user_troop,
+                count = reinforcement.count,
+                campaign = arriving
+            )
+            arriving.time_left = round(arriving.distance / arriving.speed * 3600)
+            arriving.arriving_time = timezone.now() + timedelta(seconds=arriving.time_left)
+            arriving.save()
+
+            from battle.tasks import reinforcement_return
+            reinforcement_return.apply_async(args=[arriving.id], countdown=arriving.time_left)
+            reinforcement.delete()
+        else:
+            pass
+
+
 
 
 
@@ -187,13 +327,17 @@ class Arrivings():
     def handle_arriving(self):
         self.get_user_troops()
         self.get_resources()
+        self.get_user_heroes()
         self.delete_arriving_campaign()
 
     def get_user_troops(self):
         arriving_group = self.arriving_campaign.group
         for obj in arriving_group:
-            obj.user_troop.count += obj.count
-            obj.user_troop.save()
+            if obj.user_troop:
+                obj.user_troop.count += obj.count
+                obj.user_troop.save()
+            else:
+                pass
 
     def get_user_heroes(self):
         arriving_heroes = self.arriving_campaign.heroes
@@ -212,3 +356,31 @@ class Arrivings():
 
     def delete_arriving_campaign(self):
         self.arriving_campaign.delete()
+
+
+    def get_reinforcement(self):
+        arrivings = dict()
+        arriving_group = self.arriving_campaign.group
+        for obj in arriving_group:
+            if obj.count == 0:
+                pass
+            elif obj.user_troop in arrivings.keys():
+                arriving_group[obj.user_troop] += obj.count
+            else:
+                arrivings.update({obj.user_troop: obj.count})
+
+        for troop, count in arrivings.items():
+            current_rein = ReinforcementTroops.objects.filter(location = self.arriving_campaign.target_location)
+            if current_rein.exists():
+                rein_troop = current_rein.get(user_troop = troop)
+                rein_troop.count += count
+                rein_troop.save()
+            else:
+                ReinforcementTroops.objects.create(
+                    owner = troop.user,
+                    location = self.arriving_campaign.target_location,
+                    user_troop = troop,
+                    count = count
+                )
+        self.delete_arriving_campaign()
+

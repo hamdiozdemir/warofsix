@@ -9,9 +9,13 @@ class Battles(models.Model):
     defender = models.ForeignKey(User, related_name="defender", on_delete=models.SET_NULL, null=True)
     auto = models.BooleanField(default=True)
     time = models.DateTimeField(auto_now_add=True)
+    attacker_is_deleted = models.BooleanField(default=False)
+    defender_is_deleted = models.BooleanField(default=False)
+    battle_type = models.CharField(max_length=20, default="")
+    is_hidden = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.attacker} TO {self.defender} at: {self.time}"
+        return f"{self.attacker} vs {self.defender}"
     
     @property
     def attacker_group(self):
@@ -30,7 +34,11 @@ class Battles(models.Model):
             return demolishes
         else:
             return None
-
+        
+    @property
+    def pillage(self):
+        pillage = BattlePillageResources.objects.get(battle=self)
+        return pillage
 
 class AttackerDeads(models.Model):
     battle = models.ForeignKey(Battles, on_delete=models.SET_NULL, null=True)
@@ -81,3 +89,12 @@ class DefenderBuildingDemolish(models.Model):
     building = models.ForeignKey(Buildings, on_delete=models.SET_NULL, null=True)
     pre_battle_level = models.PositiveIntegerField()
     post_battle_level = models.PositiveIntegerField()
+
+
+class BattlePillageResources(models.Model):
+    battle = models.ForeignKey(Battles, on_delete=models.SET_NULL, null=True, blank=True)
+    wood = models.PositiveIntegerField(default=0)
+    stone = models.PositiveIntegerField(default=0)
+    iron = models.PositiveIntegerField(default=0)
+    grain = models.PositiveIntegerField(default=0)
+    rings = models.PositiveIntegerField(default=0)

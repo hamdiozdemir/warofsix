@@ -8,3 +8,8 @@ db.sqlite3
 .mp4
 *.mp4
 local.py
+/images
+documentation.html
+/migrations
+
+

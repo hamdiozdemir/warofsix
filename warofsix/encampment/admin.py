@@ -23,6 +23,11 @@ class ArrivignTroopsAdmin(admin.ModelAdmin):
     list_display = ["user", "id", "user_troop", "count", "campaign"]
 
 
+@admin.register(ArrivingHeroes)
+class ArrivingHearoesAdmin(admin.ModelAdmin):
+    list_display = ["campaign", "user_hero"]
+
+
 @admin.register(DefencePosition)
 class DefencePositionAdmin(admin.ModelAdmin):
     list_display = ["user", "position", "user_troop", "percent", "count"]
@@ -35,3 +40,4 @@ class ReinforcementTroopAdmin(admin.ModelAdmin):
 @admin.register(DepartingHeroes)
 class DepartingHeroesAdmin(admin.ModelAdmin):
     list_display = ["user", "user_hero", "position", "campaign"]
+

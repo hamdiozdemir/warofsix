@@ -1,0 +1,359 @@
+{% extends 'main/layout.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/market.css' %}" type='text/css'>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+{% endblock head %}
+
+{% block body %}
+
+<div class="flex-center">
+    {% include 'main/mini_resources.html' %}
+
+</div>
+
+
+
+<div class="market-container">
+
+    <div class="market-exchanges-section">
+
+        <h6 style="text-align:center; font-weight: bold;">MARKET</h6>
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">User</th>
+                <th scope="col">Offer</th>
+                <th scope="col">Request</th>
+                <th scope="col">Accept  </th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for offer in exchange_offers %}
+        
+                
+                <tr>
+                    <th scope="row"> {{offer.offer_user}} </th>
+                    <td> 
+                        <img id="img-{{offer.offer_type}}" class="market-icon" src="{% get_static_prefix %}images/others/{{offer.offer_type}}.png" alt="" title="{{offer.offer_type}}">
+                        {{offer.offer_amount}} 
+                    </td>
+                    
+                    
+                    <td> 
+                        <img id="img-{{offer.target_type}}" class="market-icon" src="{% get_static_prefix %}images/others/{{offer.target_type}}.png" alt="" title="{{offer.target_type}}">
+                        {{offer.target_amount}}   
+                    </td>
+                    <td> <a href="/market/{{settlement_id}}/accept/{{offer.id}}/">
+                        <img id="img-buy" class="accept-icon" style="width:55px;" src="{% get_static_prefix %}images/others/accept-buy.png" alt="" title="Accept">
+                    </a>  </td>
+                </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <div class="market-offer-section">
+
+
+        <div class="market-offer-new">
+            
+            <h6 style="text-align:center; font-weight: bold;">CREATE NEW OFFER</h6>
+            <div style="text-align:center;"> <b>Total Market Capacity: </b>{{user_market.offer_capacity}} | <b>Current Available Capacity:</b> {{user_market.current}}  </div>
+            <br>
+
+            
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="send_resources">
+                <h6 style="text-align:center; font-weight: bold;">SEND RESOURCES</h6>
+                    <div class="market-send-datas">
+
+                        <div class="resource-column">
+                            <div>Wood</div>
+                            <input class="form-control" type="number" name="wood" value="0">
+                        </div>
+                        <div class="resource-column">
+                            <div>Stone</div>
+                            <input class="form-control" type="number" name="stone" value="0">
+                        </div>
+                        <div class="resource-column">
+                            <div>Iron</div>
+                            <input class="form-control" type="number" name="iron" value="0">
+                        </div>
+                        <div class="resource-column">
+                            <div>Grain</div>
+                            <input class="form-control" type="number" name="grain" value="0">
+                        </div>
+
+                        |
+                        <div class="resource-column short">
+                            <div>x</div>
+                            <input class="form-control" type="number" id="locx" name="locx" required>
+                        </div>
+                        <div class="resource-column short">
+                            <div>y</div>
+                            <input class="form-control" type="number" id="locy" name="locy" required>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary btn-sm">SEND</button>
+
+                    </div>
+                    <div class="market-send-details">
+                        <span class="small-icon"><img id="location-icon" class="small-icon" src="{% get_static_prefix %}images/others/map-pin.svg" alt=""></span>  <span id="result"></span>
+                    </div>
+            </form>
+                
+
+<br>
+
+
+            <div class="flex-column-center">
+                {% if market_incoming %}
+                
+                <div>INCOMING RESOURCES</div>
+                
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">From</th>
+                                <th scope="col">Wood</th>
+                                <th scope="col">Stone</th>
+                                <th scope="col">Iron</th>
+                                <th scope="col">Grain</th>
+                                <th scope="col">Time Left</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object in market_incoming %}
+                            
+                            <tr>
+                                <th scope="row">{{object.sender}}</th>
+                                <td>{{object.wood}}</td>
+                                <td>{{object.stone}}</td>
+                                <td>{{object.iron}}</td>
+                                <td>{{object.grain}}</td>
+                                <td> <span class="countdown"> {{object.arriving_time|date:"c"}} </span></td>
+                            </tr>
+                            
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                
+                
+                {% endif %}
+
+<br>
+
+
+                {% if market_outgoing %}
+                <div>OUTGOING RESOURCES</div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">To</th>
+                            <th scope="col">Wood</th>
+                            <th scope="col">Stone</th>
+                            <th scope="col">Iron</th>
+                            <th scope="col">Grain</th>
+                            <th scope="col">Time Left</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for object in market_outgoing %}
+                        
+                        <tr>
+                            <th scope="row">{{object.target_location.user}}</th>
+                            <td>{{object.wood}}</td>
+                            <td>{{object.stone}}</td>
+                            <td>{{object.iron}}</td>
+                            <td>{{object.grain}}</td>
+                            <td> <span class="countdown"> {{object.arriving_time|date:"c"}} </span></td>
+                        </tr>
+                        
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% endif %}
+
+                
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="new_offer">
+
+                <div class="new-offer-form-container">
+
+                    <div class="offer-item offer-type-select">
+
+                        <label for="offer_type">Offer Type</label>
+                        <select class="form-select" name="offer_type" id="offer_type">
+                            <option class="option-wood" value="wood">Wood</option>
+                            <option class="option-stone" value="stone">Stone</option>
+                            <option class="option-iron" value="iron">Iron</option>
+                            <option class="option-grain" value="grain">Grain</option>
+                        </select>
+                        
+                    </div>
+
+                    <div class="offer-item offer-type-amount">
+
+                        <label for="offer_amount">Offer</label>
+                        <input class="form-control" type="number" id="offer_amount" name="offer_amount">
+                    </div>
+
+                    <div class="offer-item offer-type-select">
+
+                        <label for="target_type">Target Type</label>
+                        <select class="form-select" name="target_type" id="target_type">
+                            <option class="option-stone" value="stone">Stone</option>
+                            <option class="option-wood" value="wood">Wood</option>
+                            <option class="option-iron" value="iron">Iron</option>
+                            <option class="option-grain" value="grain">Grain</option>
+                        </select>
+                    </div>
+
+                    <div class="offer-item offer-type-amount"> 
+                        <label for="target_amount">Requested</label>
+                        <input class="form-control" type="number" id="target_amount" name="target_amount"> 
+                    </div>
+
+                    <button style="margin-top:auto;" type="submit" class="btn btn-primary btn-sm">Save</button>
+                
+            </div>
+            </form>
+
+
+        </div>
+
+
+
+
+
+        <div class="market-offer-cancel">    
+            
+            <h6 style="text-align:center; font-weight: bold;">MANAGE YOUR OFFERS</h6>
+            
+                <table class="table">
+                    <thead>
+                      <tr>
+                          <th scope="col">Offer</th>
+                        <th scope="col">Request</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for offer in user_offers %}
+                    
+                        <tr>
+                            <td>
+                                <img id="img-{{offer.offer_type}}" class="market-icon" src="{% get_static_prefix %}images/others/{{offer.offer_type}}.png" alt="" title="{{offer.offer_type}}">
+                                {{offer.offer_amount}} 
+                            </td>
+                            <td>
+                                <img id="img-{{offer.target_type}}" class="market-icon" src="{% get_static_prefix %}images/others/{{offer.target_type}}.png" alt="" title="{{offer.target_type}}">
+                                {{offer.target_amount}} 
+                            </td>
+                            <td>
+                                <a href="/market/{{settlement_id}}/cancel/{{offer.id}}/">
+                                    <img id="img-buy" class="accept-icon" style="width:55px;" src="{% get_static_prefix %}images/others/cancel.png" alt="" title="Accept">
+                                </a>
+
+                        </tr>
+                        
+                        {% endfor %}
+                    </tbody>
+                  </table>
+
+
+
+
+
+
+            
+            
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+{% include 'main/part_building_update.html' %}
+
+
+  <!--  FOR LOCATION CHECK  -->
+
+  <script>
+    $(document).ready(function() {
+      // Define your data dictionary with coordinates and names
+      var data = JSON.parse('{{location_data|escapejs}}') ;
+  
+      // Listen for changes to the input fields
+      $('#locx, #locy').on('change', function() {
+        // Get the values of the input fields
+        var locx = $('#locx').val();
+        var locy = $('#locy').val();
+  
+        // Build the coordinate key for the data dictionary
+        var key = locx + ',' + locy;
+  
+        // Check if the key exists in the data dictionary
+        if (key in data) {
+          // If it does, show the corresponding name
+          $('#result').text(data[key]);
+        } else {
+          // If it doesn't, show an error message
+          $('#result').text('Not found');
+        }
+      });
+    });
+  </script>
+
+
+  <script>
+
+    $(document).ready(function() {
+      $(".countdown").each(function() {
+        var datetimeStr = $(this).text().trim();
+        var datetime = moment.utc(datetimeStr);
+    
+        var x = setInterval(function() {
+          var now = moment.utc();
+          var distance = moment.duration(datetime.diff(now));
+    
+          if (distance.asSeconds() < 0) {
+            location.reload(); 
+          }
+    
+          var hours = Math.floor(distance.asHours() % 24);
+          var minutes = Math.floor(distance.asMinutes() % 60);
+          var seconds = Math.floor(distance.asSeconds() % 60);
+    
+          $(this).html(hours + "h " + minutes + "m " + seconds + "s");
+        }.bind(this), 1000);
+      });
+    });
+    
+  </script>
+
+{% endblock body %}

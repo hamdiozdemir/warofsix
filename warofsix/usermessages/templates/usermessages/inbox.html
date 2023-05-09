@@ -1,62 +1,60 @@
 {% extends 'main/layout.html' %}
 {% load static %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/usermessages.css' %}" type="text/css">
+{% endblock head %}
+
+
+
 {% block body %}
 
-<a href="/usermessages/inbox">
-    <button type="button" class="btn btn-primary">INBOX</button>
-</a>
-
-<a href="/usermessages/sent">
-    <button type="button" class="btn btn-info">SENTBOX</button>
-</a>
-
-<a href="/usermessages/new_message">
-  <button type="button" class="btn btn-success">NEW MESSAGE</button>
-</a>
 
 
+<div class="message-container">
+
+  <div class="menu-bar">
+    <div class="menu-line"><a href="/usermessages/new_message">New Message</a></div>
+    <div class="menu-line active"><a href="/usermessages/inbox">Inbox</a></div>
+    <div class="menu-line"><a href="/usermessages/sent">Sent</a></div>
+  </div>
 
 
-<h5>INBOX</h5>
+  <div class="message-box">
 
-<div class="inbox">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">FROM</th>
-        <th scope="col">TITLE</th>
-        <th scope="col">TIME</th>
-        <th scope="col">DEL</th>
-      </tr>
-    </thead>
-    <tbody>
-
-        {% for mes in inbox %}
-
-      <tr style="{% if not mes.is_read %} background:green; {% endif %}">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">FROM</th>
+          <th scope="col">TITLE</th>
+          <th scope="col">TIME</th>
+        </tr>
+      </thead>
+      <tbody>
+  
+          {% for mes in inbox %}
+  
+        <tr {% if not mes.is_read %} class="table-danger"{% endif %}>
+          
+          <th scope="row">{{mes.sender}}</th>
+          <td> <a href="/usermessages/{{mes.id}}/"> {{mes.header}} </a>  </td>
+          <td> {{mes.time|date:"d/M/Y H:i" }} </td>
         
-        <th scope="row">{{mes.sender}}</th>
-        <td> <a href="/usermessages/{{mes.id}}/"> {{mes.header}} </a>  </td>
-        <td> {{mes.time}} </td>
-        <td> <a href="/usermessages/{{mes.id}}/">DEL</a>   </td>
-      
-      </tr>
+        </tr>
+  
+  
+        {% endfor %}
+  
+      </tbody>
+    </table>
+
+  </div>
 
 
-      {% endfor %}
-
-    </tbody>
-  </table>
 
 </div>
 
 
-
-
-
-
-<hr>
 
 
 {% endblock body %}

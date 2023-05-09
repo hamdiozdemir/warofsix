@@ -1,0 +1,79 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'style/battle.css' %}" type="text/css">
+
+
+{% endblock head %}
+
+{% block body %}
+
+
+<h4 class="text-center">REPORTS</h4>
+
+
+<div class="report-list-container">
+
+    <div class="reports">
+        <h6 class="text-center">ATTACKS</h6>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="delete_attack_reports">
+            
+            {% for report in attacks %}
+            
+            <div class="report-line">
+                <input class="form-check-input" name="delete-{{report.id}}" type="checkbox" value="{{report.id}}" id="flexCheckDefault"> 
+                
+                <div class="report-line attack">
+                    <a href="/battle/report/{{report.id}}">
+                        {{report}} | {{report.time|date:"d/m/Y H:i:s"}}
+                    </a>
+                </div>
+                
+            </div>
+            
+            
+            {% endfor %}
+
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+
+    </div>
+
+
+    
+    <div class="reports">
+        <h6 class="text-center">DEFENDS</h6>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="delete_defend_reports">
+            
+            {% for report in defends %}
+            <div class="report-line">
+                <input class="form-check-input" type="checkbox" name="delete-{{report.id}}" value="{{report.id}}" id="flexCheckDefault"> 
+                
+                <div class="report-line defend">
+                    <a href="/battle/report/{{report.id}}">
+                        {{report}} | {{report.time|date:"d/m/Y H:i:s"}}
+                    </a>
+                </div>
+                
+            </div>
+            
+            
+            {% endfor %}
+            
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock body %}
+
+
+

@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,4 +24,7 @@ urlpatterns = [
     path('usermessages/', include("usermessages.urls", namespace='usermessages')),
     path('encampment/', include('encampment.urls', namespace='encampment')),
     path('battle/', include('battle.urls', namespace='battle')),
+    path('alliances/', include('alliances.urls', namespace='alliances')),
+    path('map/', include('map.urls', namespace="map")),
+    path('__debug__', include(debug_toolbar.urls)),
 ]

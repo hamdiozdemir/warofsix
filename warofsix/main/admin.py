@@ -5,7 +5,7 @@ from .models import *
 
 # admin.site.register(Race)
 # admin.site.register(Mail)
-admin.site.register(Market)
+
 
 @admin.register(Race)
 class RaceAdmin(admin.ModelAdmin):
@@ -14,7 +14,7 @@ class RaceAdmin(admin.ModelAdmin):
 
 @admin.register(Troops)
 class TroopsAdmin(admin.ModelAdmin):
-    list_display = ["name", "id", "race", "type", "damage", "crash_bonus", "building", "prerequisite", "training_time", "speed"]
+    list_display = ["name", "id", "race", "type", "damage", "health", "crash_bonus", "building", "prerequisite", "training_time", "speed", "burden"]
     list_filter = ("race","type")
 
 @admin.register(Buildings)
@@ -25,13 +25,13 @@ class BuildingsAdmin(admin.ModelAdmin):
 
 @admin.register(Heroes)
 class HeroesAdmin(admin.ModelAdmin):
-    list_display = ["name", "id", "race", "token", "health", "damage", "regenerate_time", "summon_type", "summon_amount"]
+    list_display = ["name", "id", "race", "token", "rings", "health", "damage", "regenerate_time", "summon_type", "summon_amount"]
     list_filter = ["race"]
 
 
 @admin.register(UserHeroes)
 class UserHeroesAdmin(admin.ModelAdmin):
-    list_display = ["hero", "user", "is_dead", "is_home", "is_available", "current_health", "regenerate_time_left", "last_checkout"]
+    list_display = ["hero", "user", "is_dead", "is_home", "status", "current_health", "regenerate_time_left", "last_checkout"]
     list_filter = ["hero"]
 
 
@@ -51,7 +51,7 @@ class UserTroopTrainingAdmin(admin.ModelAdmin):
 
 @admin.register(Resources)
 class ResourcesAdmin(admin.ModelAdmin):
-    list_display = ["user", "wood", "stone", "iron", "grain", "token", "last_checkout"]
+    list_display = ["user", "wood", "stone", "iron", "grain", "token", "rings", "last_checkout"]
 
 
 @admin.register(Location)
@@ -83,6 +83,36 @@ class TroopUpgradesAdmin(admin.ModelAdmin):
     list_display = ["user", "banner_carrier", "forge_blade", "heavy_armor", "arrow", "upgrading_field", "time_left","last_checkout"]
 
 
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ["user", "race", "location", "statistic", "description"]
+@admin.register(WildData)
+class WildDataAdmin(admin.ModelAdmin):
+    list_display = ["user", "resource_production_number", "troop_production_number", "resource_last_checkout", "troop_last_checkout"]
+
+
+@admin.register(UserMarkets)
+class UserMarketAdmin(admin.ModelAdmin):
+    list_display = ["user", "offer_capacity", "current"]
+
+
+@admin.register(Exchanges)
+class ExchangesAdmin(admin.ModelAdmin):
+    list_display = ["offer_user", "offer_type", "offer_amount", "client_user", "target_type", "target_amount", "is_complete"]
+
+
+@admin.register(SuperPower)
+class SuperPowerAdmin(admin.ModelAdmin):
+    list_display = ["user_building", "name", "power_damage", "is_active", "last_checkout", "next_round"]
+
+
+@admin.register(SuperPowerReports)
+class SuperPowerResportsAdmin(admin.ModelAdmin):
+    list_display = ["super_power", "location", "building", "troop", "revealed_troop"]
+
+
+@admin.register(Notifications)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ["user", "alliance", "report", "messages"]
+
+
+@admin.register(MarketSent)
+class MarketSentAdmin(admin.ModelAdmin):
+    list_display = ["sender", "target_location", "wood", "stone", "iron", "grain", "time_left"]

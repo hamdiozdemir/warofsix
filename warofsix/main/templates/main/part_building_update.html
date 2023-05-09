@@ -1,0 +1,64 @@
+
+{% if building.time_left != 0 %}
+
+<div id="countdown"></div>
+
+<br>
+<b>Finish at: {{building.finish|date:'d M Y, H:i:s'}} </b>
+
+<a href="/building/{{settlement_id}}/cancel">
+    <button type="button" class="btn btn-warning">Cancel Update</button>
+</a>
+
+{% else %}
+<p>UPDATE</p>
+<p>Wood: {{building.update_wood}} - Stone: {{building.update_stone}} - Iron: {{building.update_iron}} - Grain: {{building.update_grain}} </p>
+
+Available {{builder.troop}}: {{builder.count}}
+
+<form>
+    <select id="my-select">
+        {% for number in builder_iterator %}
+        <option value="{{number}}"> {{number}} Builders </option>
+        {% endfor %}
+    </select>
+    <button class="btn btn-secondary" type="button" onclick="submitForm()">UPDATE</button>
+</form>
+
+{% endif %}
+
+
+
+
+<script>
+function submitForm() {
+var select = document.getElementById("my-select");
+var selectedValue = select.options[select.selectedIndex].value;
+// Construct the URL using the selected value
+var url = '/building_update/{{settlement_id}}/' + selectedValue + '/';
+// Redirect the user to the URL
+window.location.href = url;
+}
+
+</script>
+
+
+
+<script>
+var countdownElement = document.getElementById('countdown2');
+var remainingTime2 = {{ troop.time_left_per_troop }}; // assuming integer_object is the integer object you sent to the template
+
+function updateCountdown2() {
+if (remainingTime2 <= 0) {
+countdownElement.innerHTML = 'Countdown finished!';
+} else {
+var minutes = Math.floor(remainingTime2 / 60);
+var seconds = remainingTime2 % 60;
+countdownElement.innerHTML = 'Time remaining: ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+remainingTime2--;
+setTimeout(updateCountdown2, 1000);
+}
+}
+
+updateCountdown2();
+</script>

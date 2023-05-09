@@ -1,0 +1,307 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'style/alliances.css' %}" type='text/css'>
+
+{% endblock head %}
+
+{% block body %}
+
+
+<div class="alliance-main-container">
+
+
+
+    <div class="alliance-main-section">
+        <h5 class="align-head">ALLIANCE CAMPAIGNS</h5>
+
+
+        <div class="alliance-campaign-container">
+
+            <div class="alliance-campaign-current">
+
+                {% if alliance_campaigns %}
+                
+                    {% for campaign in alliance_campaigns %}
+                    
+                    
+                    <div class="campaign-list-container">
+                        
+                        <div class="delete-button-area">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="delete-campaign">
+                                <input type="hidden" name="id" value="{{campaign.id}}">
+                                <button type="submit" class="delete-button" onclick="return confirm('You are deleting the campaign. Are you sure?')">X</button>
+                            </form>
+                        </div>
+                        
+                        <div class="alliance-campaign-header">
+                            <div class="bold"> <a href="/alliances/campaign/{{campaign.id}}">{{campaign}}</a> </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+
+                    {% endfor %}
+                
+                {% else %}
+                <div class="align-head"><i>There is no alliance campaign yet.</i></div>
+                {% endif %}
+                
+
+            </div>
+
+
+            <div class="alliance-campaign-create">
+                <button type="button" class="btn btn-info btn-lg" onclick="window.location.href='/alliances/new-campaign';">Create New Campaign</button>
+            </div>
+
+
+        </div>
+        <h5 class="text-center bold">MEMBERS LAST BATTLES</h5>
+
+        <div class="alliance-last-activities">
+
+            <div class="last-attacks">
+                <h6 class="text-center bold">Last 5 Attacks</h6>
+                {% for battle in last_battles_attack %}
+                <p><a href="/battle/report/{{battle.id}}"> {{battle}}</a></p>
+                {% endfor %}
+
+            </div>
+
+            <div class="last-attacks">
+                <h6 class="text-center bold">Last 5 Defends</h6>
+                {% for battle in last_battles_defend %}
+                <p><a href="/battle/report/{{battle.id}}"> {{battle}}</a></p>
+                {% endfor %}
+            </div>
+
+
+
+        </div>
+
+                
+        
+    </div>
+    
+    <div class="alliance-chat-container">
+
+        {% if join_requests %}
+        <div class="alliance-requests">
+            <h5>Requests</h5>
+
+
+            <table class="table table-striped table-small">
+                <tbody>
+                    {% for req in join_requests %}
+                    
+                    <tr>
+                        <th scope="row"> {{req.requester}} </th>
+                        <td>
+                            <form method='POST' class="request-form">
+                                {% csrf_token %}
+                                <input type="text" name="request-handle" value="{{req.id}}" hidden>
+                                <input type="text" name="decision" value="True" hidden>
+                                <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                            </form> 
+                        </td>
+                        <td>
+                            <form method='POST' class="request-form">
+                                {% csrf_token %}
+                                <input type="text" name="request-handle" value="{{req.id}}" hidden>
+                                <input type="text" name="decision" value="False" hidden>
+                                <button type="submit" class="btn btn-secondary btn-sm">Decline </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                  
+                </tbody>
+              </table>
+
+
+        </div>
+        
+        {% else %}
+        {% endif %}
+
+
+
+        <div class="alliance-chat-box">
+            <h5 class="align-head">Alliance Chat</h5>
+
+
+            <div class="alliance-chat-messages" id="alliance-chat-message">
+
+                {% for chat in last_chats %}
+
+                    {% if chat.sender.id == user_id %}
+                    
+                        <div class="chat-message chat-message-own">
+                            <div class="chat-sender">@{{chat.sender}}</div>
+                            <div class="chat-body">{{chat.message}}</div>
+                            <div class="chat-time"> {{ chat.time|date:"D d M Y" }} {{ chat.time|time:"H:i" }} </div>
+
+                        </div>
+                    
+                    {% else %}
+                        <div class="chat-message chat-message-other"> 
+                            <div class="chat-sender">@{{chat.sender}}</div>
+                            <div class="chat-body">{{chat.message}}</div>
+                            <div class="chat-time"> {{ chat.time|date:"D d M Y" }} {{ chat.time|time:"H:i" }} </div>
+                        </div>
+                    {% endif %}
+
+                
+                {% endfor %}
+
+
+            </div>
+
+
+            <div class="alliance-chat-input">
+                <form method='POST'>
+                    {% csrf_token %}
+
+                    <input type="text" name="send-message" value="hidden" hidden>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Send message" id="floatingTextarea" name="message" maxlength='200'></textarea>
+                        <label for="floatingTextarea">Write here..</label>
+                    </div>
+                    <button type="submit">Send</button>
+                    
+                </form>
+
+            </div>
+
+
+
+
+
+        </div>
+
+
+        
+    </div>
+
+
+    <div class="alliance-member-section">
+
+        You are {{user_role}}.
+        {% if user_role == 'founder' or user_role == 'admin' %}
+        
+        
+
+
+            <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="member_role_form">
+                
+                <table class="table table-striped table-very-small">
+                    <thead>
+                        <tr>
+                            <th scope="col">User</th>
+                        <th scope="col">Race</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Kick</th>
+                        
+                    </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for member in alliance_members %}
+                                
+                        <tr>
+                            <th scope="row">{{member.member}}</th>
+                            <td> {{member.race}} </td>
+                            <td>
+                                <select name="member-{{member.id}}" id="member-role">
+                                    <option selected>{{member.role}}</option>
+                                    <option value="member">Member</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="founder">Founder</option>
+                                </select>
+                            </td>
+                            <td> 
+
+                                 <button type="button" onclick="window.location.href='/alliances/kick/{{member.alliance.id}}/{{member.id}}';">
+                                    <img id="kick-icon" class="kick-icon" src="{% get_static_prefix %}images/others/kick.png" alt="" title="Kick the user">
+                                </button> </td>
+                        </tr>
+
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+                
+                <button type="submit">Save</button>
+            </form>
+
+        {% else %}
+
+            <table class="table table-striped table-very-small">
+                <thead>
+                    <tr>
+                        <th scope="col">User</th>
+                    <th scope="col">Race</th>
+                    <th scope="col">Role</th>
+                    
+                </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for member in alliance_members %}
+                            
+                    <tr>
+                        <th scope="row">{{member.member}}</th>
+                        <td> {{member.race}} </td>
+                        <td>{{member.role}}</td>
+                    </tr>
+
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+
+        {% endif %}
+
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="leave-ally">
+            <button type="submit" class="btn btn-warning" style="width: 90%; margin-left: 5%;" onclick="return confirm('You are leaving the alliance. Are you sure?')">Leave the Ally</button>
+        </form>
+
+
+        {% if user_role == 'founder' or user_role == 'admin' %}
+        <div class="flex-column-center">
+            <button class="btn btn-success" style="width:90%; margin-top: 8px;" onclick="window.location.href='/alliances/update';">Update Alliance Info</button>
+        </div>
+        {% endif %}
+        
+
+    </div>
+
+
+
+
+
+
+</div>
+
+
+
+<script>
+    var myDiv = document.getElementById("alliance-chat-message");
+    myDiv.scrollTop = myDiv.scrollHeight;
+</script>
+      
+
+
+
+{% endblock body %}

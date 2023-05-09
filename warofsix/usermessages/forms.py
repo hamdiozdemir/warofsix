@@ -11,4 +11,5 @@ class MessageCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['target'].widget.attrs.update({'class': 'form-control'})
         self.fields['header'].widget.attrs.update({'class': 'form-control'})
+        
         self.fields['content'].widget.attrs.update({'class': 'form-control'})

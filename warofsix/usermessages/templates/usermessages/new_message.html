@@ -1,24 +1,58 @@
 {% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style/usermessages.css' %}" type="text/css">
+{% endblock head %}
 
 
 {% block body %}
 
-<form method="post">
-    {% csrf_token %}
-    <div class="form-group">
-        {{ form.target.label_tag }}
-        {{ form.target }}
-      </div>
-    <div class="form-group">
-      {{ form.header.label_tag }}
-      {{ form.header }}
-    </div>
-    <div class="form-group">
-      {{ form.content.label_tag }}
-      {{ form.content }}
-    </div>
-    <button type="submit" class="btn btn-primary">Send</button>
-  </form>
 
+<div class="message-container">
+
+
+  <div class="menu-bar">
+    <div class="menu-line active"><a href="/usermessages/new_message">New Message</a></div>
+    <div class="menu-line"><a href="/usermessages/inbox">Inbox</a></div>
+    <div class="menu-line"><a href="/usermessages/sent">Sent</a></div>
+  </div>
+
+
+  <div class="new-message">
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+          {{ form.target.label_tag }}
+          {{ form.target }}
+        </div>
+      <div class="form-group">
+        {{ form.header.label_tag }}
+        {{ form.header }}
+      </div>
+      <div class="form-group">
+        {{ form.content.label_tag }}
+        {{ form.content }}
+      </div>
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+
+  </div>
+
+</div>
+
+
+ <!--  Incoming link with params  -->
+ <script>
+  // Get the URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const user_id = urlParams.get('user_id');
+  const locy = urlParams.get('header');
+
+  // Set the values of the input fields
+  document.getElementById('id_target').value = user_id;
+  document.getElementById('id_header').value = locy;
+</script>
 
 {% endblock body %}

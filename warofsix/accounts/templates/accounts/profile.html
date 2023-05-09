@@ -1,0 +1,23 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+
+{% block body %}
+
+
+
+<h4>PROFILE</h4>
+<div>Username: {{profile.user}} </div>
+<div>Race: {{profile.race}} </div>
+<div>Location: X: {{profile.location.locx}} | Y: {{profile.location.locy}} ({{profile.location.location_name}}) </div>
+<div>Statistics: Total Kill: {{profile.statistic.total_kill}} | Total Dead: {{profile.statistic.total_dead}} </div>
+<br>
+<div> {{profile.description}} </div>
+
+<div>
+    <img class="profile-main-building" src="{% get_static_prefix %}images/buildings/{{profile.race}}.png" alt="">
+</div>
+
+{% include "main/mini-resources.html" %}
+
+{% endblock body %}

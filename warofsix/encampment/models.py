@@ -1,9 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from main.models import UserTroops, Location, UserHeroes
+from main.models import UserTroops, Location, UserHeroes, TroopUpgrades
 from django.db.models import Min
 import math
-
 
 # Create your models here.
 
@@ -29,10 +28,17 @@ class DepartingCampaigns(models.Model):
     def speed(self):
         troops = DepartingTroops.objects.filter(campaign=self).exclude(count=0)
         speeds = []
+        try:
+            banner_level = TroopUpgrades.objects.get(user=self.user).banner_carrier
+        except:
+            banner_level = 1
         for troop in troops:
             speeds.append(troop.user_troop.troop.speed)
+        for user_hero in DepartingHeroes.objects.filter(campaign=self):
+            speeds.append(user_hero.user_hero.hero.speed)
         try:
-            return min(speeds)
+            speed = min(speeds) + (banner_level / 100 * min(speeds))
+            return speed
         except:
             return 10
     
@@ -47,12 +53,21 @@ class DepartingCampaigns(models.Model):
         return departing_heroes
     
 
+
 class DepartingTroops(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     position = models.PositiveIntegerField()
-    user_troop = models.ForeignKey(UserTroops, on_delete=models.CASCADE)
+    user_troop = models.ForeignKey(UserTroops, on_delete=models.CASCADE, null=True, blank=True)
     count = models.PositiveIntegerField(default=0)
     campaign = models.ForeignKey(DepartingCampaigns, on_delete=models.CASCADE, null=True)
+
+    @property
+    def position_hero(self):
+        hero = DepartingHeroes.objects.filter(campaign=self.campaign, position = self.position)
+        if hero.exists():
+            return hero.first()
+        else:
+            return None
 
 
 class DepartingHeroes(models.Model):
@@ -78,6 +93,7 @@ class ArrivingCampaigns(models.Model):
     arriving_stone = models.PositiveIntegerField(default=0)
     arriving_iron = models.PositiveIntegerField(default=0)
     arriving_grain = models.PositiveIntegerField(default=0)
+    arriving_rings = models.PositiveIntegerField(default=0)
     arriving_time = models.DateTimeField(null=True, blank=True)
 
     @property
@@ -87,7 +103,21 @@ class ArrivingCampaigns(models.Model):
     @property
     def speed(self):
         min_speed = ArrivingTroops.objects.exclude(user_troop__troop__speed=0).aggregate(Min('user_troop__troop__speed'))['user_troop__troop__speed__min']
-        return min_speed
+        troops = ArrivingTroops.objects.filter(campaign=self).exclude(count=0)
+        speeds = []
+        if self.campaign_type == "reinforcement":
+            banner_level = TroopUpgrades.objects.get(user=self.main_location.user).banner_carrier
+        else:
+            banner_level = TroopUpgrades.objects.get(user=self.user).banner_carrier
+        for troop in troops:
+            speeds.append(troop.user_troop.troop.speed)
+        for user_hero in ArrivingHeroes.objects.filter(campaign=self):
+            speeds.append(user_hero.user_hero.hero.speed)
+        try:
+            speed = min(speeds) + (banner_level / 100 * min(speeds))
+            return speed
+        except:
+            return 10
     
     @property
     def group(self):
@@ -104,6 +134,8 @@ class ArrivingTroops(models.Model):
     user_troop = models.ForeignKey(UserTroops, on_delete=models.CASCADE, null=True, blank=True)
     count = models.PositiveIntegerField(default=0)
     campaign = models.ForeignKey(ArrivingCampaigns, on_delete=models.CASCADE, null=True)
+
+
 
 
 class ArrivingHeroes(models.Model):
@@ -135,4 +167,21 @@ class ReinforcementTroops(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     user_troop = models.ForeignKey(UserTroops, on_delete=models.CASCADE)
     count = models.PositiveIntegerField(default=0)
+
+
+    def save(self, *args, **kwargs):
+        if self.count == 0:
+            self.delete()
+        else:
+            super().save(*args, **kwargs)
+        
+    
+    def delete(self, *args, **kwargs):
+        defence_positions = DefencePosition.objects.filter(user = self.location.user, user_troop = self.user_troop)
+        if defence_positions.exists():
+            for pos in defence_positions:
+                pos.user_troop = UserTroops.objects.get(user=self.location.user, troop__name ="Builder")
+                pos.percent = 0
+                pos.save()
+        super().delete(*args, **kwargs)
 

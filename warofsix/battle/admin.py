@@ -17,3 +17,11 @@ class AttackerDeadsAdmin(admin.ModelAdmin):
 @admin.register(DefenderDeads)
 class DefenderDeadsAdmin(admin.ModelAdmin):
     list_display = ["battle", "position", "status", "user_troop", "troop_count", "deads", "user_hero", "user_hero_troop_count", "user_hero_troop_dead"]
+
+@admin.register(DefenderBuildingDemolish)
+class DefenderBuildingDemolishAdmin(admin.ModelAdmin):
+    list_display = ["battle", "building", "pre_battle_level", "post_battle_level"]
+
+@admin.register(BattlePillageResources)
+class BattlePillageResourcesAdmin(admin.ModelAdmin):
+    list_display = ["battle", "wood", "stone", "iron", "grain", "rings"]

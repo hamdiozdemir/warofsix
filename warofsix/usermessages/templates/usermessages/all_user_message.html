@@ -1,0 +1,75 @@
+{% extends 'main/layout.html' %}
+
+{% block body %}
+
+<div class="flex-center">
+
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="all_message">
+        <h6>TO: <i>ALL</i></h6>
+
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input type="text" class="form-control" name="title" id="exampleFormControlInput1">
+          </div>
+
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="message"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="parola" class="form-label">Key</label>
+            <input type="text" class="form-control" name="key" id="parola">
+          </div>
+
+
+          <button type="submit" class="btn btn-success">SEND</button>
+
+    </form>
+
+
+    <hr>
+
+
+
+</div>
+<hr>
+<br>
+
+<div class="flex-center">
+  <form method="POST">
+    {% csrf_token %}
+    <h5>Create Random Wild Attack</h5>
+    <input type="hidden" name="form_type" value="wild_attack">
+    <div>
+      <input type="text" name="wild-send-key" placeholder="What is our key ?">
+    </div>
+    <button type="submit" class="btn btn-success">SEND an ATTACK</button>
+
+  </form>
+</div>
+
+<hr>
+<br>
+<div class="flex-center">
+  <form method="POST">
+    {% csrf_token %}
+    <h5>Create Random Wild User</h5>
+    <input type="hidden" name="form_type" value="create_wild_user">
+    <div><input type="text" name="level" placeholder="Level: easy, medium, hard.."></div>
+    <div><input type="text" name="troop_name" placeholder="exact name"></div>
+    <div><input type="number" name="range_start" placeholder="For troop count range start"></div>
+    <div><input type="number" name="range_end" placeholder="For troop count range end"></div>
+    <div><input type="number" name="ring_chance" placeholder="Ring chance: 1, 2 ,3, 4 / 1"></div>
+    <div><input type="text" name="wild-create-key" placeholder="What is our key ?"></div>
+    
+  
+    <div> <button type="submit" class="btn btn-success">CREATE WILD</button> </div>
+
+  </form>
+</div>
+
+{% endblock body %}
