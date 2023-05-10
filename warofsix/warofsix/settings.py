@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 # from decouple import config
 from decouple import config
+from warofsix.celery import app as celery_app
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

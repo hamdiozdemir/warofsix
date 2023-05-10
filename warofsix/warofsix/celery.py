@@ -11,4 +11,4 @@ app.config_from_object('django.conf:settings', namespace="CELERY")
 
 app.autodiscover_tasks()
 
-BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+# BROKER_URL = 'amqp://guest:guest@localhost:5672//'
