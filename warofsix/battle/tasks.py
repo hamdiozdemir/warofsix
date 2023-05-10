@@ -1,9 +1,13 @@
 from __future__ import absolute_import, unicode_literals
+from celery import Celery
 from celery import shared_task
 from encampment.models import DepartingCampaigns, ArrivingCampaigns
 from .simulation import Battle
 
+celery = Celery('tasks', broker="amqp://guest@localhost//")
 
+import os
+os.environ['DJANGO_SETTINGS_MODULE'] = "warofsix.settings"
 
 
 @shared_task
