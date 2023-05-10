@@ -12,4 +12,5 @@ local.py
 documentation.html
 /migrations
 .gitignore
+data.json
 
