@@ -188,7 +188,7 @@ def create_wild_user():
     return user
 
 def create_wild_good(user, level, troop_name, range_start, range_end, ring_chance):
-    from main.models import Troops, Resources,Statistic, Race, WildData
+    from main.models import Troops, Resources,Statistic, Race, WildData, UserTracker, Notifications
     from accounts.models import Profile
     from encampment.models import DefencePosition
     # create location
@@ -220,6 +220,9 @@ def create_wild_good(user, level, troop_name, range_start, range_end, ring_chanc
         statistic = user_statistic,
         description = "Wildlings"
     )
+
+    Notifications.objects.create(user=user)
+    UserTracker.objects.create(user=user)
 
     # create defensive positions
     positions_list = [11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 34]
