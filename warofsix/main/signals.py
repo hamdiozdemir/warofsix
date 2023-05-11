@@ -85,173 +85,173 @@ profile_description_samples = {
 }
 
 
-@receiver(post_save, sender=Race)
-def create_instances(sender, instance, created, **kwargs):
-    if created:
-        if instance.name == "Wild" or instance.name == "Wild2":
-            pass
-        else:     
-            race = instance.name
-            troops = Troops.objects.filter(race=race)
-            user = instance.user
+# @receiver(post_save, sender=Race)
+# def create_instances(sender, instance, created, **kwargs):
+#     if created:
+#         if instance.name == "Wild" or instance.name == "Wild2":
+#             pass
+#         else:     
+#             race = instance.name
+#             troops = Troops.objects.filter(race=race)
+#             user = instance.user
 
-            #Asing a location with random
-            locs = Location.objects.filter(user=None, type="settlement")
-            loc = random.choice(locs)
-            loc.user = user
-            loc.save()
+#             #Asing a location with random
+#             locs = Location.objects.filter(user=None, type="settlement")
+#             loc = random.choice(locs)
+#             loc.user = user
+#             loc.save()
 
-            for troop in troops:
-                UserTroops.objects.create(user=user, troop = troop)
-            new = UserTroops.objects.filter(user=user)
-            new = new.get(troop__name = 'Builder')
-            new.count = 5
-            new.save()
+#             for troop in troops:
+#                 UserTroops.objects.create(user=user, troop = troop)
+#             new = UserTroops.objects.filter(user=user)
+#             new = new.get(troop__name = 'Builder')
+#             new.count = 5
+#             new.save()
 
-            race = Race.objects.get(user=user)
-            race.is_selected = True
-            race.save()
-
-
-@receiver(post_save, sender=Race)
-def create_buildings(sender, instance, created, **kwargs):
-    if created:
-        if instance.name == "Wild" or instance.name == "Wild2":
-            pass
-        else:
-            race = instance.name
-            user = instance.user
-
-            #Create Fortress by default with level 1
-            fortress_first = Buildings.objects.get(race=race, name="Fortress")
-            user_fortress = UserBuildings.objects.create(user=user, building=fortress_first, level=1)
-            user_fortress.save()
-
-            troop_builder = Troops.objects.get(name="Builder", building= user_fortress.building)
-            UserTroopTraining.objects.create(user=instance.user, user_building= user_fortress, troop=troop_builder)
-
-            #Create Resources for user on DB
-            Resources.objects.create(user=user)
+#             race = Race.objects.get(user=user)
+#             race.is_selected = True
+#             race.save()
 
 
-            # Create Statistic for user
-            user_statistic = Statistic.objects.create(user=user)
+# @receiver(post_save, sender=Race)
+# def create_buildings(sender, instance, created, **kwargs):
+#     if created:
+#         if instance.name == "Wild" or instance.name == "Wild2":
+#             pass
+#         else:
+#             race = instance.name
+#             user = instance.user
+
+#             #Create Fortress by default with level 1
+#             fortress_first = Buildings.objects.get(race=race, name="Fortress")
+#             user_fortress = UserBuildings.objects.create(user=user, building=fortress_first, level=1)
+#             user_fortress.save()
+
+#             troop_builder = Troops.objects.get(name="Builder", building= user_fortress.building)
+#             UserTroopTraining.objects.create(user=instance.user, user_building= user_fortress, troop=troop_builder)
+
+#             #Create Resources for user on DB
+#             Resources.objects.create(user=user)
 
 
-            #Create the settlement with all 20 spots and assign Fortress to number 10
-            for number in range(1,21):
-                Settlement.objects.create(user=user, settlement_id = number)
+#             # Create Statistic for user
+#             user_statistic = Statistic.objects.create(user=user)
+
+
+#             #Create the settlement with all 20 spots and assign Fortress to number 10
+#             for number in range(1,21):
+#                 Settlement.objects.create(user=user, settlement_id = number)
                 
-            fortress = Settlement.objects.get(user=user, settlement_id=10)
-            fortress.building = UserBuildings.objects.get(user=user, building__name = "Fortress")
-            fortress.save()
+#             fortress = Settlement.objects.get(user=user, settlement_id=10)
+#             fortress.building = UserBuildings.objects.get(user=user, building__name = "Fortress")
+#             fortress.save()
 
-            # Create super power row
-            create_super_power(race, fortress.building)
+#             # Create super power row
+#             create_super_power(race, fortress.building)
 
-            # create a profile
-            Profile.objects.create(
-                user=user,
-                race = instance,
-                location = Location.objects.get(user=user),
-                statistic = user_statistic,
-                description = random.choice(profile_description_samples[instance.name])
-            )
+#             # create a profile
+#             Profile.objects.create(
+#                 user=user,
+#                 race = instance,
+#                 location = Location.objects.get(user=user),
+#                 statistic = user_statistic,
+#                 description = random.choice(profile_description_samples[instance.name])
+#             )
                 
-            # Troop Upgrades
-            TroopUpgrades.objects.create(user=user)
+#             # Troop Upgrades
+#             TroopUpgrades.objects.create(user=user)
 
-            # Create a tracker
-            UserTracker.objects.create(user=user)
+#             # Create a tracker
+#             UserTracker.objects.create(user=user)
 
-            # Create Market
-            UserMarkets.objects.create(user=user)
+#             # Create Market
+#             UserMarkets.objects.create(user=user)
 
-            # Create Notifications
-            notify = Notifications.objects.create(user=user)
+#             # Create Notifications
+#             notify = Notifications.objects.create(user=user)
 
 
-            # Create a Defensive Position
-            positions_list = [11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 34]
-            default_builder = UserTroops.objects.get(user=user, troop__name="Builder")
-            for pos in positions_list:
-                if pos == 11:
-                    DefencePosition.objects.create(user=user, position=pos, user_troop=default_builder, percent=100)
-                else:
-                    DefencePosition.objects.create(user=user, position=pos, user_troop=default_builder)
+#             # Create a Defensive Position
+#             positions_list = [11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 34]
+#             default_builder = UserTroops.objects.get(user=user, troop__name="Builder")
+#             for pos in positions_list:
+#                 if pos == 11:
+#                     DefencePosition.objects.create(user=user, position=pos, user_troop=default_builder, percent=100)
+#                 else:
+#                     DefencePosition.objects.create(user=user, position=pos, user_troop=default_builder)
             
-            #Welcome Message
-            try:
-                admin = User.objects.get(username = "admin")
-            except:
-                admin = None
-            Messages.objects.create(
-                sender=admin,
-                target = user,
-                header = "Welcome to BATTLE!",
-                content = "Welcome to game. Please be informed that this is a demo version. For any issue please contact the admin user in game or send an email to warofsix@gmail.com. Thank you so much for your participation."
-            )
-            notify.messages = True
-            notify.save()
+#             #Welcome Message
+#             try:
+#                 admin = User.objects.get(username = "admin")
+#             except:
+#                 admin = None
+#             Messages.objects.create(
+#                 sender=admin,
+#                 target = user,
+#                 header = "Welcome to BATTLE!",
+#                 content = "Welcome to game. Please be informed that this is a demo version. For any issue please contact the admin user in game or send an email to warofsix@gmail.com. Thank you so much for your participation."
+#             )
+#             notify.messages = True
+#             notify.save()
 
 
 
 
-# get tracker to update user instances
-@receiver(post_save, sender=UserTracker)
-def catch_request(sender, instance, **kwargs):
-    user = instance.user
-    training_check(user)
+# # get tracker to update user instances
+# @receiver(post_save, sender=UserTracker)
+# def catch_request(sender, instance, **kwargs):
+#     user = instance.user
+#     training_check(user)
 
-    buildings = UserBuildings.objects.filter(user=user)
-    building_update_check(buildings)
-    resource_production(user)
-    current_resources(user)
-    armory_update_check(user)
-
-
-
-from battle.models import Battles
-
-@receiver(post_save, sender=Battles)
-def catch_battle(sender, instance, created, **kwargs):
-    if created:
-        notifi = Notifications.objects.get(user=instance.attacker)
-        notifi.report = True
-        notifi.save()
-
-        notifi2 = Notifications.objects.get(user=instance.defender)
-        notifi2.report = True
-        notifi2.save()
+#     buildings = UserBuildings.objects.filter(user=user)
+#     building_update_check(buildings)
+#     resource_production(user)
+#     current_resources(user)
+#     armory_update_check(user)
 
 
-from alliances.models import AllianceMembers, AllianceChats, AllianceJoinRequest
 
-@receiver(post_save, sender=AllianceChats)
-def alliance_chat_catch(sender, instance, created, **kwargs):
-    if created:
-        members = AllianceMembers.objects.filter(alliance = instance.alliance)
-        for obj in members:
-            notifi = Notifications.objects.get(user = obj.member)
-            notifi.alliance = True
-            notifi.save()
+# from battle.models import Battles
 
-@receiver(post_save, sender=AllianceJoinRequest)
-def alliance_request_catch(sender, instance, created, **kwargs):
-    if created:
-        members = AllianceMembers.objects.filter(alliance = instance.alliance)
-        for obj in members:
-            notifi = Notifications.objects.get(user = obj.member)
-            notifi.alliance = True
-            notifi.save()    
+# @receiver(post_save, sender=Battles)
+# def catch_battle(sender, instance, created, **kwargs):
+#     if created:
+#         notifi = Notifications.objects.get(user=instance.attacker)
+#         notifi.report = True
+#         notifi.save()
+
+#         notifi2 = Notifications.objects.get(user=instance.defender)
+#         notifi2.report = True
+#         notifi2.save()
 
 
-@receiver(post_save, sender=Messages)
-def message_catch(sender, instance, created, **kwargs):
-    if created:
-        notifi = Notifications.objects.get(user = instance.target)
-        notifi.messages = True
-        notifi.save()
+# from alliances.models import AllianceMembers, AllianceChats, AllianceJoinRequest
+
+# @receiver(post_save, sender=AllianceChats)
+# def alliance_chat_catch(sender, instance, created, **kwargs):
+#     if created:
+#         members = AllianceMembers.objects.filter(alliance = instance.alliance)
+#         for obj in members:
+#             notifi = Notifications.objects.get(user = obj.member)
+#             notifi.alliance = True
+#             notifi.save()
+
+# @receiver(post_save, sender=AllianceJoinRequest)
+# def alliance_request_catch(sender, instance, created, **kwargs):
+#     if created:
+#         members = AllianceMembers.objects.filter(alliance = instance.alliance)
+#         for obj in members:
+#             notifi = Notifications.objects.get(user = obj.member)
+#             notifi.alliance = True
+#             notifi.save()    
+
+
+# @receiver(post_save, sender=Messages)
+# def message_catch(sender, instance, created, **kwargs):
+#     if created:
+#         notifi = Notifications.objects.get(user = instance.target)
+#         notifi.messages = True
+#         notifi.save()
 
 
 
