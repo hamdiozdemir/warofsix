@@ -58,20 +58,29 @@ class HomeView(TemplateView):
         from accounts.forms import UserRegistrationForm
         form = UserRegistrationForm(request.POST)
         races = ["Men", "Dwarves", "Elves", "Isengard","Mordor", "Goblins"]
+        if not data.get("race"):
+            messages.add_message(request, messages.WARNING, "Choose a valid race pls...")
+            return redirect('/#register')
+        if not data.get("email"):
+            messages.add_message(request, messages.WARNING, "Enter an email, just in case you know..")
+            return redirect('/#register')
+
         if data["race"] in races:
             if data["username"] in [user.username for user in User.objects.all()]:
-                messages.add_message(request, messages.warning, "This username is already taken. Try something else.")
-                return("/#register")
+                messages.add_message(request, messages.WARNING, "This username is already taken. Try something else.")
+                return redirect("/#register")
             if form.is_valid():
                 new_user = form.save()
                 new_user.set_password(form.cleaned_data["password"])
                 new_user.save()
                 Race.objects.create(user=new_user, name=data["race"], is_selected = True)
-        else:
-            messages.add_message(request, messages.WARNING, "Choose a valid race pls...")
-            return redirect('/')
+                messages.add_message(request, messages.WARNING, f"Welcome {new_user}")
+                return redirect("/accounts/login")
 
-        return redirect('/accounts/login')
+        else:
+            messages.add_message(request, messages.WARNING, "An error has accured")
+            return redirect('/')
+        return redirect('/#register')
     
 
 

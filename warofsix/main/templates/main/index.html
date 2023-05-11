@@ -143,6 +143,14 @@
 
   <div class="third-container">
 
+    {% if messages %}
+    <ul class="messages" style="background:aqua;">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <div class="input-line hidden2">
 
       <h2>REGISTER</h2>

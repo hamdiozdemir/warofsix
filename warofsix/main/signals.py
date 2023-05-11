@@ -182,14 +182,14 @@ def create_buildings(sender, instance, created, **kwargs):
             
             #Welcome Message
             try:
-                admin = User.objects.get(username = "admin")
+                admin = User.objects.filter(username = "admin").first()
             except:
                 admin = None
             Messages.objects.create(
                 sender=admin,
                 target = user,
                 header = "Welcome to BATTLE!",
-                content = "Welcome to game. Please be informed that this is a demo version. For any issue please contact the admin user in game or send an email to warofsix@gmail.com. Thank you so much for your participation."
+                content = "Welcome to game. For details of the game, you can checkout the Guide. Please be informed that this is a demo version. For any issue please contact the admin user in game or send an email to warofsix@gmail.com. Thank you so much for your participation."
             )
             notify.messages = True
             notify.save()
