@@ -13,6 +13,8 @@ documentation.html
 /migrations
 .gitignore
 data.json
+**/migrations/
+**/migrations/**
 warofsix.sock
 warofsix.nginx.conf
 gunicorn.service
