@@ -11,6 +11,7 @@ from django.db.models import Sum
 from .heroes import HeroManagement
 from .superpower import SuperPowerManagement
 from accounts.models import Profile
+from django.contrib.auth.models import User
 import json
 import random
 
@@ -53,12 +54,14 @@ class HomeView(TemplateView):
         return context
     
     def post(self, request, *args, **kwargs):
-        print(request.POST.dict())
         data = request.POST.dict() 
         from accounts.forms import UserRegistrationForm
         form = UserRegistrationForm(request.POST)
         races = ["Men", "Dwarves", "Elves", "Isengard","Mordor", "Goblins"]
         if data["race"] in races:
+            if data["username"] in [user.username for user in User.objects.all()]:
+                messages.add_message(request, messages.warning, "This username is already taken. Try something else.")
+                return("/#register")
             if form.is_valid():
                 new_user = form.save()
                 new_user.set_password(form.cleaned_data["password"])

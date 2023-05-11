@@ -367,7 +367,7 @@ class TroopUpgrades(models.Model):
     
 
 class Messages(models.Model):
-    sender = models.ForeignKey(User, related_name='sender_user', on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, related_name='sender_user', on_delete=models.CASCADE, null=True, blank=True)
     target = models.ForeignKey(User, related_name='target_user', on_delete=models.CASCADE)
     header = models.CharField(max_length=50)
     content = models.TextField(max_length=500)
@@ -380,10 +380,10 @@ class Messages(models.Model):
 
 class Resources(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    wood = models.PositiveIntegerField(default=800)
-    stone = models.PositiveIntegerField(default=800)
-    iron = models.PositiveIntegerField(default=800)
-    grain = models.PositiveIntegerField(default=800)
+    wood = models.PositiveIntegerField(default=3000)
+    stone = models.PositiveIntegerField(default=3000)
+    iron = models.PositiveIntegerField(default=3000)
+    grain = models.PositiveIntegerField(default=3000)
     token = models.PositiveIntegerField(default=300)
     rings = models.PositiveIntegerField(default=0)
     the_one_ring = models.BooleanField(default=False)

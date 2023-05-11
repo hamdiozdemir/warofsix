@@ -168,7 +168,7 @@ def create_buildings(sender, instance, created, **kwargs):
             UserMarkets.objects.create(user=user)
 
             # Create Notifications
-            Notifications.objects.create(user=user)
+            notify = Notifications.objects.create(user=user)
 
 
             # Create a Defensive Position
@@ -179,6 +179,20 @@ def create_buildings(sender, instance, created, **kwargs):
                     DefencePosition.objects.create(user=user, position=pos, user_troop=default_builder, percent=100)
                 else:
                     DefencePosition.objects.create(user=user, position=pos, user_troop=default_builder)
+            
+            #Welcome Message
+            try:
+                admin = User.objects.get(username = "admin")
+            except:
+                admin = None
+            Messages.objects.create(
+                sender=admin,
+                target = user,
+                header = "Welcome to BATTLE!",
+                content = "Welcome to game. Please be informed that this is a demo version. For any issue please contact the admin user in game or send an email to warofsix@gmail.com. Thank you so much for your participation."
+            )
+            notify.messages = True
+            notify.save()
 
 
 
