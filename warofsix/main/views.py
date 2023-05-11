@@ -364,6 +364,9 @@ def new_building(request, settlement_id):
         tracker = UserTracker.objects.get(user=request.user)
         tracker.track += 1
         tracker.save()
+        settlement_range = range(1,21)
+        if int(settlement_id) not in settlement_range:
+            return redirect("/settlement")
 
         race = Race.objects.get(user=request.user)
         buildings = Buildings.objects.filter(race=race).order_by("sorting")
