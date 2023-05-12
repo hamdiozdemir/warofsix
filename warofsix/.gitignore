@@ -20,3 +20,4 @@ warofsix.nginx.conf
 gunicorn.service
 bfme2.csv
 my_project_visualized.png
+/static

@@ -30,7 +30,7 @@ class WildUpdates():
     def troop_update(self):
         # convert to hour bcoz troop production number is per hour on DB
         time_passed = (timezone.now() - self.wild_data_object.troop_last_checkout).total_seconds() / 3600
-        production = round(time_passed * self.wild_data_object.troop_production_number)
+        production = round(time_passed * self.wild_data_object.troop_production_number / 3)
         if production == 0:
             pass
         else:
@@ -49,7 +49,7 @@ class WildUpdates():
         resource_production = round(resource_time_passed * self.wild_data_object.resource_production_number)
 
         troop_time_passed = (timezone.now() - self.wild_data_object.troop_last_checkout).total_seconds() / 3600
-        troop_production = round(troop_time_passed * self.wild_data_object.troop_production_number)
+        troop_production = round(troop_time_passed * self.wild_data_object.troop_production_number / 3)
         if resource_production == 0:
             pass
         else:

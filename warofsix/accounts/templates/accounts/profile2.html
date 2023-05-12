@@ -51,13 +51,25 @@
 
 <div class="flex-column-center">
     <div> {{profile.description}} </div>
-    <div class="flex-column-center">
-        <b>TROOPS</b>
+
+    {% if troops %}
+    <div class="flex-column-center wild-troop">
         {% for troop in troops %}
-        <div><b>{{troop.troop|upper}}</b>: {{troop.count}}</div>
+        <div>
+            <img style="border: 1px black solid;" class="profile-main-building" src="{% get_static_prefix %}images/troops/{{troop.troop.id}}.png" alt="">
+        </div>
+        <div><b>{{troop.troop|upper}}</b> </div>
+        <div>NUMBER: {{troop.count}}</div>
+        <div>Health: {{troop.troop.health}} | Damage: {{troop.troop.damage}}</div>
         
         {% endfor %}
     </div>
+    
+    {% else %}
+    {% endif %}
+
+
+
     <br>
     <div class="loc-link"><a href="/encampment?locx={{profile.location.locx}}&locy={{profile.location.locy}}#locx">Send Troops</a></div>
 

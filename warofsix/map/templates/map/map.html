@@ -3,11 +3,13 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'style/map.css' %}" type='text/css'>
+<link rel="stylesheet" href="{% get_static_prefix %}style/map.css" type='text/css'>
 {% endblock head %}
 
 
 {% block body %}
+
+<button id="toggle-navbar">Show/Hide Menu</button>
 
 <div class="map-parent">
 
@@ -45,4 +47,15 @@
     </div>
 
 </div>
+
+
+
+<script>
+    const navbar = document.querySelector('.navibar');
+const toggleButton = document.querySelector('#toggle-navbar');
+
+toggleButton.addEventListener('click', () => {
+  navbar.style.display = navbar.style.display === 'none' ? 'flex' : 'none';
+});
+</script>
 {% endblock body %}

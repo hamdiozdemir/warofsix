@@ -267,10 +267,10 @@ def speed_dec(divide_number):
 
 
 def resource_production(user):
-    base = 50
+    base = 100
     grain_base = 250
     try:
-        wood_production = 50
+        wood_production = 100
         woods = UserBuildings.objects.filter(user=user, building__type = "wood")
         for wood in woods:
             wood_production += wood.level * 1.25 * wood.resource_worker * base if wood.resource_worker != 0 else wood.level * 1.25 * base
@@ -278,7 +278,7 @@ def resource_production(user):
         wood = base
 
     try:
-        stone_production = 50
+        stone_production = 100
         stones = UserBuildings.objects.filter(user=user, building__type = "stone")
         for stone in stones:
             stone_production += stone.level * 1.25 * stone.resource_worker * base if stone.resource_worker != 0 else stone.level * 1.25 * base
@@ -286,7 +286,7 @@ def resource_production(user):
         stone = base
     
     try:
-        iron_production = 50
+        iron_production = 100
         irons = UserBuildings.objects.filter(user=user, building__type = "iron")
         for iron in irons:
             iron_production += iron.level * 1.25 * iron.resource_worker * base if iron.resource_worker != 0 else iron.level * 1.25 * base
@@ -294,7 +294,7 @@ def resource_production(user):
         iron = base
     
     try:
-        grain_production = 50    
+        grain_production = 100    
         grains = UserBuildings.objects.filter(user=user, building__type = "grain")
         for grain in grains:
             grain_production += grain.level * 1.25 * grain.resource_worker * grain_base if grain.resource_worker != 0 else grain.level * 1.25 * grain_base
