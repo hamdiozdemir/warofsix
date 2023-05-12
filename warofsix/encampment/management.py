@@ -76,12 +76,16 @@ class TroopManagements():
 
 
     def send_troop_number_check(self):
+        filtered_number_data = {k:v for k,v in self.data.items() if k.startswith('num')}
+        if sum([int(number) for number in filtered_number_data.values()]) == 0:
+            return False
         filtered_data = {k:v for k,v in self.data.items() if k.startswith('troop')}
         new_data = dict.fromkeys(set(filtered_data.values()), 0)
         for k,v in filtered_data.items():
             if v in new_data.keys():
                 new_data[v] += int(self.data["num"+k[-2:]])
         checks=[]
+
         for k,v in new_data.items():
             if self.user_troop_query.get(id = int(k)).count >= v:
                 checks.append(True)
@@ -91,6 +95,8 @@ class TroopManagements():
             return True
         else:
             return False
+        
+
         
     def send_troop_hero_check(self):
         filtered_data = {k:v for k,v in self.data.items() if k.startswith('herod') and v != "Add Hero"}
@@ -130,6 +136,7 @@ class TroopManagements():
         if target_location.type == "nature" or target_location.user == None:
             message = f"X:{target_location.locx} | Y:{target_location.locy} is not a place to send troop"
             return message
+        
         
         elif not self.send_troop_number_check():
             message = "You do not have enough troop!"

@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{% static 'style/guide.css' %}" type='text/css'>
 
 
-    <title>War of The Six / Guide</title>
+    <title>War of The Six / Rehber</title>
 </head>
 <body>
 
@@ -27,34 +27,35 @@
           <dl>
             <dt><a href="/guide/tr"><b>Türkçe</b></a>  |  <a href="/guide"><b>English</b></a></dt>
             <dt></dt>
-            <dt><a href="#top">TOP</a></dt>
-            <dt><a href="#general">General</a></dt>
-            <dt><a href="#settlement">Settlement</a></dt>
-            <dt><a href="#resources">Resources</a></dt>
-            <dt><a href="#encampment">Encampment</a></dt>
-            <dd><a href="#defensive">- Set Defensive Formation</a></dd>
-            <dd><a href="#send-troops">- Send Troops</a></dd>
-            <dt><a href="#alliances">Alliances</a></dt>
-            <dt><a href="#battles">Battles</a></dt>
-            <dd><a href="#battle-pillage">- Pillage Attack</a></dd>
-            <dd><a href="#battle-line">- Line Attack</a></dd>
-            <dd><a href="#battle-flank">- Flank Attack</a></dd>
-            <dt><a href="#buildings">Buildings</a></dt>
+            <dt><a href="#top">EN ÜST</a></dt>
+            <dt><a href="#starting">Başlangıç</a></dt>
+            <dt><a href="#settlement">Settlement / Yerleşim</a></dt>
+            <dt><a href="#resources">Resources / Hammaddeler</a></dt>
+            <dt><a href="#encampment">Encampment / Karargah</a></dt>
+            <dd><a href="#defensive">- Defansif Formasyon</a></dd>
+            <dd><a href="#send-troops">- Asker Gönderme</a></dd>
+            <dt><a href="#alliances">Alliances / Birlik</a></dt>
+            <dt><a href="#battles">Battles / Savaş</a></dt>
+            <dd><a href="#battle-pillage">- Pillage / Yağmalama</a></dd>
+            <dd><a href="#battle-line">- Hat Hücumu</a></dd>
+            <dd><a href="#battle-flank">- Kanat Hücumu</a></dd>
+            <dt><a href="#buildings">Binalar</a></dt>
             <dd><a href="#buildings-men">- Men</a></dd>
             <dd><a href="#buildings-dwarves">- Dwarves</a></dd>
             <dd><a href="#buildings-elves">- Elves</a></dd>
             <dd><a href="#buildings-isengard">- Isengard</a></dd>
             <dd><a href="#buildings-mordor">- Mordor</a></dd>
             <dd><a href="#buildings-goblins">- Goblins</a></dd>
-            <dt><a href="#troops">Troops</a></dt>
+            <dt><a href="#troops">Askerler</a></dt>
             <dd><a href="#troops-men">- Men</a></dd>
             <dd><a href="#troops-dwarves">- Dwarves</a></dd>
             <dd><a href="#troops-elves">- Elves</a></dd>
             <dd><a href="#troops-isengard">- Isengard</a></dd>
             <dd><a href="#troops-mordor">- Mordor</a></dd>
             <dd><a href="#troops-goblins">- Goblins</a></dd>
-            <dt><a href="#upgrades">Upgrades</a></dt>
-            <dt><a href="#heroes">Heroes</a></dt>
+            <dd><a href="#troops-goblins">- Wilds</a></dd>
+            <dt><a href="#upgrades">Upgrades / Geliştirmeler</a></dt>
+            <dt><a href="#heroes">Heroes / Kahramanlar</a></dt>
             <dt><a href="#super-powers">Super Powers</a></dt>
             <dt><a href="#market">Market</a></dt>
           </dl>
@@ -77,7 +78,7 @@
                       <div class="menu-icon-container">
                         <img id="icon-guide" src="{% get_static_prefix %}images/index/homeg.png">
                       </div>
-                      Home
+                      Ana
                     </a>
                   </div>
               
@@ -86,7 +87,7 @@
                       <div class="menu-icon-container">
                         <img id="icon-about" src="{% get_static_prefix %}images/index/about.png">
                       </div>
-                      About
+                      Hakkında
                     </a>
                   </div>
               
@@ -96,7 +97,7 @@
                       <div class="menu-icon-container">
                         <img id="icon-register" src="{% get_static_prefix %}images/index/register.png">
                       </div>
-                      Register
+                      Kayıt Ol
                     </a>
                   </div>
               
@@ -105,93 +106,113 @@
                       <div class="menu-icon-container">
                         <img id="icon-login" src="{% get_static_prefix %}images/index/login.png">
                       </div>
-                      Login
+                      Giriş Yap
                     </a>
                   </div>
                 </div>
         
             </div>
+
+
+            <h5 id="starting">Başlangıç</h5>
+            <div class="justify">
+              <p>
+                
+              </p>
+
+              <p>Bu, JRR Tolkien'in yarattığı harika dünyayı temel alan bir tarayıcı strateji oyunudur. Bu oyunda bir yarış seçebilir, krallığınızı kurabilir, ordunuzu kurabilir, ittifaklar kurabilir ve düşmanlarınızı yenebilirsiniz. Tek Yüzüğü almak da elbette bunu başarmanıza yardımcı olabilir.</p>
+
+                 <p>
+                   Oyun, temelde 2 tarafta 6 farklı ırka sahiptir: Good <span class="italic">(Men, Dwarves, Elfler)</span> ve Evil <span class="italic">(Mordor, Isengard, Goblins)</span>. Her ırkın kendi binaları, birlikleri, kahramanları ve Fortress SuperPower'ı vardır. Her oyuncu bir ırk seçerek oyuna başlar. Oyunda bir birliğe katılırken, her kullanıcı yalnızca kendi tarafına ait birliklere katılabilir.
+                 </p>
+                <p>
+                  Oyunun başlangıcında, herkes bir Kale, 5 Builder ve 8000'er hammade ile oyuna başlar. Builder'lar oyunun özellikle başlangıcında çok önemli bir yere sahiptir. Bu işçileri bina kurarken veya hammadde binalarınızda üretimi arttırmak için kullanabilirsiniz. Dolasıyla işçi sayınız ve onları ne zaman nerede kullandığınız stratejik öneme sahiptir.
+                </p>
+                <p>
+                  Örneğin bir binayı kurmak 1 işçi ile 400 saniye sürerken, 2 işçi ile birlikte 200 saniyede kurabilir veya yükseltebilirsiniz. Bunun dışında hammadde üretimlerinizi arttırmak için öncelikle ilgili binaları kurmalısınız. Bu binalar içerisinde işçi olmadığı takdirde çok temel düzeyde üretime sahip olurlar. İşçilerinizi RESOURCES kısmından bu hammadde binalarında çalışacak şekilde yönlendirirseniz, hammadde üretiminiz binanın seviyesi ile birlikte ciddi anlamda artacaktır. İstediğiniz zaman yine aynı sayfadan işçi sayılarını güncelleyebilirsiniz. Ayrıntılı bilgi için <a href="#resources">Resources / Hammaddeler</a> bölümüne bakabilirsiniz.
+                </p>
+                <p>
+                  Oyunda asker eğitmek için bazı binalara ihtiyacınız vardır. Bu binalardan seçtiğiniz ırkla ilgili askerleri eğitebilirsiniz. Her askerin belirli bir eğitim süresi vardır. Bina seviyesi yükseldikçe bu süre de azalmaktadır. Bazı askerleri eğitmek için bina seviyeniz yüksek olması gerekmektedir. Askerlerle ilgili ayrıntılı bilgi için <a href="#troops">Troops</a> bölümüne bakabilirsiniz.
+                </p>
+                <p>
+                  Oyundaki savaşlarda izleyeceğiniz strateji önemli bir yer tutar. Saldırı ve savunmalarınızla ilgili tüm işlemler ENCAMPMENT kısmından yapılmaktadır. Öncelikle gelebilecek olası saldırılara karşı askerlerinize bir savunma pozisyonu belirlemeniz gerekir (Bknz <a href="#defensive">Defansif Formasyon</a>). Aynı şekilde saldırırken de askerlerinizin hangi formasyonda ve ne tip bir saldırı yapacaklarını da belirlemelisiniz. Çünkü her asker tipi birbirine karşı farklı üstünlükler sağlayabilir. Ayrıntılı bilgi için askerler bölümüne bakabilirsiniz.
+                </p>
+                <p>
+                  Saldırı bölümünde 3 farklı saldırı tipi bulunmaktadır. <b>Pillage / Yağmalama</b> tamamen düşman askerlerini öldürmeyi değil, bir saldırı yapıp hammaddeleri yağmalamayı amaçlar. Askerlerin pozisyonlarının biir önemi yoktur. Ama asker tiplerinin önemi vardır. <b>Line / Hat Hücumu</b> askerlerin saldırı sırasında hat hat ilerleyerek düşmanları öldürmesini sağlar. İlk olarak ilk hatlar savaşır. <b>Flank / Kanat Hücumu</b> askerlerin hattı yararak düşmanın arkasında doğru ilerlemesini amaçlayan bir saldırı türüdür. Bir asker grubu, bir pozisyondaki düşman grubunu öldürdükten sonra kendi hattını beklemeden ilerlemeye devam eder ve düşmanın arkasına geçerek arka hatlarla savaşmaya devam eder. Ayrıntılı bilgiler Savaş kısmında.
+                </p>
+                 <p>
+                   Oyunun bu temel versiyonunda, yaşayan son ittifak oyunu kazanır. Bunu yapmak için Tek Yüzük ve Tek Yüzük Kahramanını <span class="italic">(Sauron veya Galadriel)</span> almak size büyük bir güç verebilir. Ancak, vahşi doğada haritanın etrafına yayılan başka birçok güç halkası var. Her kullanıcı, güçlü bir kahramanı eğitmek için bu yüzükleri toplayabilir. Daha fazla bilgi için lütfen <span class="bold"><a href="#heroes">Kahramanlar</a></span> bölümüne bakın.
+                 </p>
+
+                 <p>
+                   <span class="bold">Yabanıllara Dikkat!!!</span> Yabanıllarımız öylece oturup sizin saldırmanızı beklemez. Yabanıllar size saldırabilir, birliklerinizi öldürebilir ve kaynaklarınızı yağmalayabilir. Bu nedenle her an dikkatli olmakta fayda var.
+                 </p>
+
+                 <p>* Lütfen bunun bir test ve geliştirme sunucusu olduğunu unutmayın. Oyun sırasında bazı hatalar meydana gelebilir veya bazı hatalar olabilir. Lütfen oyundaki <span class="italic">admin</span> kullanıcısıyla iletişime geçmekten çekinmeyin veya <span class="italic">warofsix@gmail.com</span> adresine bir e-posta gönderin. Bu projenin bir parçası olduğunuz için çok teşekkür ederim.
+                 </p>
+                 <p><i>Korkunç ön yüz ve görselleştirmeler için şimdiden özür dilerim :)</i></p>
+            </div>
     
-            <h5 id="general">General</h5>
-            <div class="justify">
-              <p>This is a browser strategy game which based on the great world that JRR Tolkien has created. In this game, you can choose a race, build your kingdom, raise your army, make alliances and defeat your enemies. Getting the One Ring might also help you to achieve this of course.</p>
-
-                <p>
-                  Game, basicly has 6 different races in 2 sides: Good <span class="italic">(Men, Dwarves, Elves)</span> and Evil <span class="italic">(Mordor, Isengard, Goblins)</span>. Each race has their own buildings, troops, heroes and Fortress SuperPower.
-                </p>
-
-                <p>
-                  In this fundamental version of the game, the last living alliance wins the game. To do this, getting the One Ring and the One Ring Hero <span class="italic">(Sauron or Galadriel)</span> might give you great power. However, there are many other power rings that spread around the map in the wildness. Each user can collect these rings to train one mighty hero as well. Please see <span class="bold"><a href="#heroes">Heroes</a></span> section for more information.
-                </p>
-
-                <p>
-                  <span class="bold">Watchout for Wildlings!!!</span> Our Wildlings do not just sit and wait for you to attack. The Wildlings who are closer than 7 square to you, might attack you, kill your troops and loot your resources.
-                </p>
-
-                <p>* And please note that, this is a testing and development server. During the game, some errors might accur or there might be some bugs. Please do not hestite to get in touch with the <span class="italic">admin</span> user in the game or send an email to <span class="italic">warofsix@gmail.com</span>. Thank you very much for being a part of this project.
-                </p>
-                <p><i>And sorry in advance for horrible frontend and visualizations :)</i></p>
-            </div>
 <hr>
-            <h5  id="settlement">Settlement</h5>
+            <h5  id="settlement">Settlement / Yerleşim</h5>
             <div class="justify">
               <p>
-                Settlement is the place that you can build your buildings. Each user has 20 empty spots for new buildings. At the begining, Players begin with a Fortress level 1. Then you can choose and build the buildings anywhere you want. Please see <span class="bold"><a href="#buildings">Buildings</a></span> section for more details.
+                Yerleşim, binalarınızı inşa edebileceğiniz yerdir. Her kullanıcının yeni binalar için 20 boş yeri vardır. Başlangıçta, Oyuncular 1. seviye bir Kale ile başlar. Daha sonra binaları seçip istediğiniz yere inşa edebilirsiniz. Daha fazla ayrıntı için lütfen <span class="bold"><a href="#buildings">Binalar</a></span> bölümüne bakın.
               </p>
 
               <p>
-                At the Settlement page, you can build new buildings, see your current resources, building updates and encampment/troop actions. Note that, you need idled Builders to build somethings. While building somethings or updating, more Builder means, less build/update time.
+                Yerleşim sayfasında yeni binalar inşa edebilir, mevcut kaynaklarınızı, bina güncellemelerini ve kamp/birlik eylemlerini görebilirsiniz. Bir şeyler inşa etmek için boştaki İnşaatçılara ihtiyacınız olduğunu unutmayın. Bir şeyler inşa ederken veya güncellerken, daha fazla Oluşturucu, daha az derleme/güncelleme süresi anlamına gelir.
               </p>
 
             </div>
 
 <hr>
 
-            <h5 id="resources">Resources</h5>
+            <h5 id="resources">Resources / Hammaddeler</h5>
             <div class="justify">
               <p>
-                In game, resources are the key of the success. Mainly there are four different kind of resources: <span class="bold">Wood, Stone, Iron and Grain.</span>. Each of these resources are produced by different buildings. Production is increased by the level of these buildings and also Builder number of in these buildings.
+                Oyunda, kaynaklar başarının anahtarıdır. Temelde dört farklı türde kaynak vardır: <span class="bold">Tahta, Taş, Demir ve Tahıl.</span>. Bu kaynakların her biri farklı binalar tarafından üretilmektedir. Bu binaların seviyesi ve ayrıca bu binalardaki İnşaatçı sayısı ile üretim artar.
               </p>
 
               <p>
-                At the Resources page, you might see your current resources, your resource buildings, resource production per hour and more importantly you can manage how many Builder works in these buildings. 
+                Kaynaklar sayfasında mevcut kaynaklarınızı, kaynak binalarınızı, saat başına kaynak üretiminizi görebilir ve daha da önemlisi bu binalarda kaç İnşaatçının çalıştığını yönetebilirsiniz.
               </p>
 
               <img class="image-large" src="{% get_static_prefix %}images/index/resources.jpg">
 
-              <p>Between these resource types; Wood and Stone are mostly used in buildings; Iron and Grain are mostly used in training troops. So by managing your workers in the resources building, you are able to control your production and resources.</p>
+              <p>Bu kaynak türleri arasında; Ahşap ve Taş en çok binalarda kullanılır; Demir ve Tahıl çoğunlukla eğitim birliklerinde kullanılır. Dolayısıyla, kaynak oluşturma sürecinde çalışanlarınızı yöneterek üretiminizi ve kaynaklarınızı kontrol edebilirsiniz.</p>
               <p>
-                When you got attack and if not the all attacker's troops dies, attacker loots your resources according to troops burden capacity.
+                Saldırı aldığınızda ve saldırganın tüm birlikleri ölmezse, saldırgan birliklerin yük kapasitesine göre kaynaklarınızı yağmalamaktadır.
               </p>
 
               <p>
-                Besides these 4 type of resources, there are also 2 others. <span class="bold">WoS Token</span> & <span class="bold">Rings</span>. <span class="bold">WoS Tokens</span> are special resources that allows you to get Heroes. Each user begins the game with some tokens and can get Heroes from their Fortress. WoS Tokens can not be loot/pillage by others. 
+                Bu 4 tür kaynağın yanı sıra 2 kaynak daha vardır. <span class="bold">WoS Token</span> ve <span class="bold">Yüzükler</span>. <span class="bold">WoS Tokenler</span>, Kahramanları almanızı sağlayan özel kaynaklardır. Her kullanıcı oyuna belli sayıda token ile başlar ve Kalelerinden Kahramanlar alabilir. WoS Tokenleri başkaları tarafından ganimet/talan edilemez.
               </p>
               <p>
-                <span class="bold">Rings</span> are special objects that allows you to get a Special Ring Hero for each race. There are many rings in the map, in some/many wild camps. You can attack to that wild camps and loot the rings. Remember that, these rings <u>can be loot</u> by other players. So if you loose your rings and your Ring Hero dies, you are not able to regenarate Ring Hero without rings.
+                <span class="bold">Yüzükler</span>, her yarış için bir Özel Yüzük Kahramanı almanızı sağlayan özel nesnelerdir. Haritada, bazı/birçok vahşi/wild kampta birçok halka var. O vahşi kamplara saldırabilir ve yüzükleri yağmalayabilirsiniz. Unutmayın, bu yüzükler diğer oyuncular tarafından <u>yağmalanabilir</u>. Yani yüzüklerinizi kaybederseniz ve yüzük kahramanınız ölürse, yüzük kahramanınızı yüzükler olmadan yeniden canlandıramazsınız.
               </p>
 
 
             </div>
 
 <hr>
-            <h5 id="encampment">Encampment</h5>
+            <h5 id="encampment">Encampment / Karargah</h5>
             <div class="justify">
               <p>
-                Encampment is the place that you can set your defensive formation <span class="italic">(which really important I think)</span>, send your troops for attack or reinforcement, and track your actions.
+                Karargah, savunma düzeninizi <span class="italic">(bence gerçekten önemli)</span> kurabileceğiniz, saldırı veya takviye için birliklerinizi gönderebileceğiniz ve eylemlerinizi takip edebileceğiniz yerdir.
               </p>
               <p>
-                In this game, each troop actions is formed in a 4x3 grid system. That allows you to set your troops' formations for both attacks and defends. Because every troop types has different weak and strong sides (See <a href="#troops">Troops</a>).
+                Bu oyunda, her birlik eylemi 4x3 grid sisteminde oluşturulmuştur. Bu, birliklerinizin oluşumlarını hem saldırılar hem de savunmalar için ayarlamanıza olanak tanır. Çünkü her asker türünün farklı zayıf ve güçlü yanları vardır (Bkz. <a href="#troops">Askerler</a>).
               </p>
 
-              <h6 id="defensive">- Set Defensive Formation</h6>
-              <p class="justify">
-                When someone attacked you, your troops in the defensive formation mett the attack. So setting your defensive formation is crucical. <span class="italic">(If you do not have any troop in defensive formation, you might loose your most of the troop outside of the formation.)</span>
+              <h6 id="defensive">- Savunma Formasyonu Belirle</h6>
+              <p class="haklı">
+                Birisi size saldırdığında, savunma düzenindeki birlikleriniz saldırıyı karşılar. Bu yüzden savunma dizilişinizi ayarlamak çok önemlidir. <span class="italic">(Savunma pozisyonunuzda herhangi bir birliğiniz yoksa veya kalmadıysa, savunma pozisyonu dışında kalan birliklerinizin çoğunu kaybedebilirsiniz.)</span>
               </p>
 
               <p>
-                So in this section, you can manage which troop and what percent of them will place in where. Also you can set your heroes to defensive formation. Plus, if you have any reinforcement troop in your kingdom, you may/should add these troops to your defensive formation.
-                
+                Yani bu bölümde hangi birliğin yüzde kaçının nereye konuşlanacağını yönetebilirsiniz. Ayrıca kahramanlarınızı da savunma düzenine ayarlayabilirsiniz. Ayrıca, krallığınızda takviye birliğiniz varsa, bu birlikleri savunma düzeninize ekleyebilirsiniz/eklemelisiniz.
+               
               </p>
               <p>
                 <img class="image-large" src="{% get_static_prefix %}images/index/d-form.jpg">
@@ -202,60 +223,60 @@
 
               <h6 id="send-troops">- Send Troops</h6>
               <p>
-                In encampment page, you can also send your troops for attack or reinforcement. Again, for sending troops for attacks, you need to manage your positon and tactic. You may choose the troop, number and hero for the positions.
+                Karargah (Encampment) sayfasında, birliklerinizi saldırı veya takviye için de gönderebilirsiniz. Yine saldırı için asker göndermek için saldırı pozisyonlarını ve taktiğinizi yönetmeniz gerekiyor. Her pozisyon için askerler ve sayısını ve kahramanı seçebilirsiniz.
               </p>
               <p>
-                Then you enter the coordinates of the target, choose the reinforcement or attack type, and <span class="bold">TO WAR!</span>. Note that for sending reinforcement, positions are not really important. And another<span class="bold"> important note:</span> currenlty you will not able to cancel or callback an attack after you send it.
+                Ardından hedefin koordinatlarını girersiniz, takviye veya saldırı türünü seçersiniz ve <span class="bold">SAVAŞA!</span>. Takviye (reinforcement) göndermek için veya yağmalama (pillage) saldırısı için hangi askerin hangi pozisyonda olduğu önemli değildir. Ve bir başka<span class="bold"> önemli not:</span> şu anda bir saldırıyı gönderdikten sonra iptal edemez veya geri çağıramazsınız.
               </p>
               <img class="image-large" src="{% get_static_prefix %}images/index/sendtroop.jpg">
             </div>
 
 <hr>
-            <h5 id="alliances">Alliances</h5>
+            <h5 id="alliances">Alliances / İttifaklar</h5>
             <div class="justify">
               <p>
 
-                The Alliances is the place that you can unite with others to defeat the enemies. Also the key of the success. In the game you create a new alliance or join to an existing one. The only rule in here is you can join to an alliance that you are at the same side. Good to Good, Evil to Evil. So when you choose a race at the begining, you might want to be at the same side with your friends.
+                İttifaklar, düşmanları yenmek için başkalarıyla birleşebileceğiniz yerdir. Ayrıca oyunda başarının da anahtarıdır. Oyunda yeni bir ittifak kuruyorsunuz veya mevcut bir ittifaka katılıyorsunuz. Buradaki tek kural, aynı tarafta olduğunuz bir ittifaka katılabilirsiniz. İyiler İyi tarafa, Kötüler Kötü tarafa. Bu yüzden başlangıçta bir ırk seçtiğinizde, arkadaşlarınızla aynı tarafta olmak isteyebilirsiniz.
               </p>
               
               <img class="image-large" src="{% get_static_prefix %}images/index/alliance.jpg">
               <p>
-                One of the best part of the alliance is, creating an Alliance Campaign for your enemies. At your alliance page, you can create a new campaign and save it, so other members can add troops or heroes to attack positions. When the campaign is ready, you can send your mighty army to the enemy. OR, you can see the current campaign of your alliance on the left section, where you can add your troops.
+                İttifakın en iyi yanlarından biri, düşmanlarınız için bir İttifak Harekatı yaratmaktır. İttifak sayfanızda yeni bir harekat (campaign) oluşturabilir ve kaydedebilirsiniz, böylece diğer üyeler saldırı pozisyonlarına birlik veya kahraman ekleyebilir. Sefer hazır olduğunda güçlü ordunuzu düşmana gönderebilirsiniz. VEYA, birliklerinizi ekleyebileceğiniz sol bölümde ittifakınızın mevcut harekâtlarını görebilirsiniz.
               </p>
               <p>
-                <i>Each member can contribute the campaign by troops and/or heroes. One of the important point is, when you assign troops or heroes to campaign, you can not use that troops or heroes in others attacks etc. until campaign is completed. Another point is, only the creator of the campaign can send the attack. So creator decide when to send the attack.</i>
+                <i>Her üye, birlikler ve/veya kahramanlar yoluyla saldırı harekatına katkıda bulunabilir. Önemli noktalardan biri de sefere birlik veya kahraman atadığınızda, sefer bitene kadar o birliği veya kahramanları başkalarının saldırılarında vs. kullanamazsınız. Diğer bir nokta ise, saldırıyı yalnızca harekatı oluşturan kişi gönderebilir. Böylece saldırıyı ne zaman göndereceğine oluşturan kişi karar verir.</i>
               </p>
-              <p>Besides, you can see the last battle reports of your friends. So check what is going on with your friends.</p>
+              <p>Ayrıca, arkadaşlarınızın son savaş raporlarını da görebilirsiniz ittifak sayfasında görebilirsiniz.</p>
               <p>
-                Communication is important. In your alliance page, there is a alliance chat section where you can communicate with your group <span class="italic">(Nobody wants another WhatsApp group, right?). </span> 
-                
-                Note that, only last 20 messages is shown in chat.
-                And on right section, you can see the members of your alliance. There are three roles in an alliance; <span class="italic">Founder, Admin & Member.</span> Founders and admins can accept join request, change members roles, kick someone from alliance or delete an alliance campaign. Members... Well, just members.
+                İletişim önemlidir. İttifak sayfanızda, grubunuzla iletişim kurabileceğiniz bir ittifak sohbet/chat bölümü var <span class="italic">(Kimse başka bir WhatsApp grubu istemez, değil mi?). </span>
+               
+                Sohbette yalnızca son 20 mesajın gösterildiğini unutmayın.
+                Sağ kısımda ise ittifakınızın üyelerini görebilirsiniz. Bir ittifakta üç rol vardır; <span class="italic">Kurucu (founder), Yönetici (admin) ve Üye(member).</span> Kurucular ve yöneticiler katılma isteğini kabul edebilir, üyelerin rollerini değiştirebilir, birini ittifaktan atabilir veya bir ittifak kampanyasını silebilir.
               </p>
 
               </div>
               
 <hr>
-            <h5 id="battles">Battles</h5>
+            <h5 id="battles">Battles / Savaşlar</h5>
             <div class="justify">
 
               <img class="image-large" src="{% get_static_prefix %}images/index/battle.gif">
               <p><span class="bold">Battles!!..</span> Send your troops, kill your enemies, pillage their resources and tear down their buildings....</p>
               <p>
-                In this game, users battle in some formations like 4x3 grid both defender and attacker. If you leave a position 0% in defensive formation, or 0 troop in attack, that position act like an empty. So this is a bit disadvantagous for you.
+                Bu oyunda, kullanıcılar 4x3 grid gibi bazı dizilişlerde hem defans hem de hücum oyuncusu olarak savaşırlar. Savunma dizilişinde bir konumu %0 veya saldırıda 0 birlik bırakırsanız, o konum boş gibi davranır. Yani bu sizin için kalabalık savaşlarda biraz dezavantajlı olabilir.
               </p>
-              
+             
               <p>
-                Each attack type acts different. Please see the explanations below for details. But in a battle;
-                <li>Archers can shoot the enemy one line in front.</li>
-                <li>Siege type units can shoot the enemy one line in front.</li>
-                <li>When you send a siege type units in a battle, if you clean all enemy troops, these units can tear down a building.</li>
-                <li>When you got attack, if enemy kill all your troops in defensive formation, and if you still have another toops types that is not in the formation.... They are caught unprepared. So enemy kill your these troops in their sleep. More or less, you loose 2/3 of your unprepared troops.</li>
-                <li>You can see battle reports in Reports section.</li>
+                Her saldırı türü farklı davranır. Ayrıntılar için lütfen aşağıdaki açıklamalara bakın. Ama bir savaşta;
+                <li>Okçular bir sıra öndeki düşmanları vurabilir.</li>
+                <li>Kuşatma tipi birimler düşmanı bir hat önden vurabilir.</li>
+                <li>Bir savaşta kuşatma tipi birlikler gönderdiğinizde, tüm düşman birliklerini temizlerseniz, bu birlikler bir binayı yerle bir edebilir.</li>
+                <li>Saldırı aldığınızda, düşman savunma düzeninde tüm birliklerinizi öldürürse ve yine dizilişte olmayan başka bir asker toop tipiniz varsa... Hazırlıksız yakalanırlar. Yani düşman, bu birliklerinizi uykularında öldürür. Hazırlıksız birliklerinizin aşağı yukarı 2/3'ünü kaybedersiniz.</li>
+                <li>Savaş raporlarını Raporlar bölümünde görebilirsiniz.</li>
               </p>
-  
+ 
               <p>
-                Another key point in a battle: Troop Types. There 6 troops types in the game: <span class="bold italic">Infantry, Pike, Archer, Cavalry, Monster & Siege</span>. Each of these types has advantagous and disadvantagous to other ones. You can see the troops' power against each others below:
+                Savaşta bir diğer önemli nokta: Birlik Türleri. Oyunda 6 birlik türü vardır: <span class="bold italic">Piyade, Pike, Okçu, Süvari, Canavar ve Kuşatma</span>. Bu türlerin her birinin diğerine göre avantajlı ve dezavantajlı yönleri bulunmaktadır. Aşağıda birliklerin birbirlerine karşı güçlerini görebilirsiniz:
               </p>
 
             </div>
@@ -268,36 +289,36 @@
                 <table class="table table-sm table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">Type</th>
-                      <th scope="col">Against</th>
-                      <th scope="col">Result</th>
+                      <th scope="col">Tür</th>
+                      <th scope="col">Karşı Tür</th>
+                      <th scope="col">Sonuç</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <th scope="row">Infantry</th>
                       <td>Pike</td>
-                      <td>Strong (1.4)</td>
+                      <td>Güçlü (1.4)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Archer</td>
-                      <td>Strong (1.2)</td>
+                      <td>Güçlü (1.2)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Cavalry</td>
-                      <td>Weak (0.8)</td>
+                      <td>Zayıf (0.8)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Monster</td>
-                      <td>Weak (0.8)</td>
+                      <td>Zayıf (0.8)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Siege</td>
-                      <td>Equal (1.0)</td>
+                      <td>Eşit (1.0)</td>
                     </tr>
     
                   </tbody>
@@ -318,27 +339,27 @@
                     <tr>
                       <th scope="row">Pike</th>
                       <td>Infantry</td>
-                      <td>Weak (0.8)</td>
+                      <td>Zayıf (0.8)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Archer</td>
-                      <td>Equal (1.0)</td>
+                      <td>Eşit (1.0)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Cavalry</td>
-                      <td>Strong (1.5)</td>
+                      <td>Güçlü (1.5)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Monster</td>
-                      <td>Strong (1.3)</td>
+                      <td>Güçlü (1.3)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Siege</td>
-                      <td>Equal (1.0)</td>
+                      <td>Eşit (1.0)</td>
                     </tr>
     
                   </tbody>
@@ -351,36 +372,36 @@
                 <table class="table table-sm table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">Type</th>
-                      <th scope="col">Against</th>
-                      <th scope="col">Result</th>
+                      <th scope="col">Tür</th>
+                      <th scope="col">Karşı Tür</th>
+                      <th scope="col">Sonuç</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <th scope="row">Archer</th>
                       <td>Infantry</td>
-                      <td>Equal (1.0)</td>
+                      <td>Eşit (1.0)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Pike</td>
-                      <td>Weak (0.8)</td>
+                      <td>Zayıf (0.8)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Cavalry</td>
-                      <td>Very Weak (0.6)</td>
+                      <td>Çok Zayıf (0.6)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Monster</td>
-                      <td>Strong (1.2)</td>
+                      <td>Güçlü(1.2)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Siege</td>
-                      <td>Equal (1.0)</td>
+                      <td>Eşit (1.0)</td>
                     </tr>
     
                   </tbody>
@@ -393,36 +414,36 @@
                 <table class="table table-sm table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">Type</th>
-                      <th scope="col">Against</th>
-                      <th scope="col">Result</th>
+                      <th scope="col">Tür</th>
+                      <th scope="col">Karşı Tür</th>
+                      <th scope="col">Sonuç</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <th scope="row">Cavalry</th>
                       <td>Infantry</td>
-                      <td>Strong (1.2)</td>
+                      <td>Güçlü (1.2)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Pike</td>
-                      <td>Very Weak (0.6)</td>
+                      <td>Çok Zayıf (0.6)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Archer</td>
-                      <td>Very Strong (1.8)</td>
+                      <td>Çok Güçlü (1.8)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Monster</td>
-                      <td>Equal (1.0)</td>
+                      <td>Eşit (1.0)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Siege</td>
-                      <td>Equal (1.0)</td>
+                      <td>Eşit(1.0)</td>
                     </tr>
     
                   </tbody>
@@ -436,36 +457,36 @@
                 <table class="table table-sm table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">Type</th>
-                      <th scope="col">Against</th>
-                      <th scope="col">Result</th>
+                      <th scope="col">Tür</th>
+                      <th scope="col">Karşı Tür</th>
+                      <th scope="col">Sonuç</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <th scope="row">Monster</th>
                       <td>Infantry</td>
-                      <td>Strong (1.3)</td>
+                      <td>Güçlü (1.3)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Pike</td>
-                      <td>Very Weak (0.7)</td>
+                      <td>Çok Zayıf (0.7)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Archer</td>
-                      <td>Strong (1.2)</td>
+                      <td>Güçlü (1.2)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Cavalry</td>
-                      <td>Equal (1.0)</td>
+                      <td>Eşit (1.0)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Siege</td>
-                      <td>Equal (1.0)</td>
+                      <td>Eşit (1.0)</td>
                     </tr>
     
                   </tbody>
@@ -478,36 +499,36 @@
                 <table class="table table-sm table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">Type</th>
-                      <th scope="col">Against</th>
-                      <th scope="col">Result</th>
+                      <th scope="col">Tür</th>
+                      <th scope="col">Karşı Tür</th>
+                      <th scope="col">Sonuç</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <th scope="row">Siege</th>
                       <td>Infantry</td>
-                      <td>Very Weak (0.2)</td>
+                      <td>Çok Zayıf (0.2)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Pike</td>
-                      <td>Very Weak (0.2)</td>
+                      <td>Çok Zayıf (0.2)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Archer</td>
-                      <td>Very Weak (0.25)</td>
+                      <td>Çok Zayıf (0.25)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Cavalry</td>
-                      <td>Very Very Weak (0.1)</td>
+                      <td>Çok Çok Zayıf (0.1)</td>
                     </tr>
                     <tr>
                       <td></td>
                       <td>Monster</td>
-                      <td>Very Weak (0.15)</td>
+                      <td>Çok Zayıf (0.15)</td>
                     </tr>
     
                   </tbody>
@@ -523,29 +544,29 @@
              "Éomer! Take your eored down the left side. Gamling, follow the King's banner down the center. Grimbold, take your company right, after you pass the wall. Forth, and fear no darkness!..."
             </p>
 
-            <h6 id="battle-pillage">- Pillage Attack</h6>
-            <p>Pillage attack type, does not intend to kill all enemy troops. The aim is, make an attack and get the enemy's resources. Therefore, defence or attack positions does not matter, but troops' types do.</p>
-            <h6 id="battle-line">- Line Attack</h6>
-            <p>In line attacks, troops fight line by line. When all troops in user's one line dies, troops go and fight with next line. So we can assume that first lines always die first. </p>
-            <p>During the line attack, the line's position matches with the opponent position. So in here, it is important which troop types match, and get advantage. In these matches, if one of the position is empty or died early, opponent opsition's troops help the other positions until end of a line. You can see a demo of line attack below. Line attacks continue until all defender positions are dead or all attacker troops dead.</p>
+            <h6 id="battle-pillage">- Yağma Saldırısı (pillage)</h6>
+            <p>Yağma saldırı türü, tüm düşman birliklerini öldürmeyi amaçlamaz. Amaç, bir saldırı yapmak ve düşmanın kaynaklarını ele geçirmektir. Bu nedenle, savunma veya saldırı konumları önemli değildir, ancak birliklerin türleri önemlidir.</p>
+            <h6 id="battle-line">- Hat Saldırısı (Line/Block)</h6>
+            <p>Sıra saldırılarında, birlikler hat hat savaşır. Kullanıcının bir hattındaki tüm birlikler öldüğünde, birlikler gidip bir sonraki hatta savaşır. Bu nedenle, ilk hatların her zaman önce öldüğünü varsayabiliriz. </p>
+            <p>Hat saldırısı sırasında, hattın konumu rakibin konumu ile eşleşir. Yani burada hangi birlik türlerinin eşleştiği ve avantaj elde ettiği önemlidir. Bu eşleşmelerde, pozisyonlardan biri boşsa veya erken ölürse, rakibin birlikleri sıranın sonuna kadar diğer mevzilere yardım eder. Aşağıda hat saldırısının bir demosunu görebilirsiniz. Hat saldırıları, tüm savunma pozisyonları ölene veya tüm saldıran birlikler ölene kadar devam eder.</p>
             <img class="image-demo" src="{% get_static_prefix %}images/index/line-demo.gif">
 
 
-            <h6 id="battle-flank">- Flank Attack</h6>
-            <p>In flank attack, different from the line attack, when two positions are macthed, and defender troops die; attacker position do not wait for all line troops to die, they keep moving forward for next position. They aim to get behind the defensive group. So behind lines are not safe! If a position's troops kill all the troops in front, they get behind the group and keep fighting with the behind positions. You can see a demo of the line attack below.Flank attacks continue until all defender positions are dead or all attacker troops dead.</p>
+            <h6 id="battle-flank">- Kanat Saldırısı (Flank)</h6>
+            <p>Kanat saldırıda, hat saldırısından farklı olarak, iki pozisyon karşı karşıya geldiğinde ve savunma birlikleri öldüğünde; saldırgan pozisyonu tüm hat birliklerinin ölmesini beklemez, bir sonraki pozisyon için ilerlemeye devam ederler. Savunma grubunun arkasına geçmeyi hedeflerler. Yani hatların arkası güvenli değil! Bir mevzideki birlikler öndeki bütün birlikleri öldürürse, grubun arkasına geçer ve arkadaki mevzilerle savaşmaya devam eder. Aşağıda kanat saldırısının bir demosunu görebilirsiniz. Kanat saldırıları, tüm savunma pozisyonları ölene veya tüm saldırı birlikleri ölene kadar devam eder.</p>
             <img class="image-demo" src="{% get_static_prefix %}images/index/flank-demo.gif">
 
 <hr>
-            <h5 id="buildings">Buildings</h5>
-            <p>To build or update something, you need three things: Resources, Builder & empty or existing place. All your buildings are placed in your settlement. Go to an empty place or existing building, choose how many Builders will work and build/update. More Builders mean faster works. So you can use Builders however you want. Note that, each building can update to max 20th level. By increasing the building level, building health increase, training time decrease.</p>
+            <h5 id="buildings">Binalar</h5>
+            <p>Bir şey inşa etmek veya güncellemek için üç şeye ihtiyacınız vardır: Hammadde, işçi/Builder ve boş veya mevcut yer. Tüm binalarınız yerleşim yerinize kurulur. Boş bir yere veya mevcut binaya gidin, kaç işçinin çalışacağını seçin ve inşa edin/güncelleyin. Daha Fazla işçi, daha hızlı çalışma anlamına gelir. Böylece işçileri istediğiniz gibi kullanabilirsiniz. Her binanın maksimum 20. seviyeye kadar güncellenebileceğini unutmayın. Bina seviyesini yükseldikçe binanın canı artar, içindeki askerlerin eğitim süresi azalır.</p>
             <p>
-              Each race, has spesific buildings with some differences. Mainly there these kind of buildings;
-              <li><span class="bold">Resource Buildings:</span> Allows you product wood, stone, iron & grain. More buildings mean more resource production. However, the builders inside the resource building make the main increase for production.</li>
-              <li><span class="bold">Fortress:</span> Fortresses are the main building to train Builders, get or revive heroes and use the Super Power against someone else. Fortress is one of the most important building for your kingdom. If you loose your Fortress and no Builder, that means you are about to defeated.</li>
-              <li><span class="bold">Army Buildings:</span> Like barracks, archeries etc. These buildings allows you to train troops. There is no limit for these buildings. Higher level means faster troop training.</li>
-              <li><span class="bold">Armories:</span> Each race has one spesific building for upgrading the troops equipment. Each user can build only one armory.</li>
-              <li><span class="bold">Defensive Building:</span> Each race has defensive towers that helps you against enemies. Isengard race has an extra Warg Sentry that provide wargs to defend.</li>
-              <li><span class="bold">Markets:</span> Markets is the place that you can make commercial, buy or sell resources & send resources to others. Each market has a market capacity. Higher level mean more capacity.</li>
+              Her ırk, bazı farklılıklar ile belirli binalara sahiptir. Ağırlıklı olarak bu tür binalar var;
+              <li><span class="bold">Hammadde Binaları:</span> Ahşap, taş, demir ve tahıl üretmenizi sağlar. Daha fazla bina, daha fazla kaynak üretimi anlamına gelir. <b>Ancak, üretim için asıl artışı hammadde binasının içindeki inşaatçılar yapar.</b></li>
+              <li><span class="bold">Kale:</span> Kaleler, işçileri eğitmek, kahramanlar edinmek veya canlandırmak ve Süper Power'ları başka birine karşı kullanmak için ana binalardır. Kale, krallığınız için en önemli binalardan biridir. Kalenizi kaybederseniz ve işçiniz yoksa bu, yenilmek üzere olduğunuz anlamına gelir.</li>
+              <li><span class="bold">Ordu Binaları:</span> Kışla, okçuluk gibi. Bu binalar asker eğitmenize olanak tanır. Bu binalar için herhangi bir sınır yoktur. Daha yüksek seviye, daha hızlı asker eğitimi anlamına gelir.</li>
+              <li><span class="bold">Demirci/zırhcı:</span> Her yarışta, birlik ekipmanını yükseltmek için özel bir bina bulunur. Her kullanıcı yalnızca bir tane bunlardan inşa edebilir.</li>
+              <li><span class="bold">Savunma Binaları:</span> Her ırkta, düşmanlara karşı size yardımcı olan savunma kuleleri bulunur. Isengard ırkında, savunulacak savaşlar sağlayan fazladan bir Warg Sentry bulunur.</li>
+              <li><span class="bold">Market/Pazar:</span> Pazarlar, ticaret yapabileceğiniz, kaynakları alıp satabileceğiniz ve başkalarına kaynak gönderebileceğiniz yerdir. Her pazarın bir pazar kapasitesi vardır. Daha yüksek seviye, daha fazla kapasite anlamına gelir.</li>
             </p>
             
             <h6 id="buildings-men">- Men</h6>
@@ -757,13 +778,16 @@
 
 
 
-            <h5 id="troops">Troops</h5>
+            <h5 id="troops">Askerler/Birlikler</h5>
 
             <div class="justify">
-              Each race has their own spesific troops. And each troops has different types. There 6 troops types in the game: <span class="bold italic">Infantry, Pike, Archer, Cavalry, Monster & Siege</span>. Each of these types has advantagous and disadvantagous to other ones. See the <a href="#troop-type-table">Troop Type Comparasion Table</a> for details.
-              <p>In troop units, one of the most important unit is Builder. Builders help you build somethings and increase resources production. Each user begin the game with 5 Builders and can train Builders up to 100 in current time. If you loose all your Builders and Fortress, you can not build anything either train new Builders, so you can assume that end is near for you.</p>
-              <p>You can upgrade your troops damage, health and speeds through your armory type buildings. See <a href="#upgrades"><b>Upgrades</b></a> for details. </p>
-              <p>Each race's troops details are given below.</p>
+              Her ırkın kendine özel birlikleri vardır. Ve her birliğin farklı türleri vardır. Oyunda 6 birlik türü vardır: <span class="bold italic">Piyade, Pike, Okçu, Süvari, Canavar ve Kuşatma</span>. Bu türlerin her birinin diğerine göre avantajlı ve dezavantajlı yönleri bulunmaktadır. Ayrıntılar için <a href="#troop-type-table">Birlik Tipi Karşılaştırma Tablosuna</a> bakın.
+              <p>Birlik birimlerinde en önemli birimlerden biri işçilerdir. İşçiler, bir şeyler inşa etmenize ve kaynak üretimini artırmanıza yardımcı olur. Her kullanıcı oyuna 5 İnşaatçı ile başlar ve <b>ve maksimum 100 işçiye sahip olabilir</b>. Tüm işçilerinizi ve Kalenizi kaybederseniz, hiçbir şey inşa edemez veya yeni işçiler yetiştiremezsiniz, dolayısıyla bu sonun sizin için yakın olduğunu varsayabilirsiniz.</p>
+              <p>
+                Ayrıca her askerin bir saatlik tahıl tüketimi bulunmaktadır. Asker sayınız arttıkça bu tüketim de artacağından dolayı, tahıl üretiminize dikkat etmekte fayda olabilir.
+              </p>
+              <p>Birliklerinizin hasarını, sağlığını ve hızını demirci/zırhcı tipi binalarınızla yükseltebilirsiniz. Ayrıntılar için <a href="#upgrades"><b>Yükseltmeler</b></a>'e bakın. </p>
+              <p>Her ırkın asker ayrıntıları aşağıda verilmiştir.</p>
             </div>
 
             <h6 id="troops-men">- Men</h6>
@@ -773,16 +797,16 @@
               <table class="table table-sm table-hover table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Troop</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Health</th>
-                    <th scope="col">Damage</th>
-                    <th scope="col">Crash Bonus</th>
-                    <th scope="col">Speed</th>
-                    <th scope="col">Grain Consuption</th>
-                    <th scope="col">Burden</th>
-                    <th scope="col">Building & Level</th>
-                    <th scope="col">Training Time</th>
+                    <th scope="col">Asker</th>
+                    <th scope="col">Tür</th>
+                    <th scope="col">Sağlık</th>
+                    <th scope="col">Hasar</th>
+                    <th scope="col">Ezme Bonusu</th>
+                    <th scope="col">Hız</th>
+                    <th scope="col">Tahıl Tüketimi</th>
+                    <th scope="col">Taşıma Kapasitesi</th>
+                    <th scope="col">Bina Saviyesi</th>
+                    <th scope="col">Temel Yetişme Hızı</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -819,16 +843,16 @@
               <table class="table table-sm table-hover table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Troop</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Health</th>
-                    <th scope="col">Damage</th>
-                    <th scope="col">Crash Bonus</th>
-                    <th scope="col">Speed</th>
-                    <th scope="col">Grain Consuption</th>
-                    <th scope="col">Burden</th>
-                    <th scope="col">Building & Level</th>
-                    <th scope="col">Training Time</th>
+                    <th scope="col">Asker</th>
+                    <th scope="col">Tür</th>
+                    <th scope="col">Sağlık</th>
+                    <th scope="col">Hasar</th>
+                    <th scope="col">Ezme Bonusu</th>
+                    <th scope="col">Hız</th>
+                    <th scope="col">Tahıl Tüketimi</th>
+                    <th scope="col">Taşıma Kapasitesi</th>
+                    <th scope="col">Bina Saviyesi</th>
+                    <th scope="col">Temel Yetişme Hızı</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -864,16 +888,16 @@
               <table class="table table-sm table-hover table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Troop</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Health</th>
-                    <th scope="col">Damage</th>
-                    <th scope="col">Crash Bonus</th>
-                    <th scope="col">Speed</th>
-                    <th scope="col">Grain Consuption</th>
-                    <th scope="col">Burden</th>
-                    <th scope="col">Building & Level</th>
-                    <th scope="col">Training Time</th>
+                    <th scope="col">Asker</th>
+                    <th scope="col">Tür</th>
+                    <th scope="col">Sağlık</th>
+                    <th scope="col">Hasar</th>
+                    <th scope="col">Ezme Bonusu</th>
+                    <th scope="col">Hız</th>
+                    <th scope="col">Tahıl Tüketimi</th>
+                    <th scope="col">Taşıma Kapasitesi</th>
+                    <th scope="col">Bina Saviyesi</th>
+                    <th scope="col">Temel Yetişme Hızı</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -909,16 +933,16 @@
               <table class="table table-sm table-hover table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Troop</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Health</th>
-                    <th scope="col">Damage</th>
-                    <th scope="col">Crash Bonus</th>
-                    <th scope="col">Speed</th>
-                    <th scope="col">Grain Consuption</th>
-                    <th scope="col">Burden</th>
-                    <th scope="col">Building & Level</th>
-                    <th scope="col">Training Time</th>
+                    <th scope="col">Asker</th>
+                    <th scope="col">Tür</th>
+                    <th scope="col">Sağlık</th>
+                    <th scope="col">Hasar</th>
+                    <th scope="col">Ezme Bonusu</th>
+                    <th scope="col">Hız</th>
+                    <th scope="col">Tahıl Tüketimi</th>
+                    <th scope="col">Taşıma Kapasitesi</th>
+                    <th scope="col">Bina Saviyesi</th>
+                    <th scope="col">Temel Yetişme Hızı</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -956,16 +980,16 @@
               <table class="table table-sm table-hover table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Troop</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Health</th>
-                    <th scope="col">Damage</th>
-                    <th scope="col">Crash Bonus</th>
-                    <th scope="col">Speed</th>
-                    <th scope="col">Grain Consuption</th>
-                    <th scope="col">Burden</th>
-                    <th scope="col">Building & Level</th>
-                    <th scope="col">Training Time</th>
+                    <th scope="col">Asker</th>
+                    <th scope="col">Tür</th>
+                    <th scope="col">Sağlık</th>
+                    <th scope="col">Hasar</th>
+                    <th scope="col">Ezme Bonusu</th>
+                    <th scope="col">Hız</th>
+                    <th scope="col">Tahıl Tüketimi</th>
+                    <th scope="col">Taşıma Kapasitesi</th>
+                    <th scope="col">Bina Saviyesi</th>
+                    <th scope="col">Temel Yetişme Hızı</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1002,16 +1026,16 @@
               <table class="table table-sm table-hover table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Troop</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Health</th>
-                    <th scope="col">Damage</th>
-                    <th scope="col">Crash Bonus</th>
-                    <th scope="col">Speed</th>
-                    <th scope="col">Grain Consuption</th>
-                    <th scope="col">Burden</th>
-                    <th scope="col">Building & Level</th>
-                    <th scope="col">Training Time</th>
+                    <th scope="col">Asker</th>
+                    <th scope="col">Tür</th>
+                    <th scope="col">Sağlık</th>
+                    <th scope="col">Hasar</th>
+                    <th scope="col">Ezme Bonusu</th>
+                    <th scope="col">Hız</th>
+                    <th scope="col">Tahıl Tüketimi</th>
+                    <th scope="col">Taşıma Kapasitesi</th>
+                    <th scope="col">Bina Saviyesi</th>
+                    <th scope="col">Temel Yetişme Hızı</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1047,16 +1071,16 @@
               <table class="table table-sm table-hover table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Troop</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Health</th>
-                    <th scope="col">Damage</th>
-                    <th scope="col">Crash Bonus</th>
-                    <th scope="col">Speed</th>
-                    <th scope="col">Grain Consuption</th>
-                    <th scope="col">Burden</th>
-                    <th scope="col">Building & Level</th>
-                    <th scope="col">Training Time</th>
+                    <th scope="col">Asker</th>
+                    <th scope="col">Tür</th>
+                    <th scope="col">Sağlık</th>
+                    <th scope="col">Hasar</th>
+                    <th scope="col">Ezme Bonusu</th>
+                    <th scope="col">Hız</th>
+                    <th scope="col">Tahıl Tüketimi</th>
+                    <th scope="col">Taşıma Kapasitesi</th>
+                    <th scope="col">Bina Saviyesi</th>
+                    <th scope="col">Temel Yetişme Hızı</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1087,26 +1111,26 @@
 
 
 <hr>            
-            <h5 id="upgrades">Upgrades</h5>
+            <h5 id="upgrades">Yükseltmeler</h5>
             <div class="justify">
               <p>
-                You can upgrade your troops' damages, healths and speeds in armory type buildings. There are four type of upgrades: <span class="bold">Banner Carrier, Heavy Armory, Forge Blades & Flaming Arrow.</span>
+                Demirci/Zırhcı tipi binalarda birliklerinizin hasarlarını, sağlıklarını ve hızlarını yükseltebilirsiniz. Dört tür yükseltme vardır: <span class="bold">Banner Carrier, Heavy Armory, Forge Blades ve Flaming Arrow.</span>
               </p>
               <p>
-                You can upgrade these fields to maxiumum for your armory's level. And armory can update until 20th level. In each level of these fields, troops' abilities increase 1%.
+                Bu alanları binanızın seviyesine göre maksimum seviyeye yükseltebilirsiniz. Ve bin 20. seviyeye kadar güncellenebilir. Bu alanların her seviyesinde birliklerin yetenekleri %1 artar.
               </p>
               <p>
-                <li><span class="bold">Banner Carrier:</span> This upgrade increases your all troops' speed 1% by each level.</li>
-                <li><span class="bold">Heavy Armory:</span> This upgrade increases your all troops' health 1% by each level.</li>
-                <li><span class="bold">Forge Blades:</span> This upgrade increases your troops' <span class="italic">(except archer types)</span> damage 1% by each level.</li>
-                <li><span class="bold">Flaming Arrow:</span> This upgrade increases your archer type troops' damage 1% by each level.</li>
+                <li><span class="bold">Banner Carrier:</span> Bu yükseltme, tüm birliklerinizin hızını her seviyede %1 artırır.</li>
+                <li><span class="bold">Heavy Armory:</span> Bu yükseltme, tüm birliklerinizin sağlığını her seviyede %1 artırır.</li>
+                <li><span class="bold">Forge Blades:</span> Bu yükseltme, birliklerinizin <span class="italic">(okçu türleri hariç)</span> hasarını her seviyede %1 artırır.</span> li>
+                <li><span class="bold">Flaming Arrow:</span> Bu yükseltme, okçu tipi birliklerinizin hasarını her seviyede %1 artırır.</li>
               </p>
             </div>
 
 
 <hr>
 
-            <h5 id="heroes">Heroes</h5>
+            <h5 id="heroes">Kahramanlar</h5>
             <div class="justify">
               <p>
                 <a href="#hero-men">Men Heroes</a> - 
@@ -1117,17 +1141,17 @@
                 <a href="#hero-goblins">Goblin Heroes</a>
               </p>
               <p>
-                Heroes are powerful leader who lead our armies. Each race has their own heroes with different abilities. Heroes can be got in Fortresse for exchange of Wos Tokens.
-                <li>Users can only get 3 regular Heroes max.</li>
-                <li>You can set heroes to positions in defence and attacks (including alliance campaign). However can not send as reinforcements currently.</li>
-                <li>When a hero is on a journey/campaign, it can not be send another or fight when you got an attack.</li>
-                <li>In battles, Heroes can got damage and heal by time slowly. You need to check & refresh their health in a Fortress.</li>
-                <li>In battles, Heroes can die. You can revive your hero in Fortress in exchange of 7,500 resources from each <span class="italic">(Wood, Stone, Iron, Grain).</span> It takes time to hero revive.</li>
-                <li>You can return a hero for a half price WoS Tokens.</li>
-                <li>Each race has a Ring Hero that can be got in exchange of Rings. <span class="italic">(You can get rings by attacking Wildlings.)</span> </li>
-                <li>You can get only one Ring Hero.</li>
-                <li>Ring Heroes can die as well. You need to hold enough Rings to Ring Hero and 10,000 resources from each Resources.</li>
-                <li>You can get the <b><i>ONE RING HERO</i></b> <span class="italic">(Galadirel / Sauron)</span> if you can get the ONE RING from the holder. <i>You can see the ONE RING's holder in the map.</i> </li>
+                Kahramanlar, ordularımızı yöneten güçlü liderlerdir. Her ırkın farklı yeteneklere sahip kendi kahramanları vardır. Kahramanlar, Wos Token karşılığında Fortresse'den alınabilir.
+                <li>Kullanıcılar en fazla 3 normal Kahraman alabilir.</li>
+                <li>Kahramanları savunma ve saldırı konumlarına ayarlayabilirsiniz (birlik harekatı dahil). Ancak şu anda takviye (reinforcement) olarak gönderilemez.</li>
+                <li>Bir kahraman yolculukta/seferdeyken, başka bir yere gönderilemez veya saldırıya uğradığında savaşamaz.</li>
+                <li>Savaşlarda, Kahramanlar zamanla yavaş yavaş hasar alabilir ve iyileşebilir. Bir Kalede sağlıklarını kontrol edip yenilemeniz gerekebilir.</li>
+                <li>Savaşlarda Kahramanlar ölebilir. Her <span class="italic">(Tahta, Taş, Demir, Tahıl)</span> kaynağından 7.500 kaynak karşılığında Kahramanınızı Kalede canlandırabilirsiniz. Kahramanın canlanması zaman alır.</li>
+                <li>Bir kahramanı yarı fiyatına WoS Token karşılığında iade edebilirsiniz.</li>
+                <li>Her yarışta Yüzük karşılığında alınabilecek bir Yüzük Kahramanı vardır. <span class="italic">(Wildlings'e saldırarak yüzük alabilirsiniz.)</span> </li>
+                <li>Yalnızca bir Yüzük Kahramanı alabilirsiniz.</li>
+                <li>Yüzük Kahramanları da ölebilir. Ring Hero'ya yetecek kadar Ring'e ve her Kaynaktan 10.000 kaynağa sahip olmanız gerekir.</li>
+                <li><b><i>TEK YÜZÜK KAHRAMANINI</i></b> <span class="italic">(Galadirel / Sauron)</span> elde edebilirsin, eğer TEK YÜZÜK'e sahip olursan. <i>Tek Yüzük'ün nerede ve kimde olduğunu haritada görebilirsin.</i> </li>
               </p>
               <img class="image-large" src="{% get_static_prefix %}images/index/heroes.jpg">
             </div>
@@ -1551,19 +1575,18 @@
             <h5 id="super-powers">Super Powers</h5>
             <div class="justify">
               <p>
-                In game, each race's Fortress has a Super Power that can bu used against enemies. To activate the Super Power, the Fortress must be at 20th level. You can use or check the previous attack's report in Fortress, as well. To use Super Power, in Fortress, enter the target's coordinates, and BUMM!. It happens instantly.
-                <li>After activating the Super Power, you can use it in every 24 hours.</li>
-                <li>You can see last 3 incame or outgone Super Power attacks.</li>
+                Oyunda, her ırkın Kalesi, düşmanlara karşı kullanılabilecek bir Süper Güç'e sahiptir. Süper Gücü etkinleştirmek için, Kale 20. seviyede olmalıdır. Kalede de bir önceki saldırının raporunu kullanabilir veya kontrol edebilirsiniz. Süper Gücü kullanmak için Kale'de hedefin koordinatlarını girin ve BUMM! Anında olur.
+                <li>Süper Gücü etkinleştirdikten sonra her 24 saatte bir kullanabilirsiniz.</li>
+                <li>Gelen veya giden son 3 Süper Güç saldırısını görebilirsiniz.</li>
               </p>
               <p>
-                Races' Super Power Attacks:
-                <li><b><u>Men - Ivory Tower:</u></b> In Ivory Tower, user can see enemy's one random troops informations which is included troop number, attack and defence upgrades.</li>
-                <li><b><u>Dwarves - The Mighty Catapult:</u></b> The Mighty Catapult lets you make a powerfull attack to an enemy's random building. That attack can demolish or make serious damage. You can see the building's level before and after attack in the report.</li> 
-                <li><b><u>Elves - Giant Eagle Strike:</u></b> Elven Giant Eagle Strike lets you make a powerful attack to an enemy's random troops. You can see how many troops are died in the report.</li> 
-                <li><b><u>Isengard - Wizard Tower:</u></b> Wizard Tower lets you make a powerful lightning attack to an enemy's random troops. You can see how many troops are died in the report.</li>
-                <li><b><u>Mordor - Gorgoroth Spire:</u></b> The Gorgoroth Spire lets you make a powerful meteor attack to an enemy's random building. You can see the building's level before and after attack in the report.</li>
-                <li><b><u>Goblins - Dragon Strike:</u></b> Drogon Strike lets you make a powerful dragon fire attack to an enemy's random troops. You can see how many troops are died in the report.</li>
-              </p>
+                Irkların Süper Güç Saldırıları:
+                <li><b><u>Men - Ivory Tower</u></b> Fildişi Kule'de, kullanıcı düşmanın birlik sayısı, saldırı ve savunma yükseltmeleri gibi rastgele bir birlik bilgilerini görebilir.</li>
+                <li><b><u>Dwarves - The Mighty Catapult:</u></b> Güçlü Mancınık, bir düşmanın rastgele binasına güçlü bir saldırı yapmanızı sağlar. Bu saldırı yıkabilir veya ciddi hasar verebilir. Raporda binanın saldırı öncesi ve sonrası seviyesini görebilirsiniz.</li>
+                <li><b><u>Elves - Giant Eagle Strike:</u></b> Elven Giant Eagle Strike, düşmanın rastgele birliklerine güçlü bir saldırı yapmanızı sağlar. Raporda kaç askerin öldüğünü görebilirsiniz.</li>
+                <li><b><u>Isengard - Wizard Tower:</u></b> Sihirbaz Kulesi, bir düşmanın rastgele birliklerine güçlü bir yıldırım saldırısı yapmanızı sağlar. Raporda kaç askerin öldüğünü görebilirsiniz.</li>
+                <li><b><u>Mordor - Gorgoroth Spire:</u></b> Gorgoroth Spire, bir düşmanın rastgele binasına güçlü bir meteor saldırısı yapmanızı sağlar. Raporda binanın saldırı öncesi ve sonrası seviyesini görebilirsiniz.</li>
+                <li><b><u>Goblinler - Dragon Strike:</u></b> Drogon Strike, bir düşmanın rastgele birliklerine güçlü bir ejderha ateşi saldırısı yapmanızı sağlar. Raporda kaç askerin öldüğünü görebilirsiniz.</li>
 
               <img class="image-large" src="{% get_static_prefix %}images/index/superpower.jpg">
             </div>
@@ -1573,21 +1596,21 @@
             <h5 id="market">Market</h5>
             <div class="justify">
               <p>
-                Markets are the buildings where you can trade resources or send resources to someone. Each race has a market building to manage these jobs and track current situation. Each user's market has capaacity to handle these jobs. You can increase your capacity by upgrading your building level.
+                Pazarlar, kaynak ticareti yapabileceğiniz veya birisine kaynak gönderebileceğiniz binalardır. Her ırkın bu işleri yönetmek ve mevcut durumu takip etmek için bir pazar binası vardır. Her kullanıcının pazarı bu işleri halledebilecek kapasiteye sahiptir. Bina seviyenizi yükselterek kapasitenizi artırabilirsiniz.
                 <ul>
-                  <b>Trading</b>
-                  <li>You can set an offer for exchange between two types of resources. Enter the type and amount that you offer, and enter the type and amount you want.</li>
-                  <li>When you list an offer, your offered resources is saved and decrease your capacity. You can cancel an offer whenever you want.</li>
-                  <li>When someone or you accept an offer, exchange happens instantly.</li>
-                  <li>You can not set an offer two times higher or less than your target amount!</li>
+                  <b>Ticaret</b>
+                  <li>İki tür kaynak arasında değiş tokuş için bir teklif belirleyebilirsiniz. Teklif ettiğiniz türü ve tutarı girin ve istediğiniz türü ve tutarı girin.</li>
+                  <li>Bir teklifi listelediğinizde, sunulan kaynaklarınız kaydedilir ve kapasiteniz azalır. Bir teklifi istediğiniz zaman iptal edebilirsiniz.</li>
+                  <li>Birisi veya siz bir teklifi kabul ettiğinizde değişim anında gerçekleşir.</li>
+                  <li>Hedef tutarınızın iki katı veya altında bir teklif belirleyemezsiniz!</li>
                 </ul>
-                
+               
                 <ul>
-                  <b>Sending Resources</b>
-                  <li>You can send resources to your friends or whoever you want. <i>(Multi accounts are not welcomed!)</i> </li>
-                  <li>For sending resources you can enter target's location, enter the amounts and send it.</li>
-                  <li>Total sending amount can not higher than your market capacity and it occupies the current market capacity.</li>
-                  <li>Sending resources do not happen instantly. The market's based speed is 25 square per hour.</li>
+                  <b>Kaynak Gönderme</b>
+                  <li>Arkadaşlarınıza veya istediğiniz kişiye kaynak gönderebilirsiniz. <i>(Birden fazla hesap hoş karşılanmaz!)</i> </li>
+                  <li>Kaynak göndermek için hedefin konumunu girebilir, miktarları girebilir ve gönderebilirsiniz.</li>
+                  <li>Toplam gönderme tutarı, pazar kapasitenizden yüksek olamaz ve mevcut pazar kapasitesini kaplar.</li>
+                  <li>Kaynakların gönderilmesi anında gerçekleşmez. Pazarın temel hızı saatte 25 karedir.</li>
                 </ul>
               </p>
               <img class="image-large" src="{% get_static_prefix %}images/index/market.jpg">

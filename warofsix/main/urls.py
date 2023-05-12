@@ -10,6 +10,7 @@ urlpatterns = [
     path('building/<int:settlement_id>/', views.building_view, name="building"),
     path('building_update/<int:settlement_id>/<int:builder>/', views.building_update, name="building_update"),
     path('building/<int:settlement_id>/<str:action>/', views.building_update_cancel, name="building_update_cancel"),
+    path('building_demolish/<int:settlement_id>/', views.building_demolish_view, name="building_demolish"),
     path('new_building/<int:settlement_id>/', views.new_building, name="new_building"),
     path('armory/<int:settlement_id>/', views.armory_view, name="armory"),
     path('fortress/<int:settlement_id>/', views.fortress_view, name="fortress"),
@@ -20,6 +21,7 @@ urlpatterns = [
     path('fortress/power_report/<int:pk>/', views.SuperPowerReportsView.as_view(), name="power_reports"),
     path('no-auth', views.no_auth_view, name="no_auth"),
     path('guide/', views.GuideView.as_view(), name="guide"),
+    path('guide/tr/', views.GuideTrView.as_view(), name="guide_tr"),
 
 
 

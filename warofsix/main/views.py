@@ -109,6 +109,31 @@ class GuideView(TemplateView):
         return context
     
 
+class GuideTrView(TemplateView):
+    template_name = "main/guide_tr.html"
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        races = ["Isengard", "Men", "Mordor", "Goblins", "Dwarves", "Elves", "Wild"]
+        all_troops = Troops.objects.all()
+        troops = dict()
+        all_buildings = Buildings.objects.all()
+        buildings = dict()
+        all_heroes = Heroes.objects.all()
+        heroes = dict()
+        for race in races:
+            troops.update({race: [troop for troop in all_troops.filter(race=race).order_by('building')] }) 
+            buildings.update({race: [building for building in all_buildings.filter(race=race).order_by('sorting')] })
+            heroes.update({race: [hero for hero in all_heroes.filter(race=race).order_by('rings', 'token')] })
+        
+
+        context["troops"] = troops 
+        context["buildings"] = buildings 
+        context["heroes"] = heroes
+        return context
+    
+
     
 
 
@@ -425,6 +450,16 @@ def new_building(request, settlement_id):
             messages.add_message(request, messages.SUCCESS, 'Not enough resources or builders')
             return redirect(f"/new_building/{settlement_id}/")
 
+
+@login_required
+def building_demolish_view(request, settlement_id):
+    try:
+        user_building = Settlement.objects.get(user=request.user, settlement_id = settlement_id).building
+    except:
+        return redirect('/settlement')
+    user_building.delete()
+    messages.add_message(request, messages.WARNING, "Building has demolished.")
+    return redirect('/settlement')
 
 @login_required
 def armory_view(request, settlement_id):

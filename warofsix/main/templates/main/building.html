@@ -109,6 +109,22 @@
 
     {% endif %}
 
+   
+   <br>
+    <button class="btn btn-dark" onclick="confirmRedirect()">Demolish the Building</button>
+
+
+
+
+<script>
+  function confirmRedirect() {
+    if (confirm("You will demolish this building. Are you sure?")) {
+      window.location.href = "/building_demolish/{{settlement_id}}";
+    }
+  }
+</script>
+
+
 
 
 
