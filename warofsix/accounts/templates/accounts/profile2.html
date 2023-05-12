@@ -66,11 +66,15 @@
     </div>
     
     {% else %}
+    <br>
+    <div class="loc-link"><a href="/usermessages/new_message?username={{profile.user}}">Send Message</a></div>
+
+
     {% endif %}
 
 
 
-    <br>
+    
     <div class="loc-link"><a href="/encampment?locx={{profile.location.locx}}&locy={{profile.location.locy}}#locx">Send Troops</a></div>
 
     <div class="loc-link"><a href="/fortress/10?locx={{profile.location.locx}}&locy={{profile.location.locy}}">Use Super Power</a></div>

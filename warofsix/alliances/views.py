@@ -278,6 +278,9 @@ class MyAllyView(LoginRequiredMixin, TemplateView):
                     alliance = alliance,
                     member = join_request.requester
                 )
+                profile = Profile.objects.get(user = join_request.requester)
+                profile.alliance = alliance
+                profile.save()
                 messages.add_message(request, messages.SUCCESS, f"{join_request.requester} has join the alliance")
                 join_request.delete()
             elif form_data['decision'] == 'False' and join_request.alliance == alliance and (alliance_member.role in ["admin", "founder"]):

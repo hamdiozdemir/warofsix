@@ -9,26 +9,53 @@
 
 {% block body %}
 
-<div> Name: {{alliance.name}} </div>
-<div> Name: {{alliance.founder}} </div>
-<div> Name: {{alliance.description}} </div>
+<div class="detail-flex-container">
 
-<img id="img{{number}}" class="banner-img" src="{% get_static_prefix %}images/banners/{{ alliance.banner }}.gif" alt="">
-
-
-<form method="POST">
-    {% csrf_token %}
-
-    {% if request_sent %}  
-    <button type="submit" class="btn btn-success" disabled>REQUEST HAS BEEN SENT</button>
+    <div> <b>{{alliance.name}}</b>  </div>
+    <div> <i>{{alliance.description}}</i>  </div>
     
-    {% elif have_alliance %}
-    <button type="submit" class="btn btn-success" disabled>YOU ALREADY HAVE AN ALLY</button>
+    <img id="img{{number}}" class="banner-img" src="{% get_static_prefix %}images/banners/{{ alliance.banner }}.gif" alt="">
 
-    {% else %}  
-    <button type="submit" class="btn btn-success">SEND JOIN REQUEST</button>
-    {% endif %}
-</form>
+
+    <div style="width: 300px;">
+        <table class="table table-sm table-hover">
+            <thead>
+              <tr class="table-dark">
+                <th scope="col">Member</th>
+                <th scope="col">Role</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for member in alliance.members %}
+                
+                <tr>
+                    <th scope="row"><a href="/user/{{member.member.id}}">{{member.member}}</a></th>
+                    <td>{{member.role}}</td>
+                    
+                </tr>
+                {% endfor %}
+
+            </tbody>
+          </table>
+
+    </div>
+    
+    
+    <form method="POST">
+        {% csrf_token %}
+    
+        {% if request_sent %}  
+        <button type="submit" class="btn btn-success" disabled>REQUEST HAS BEEN SENT</button>
+        
+        {% elif have_alliance %}
+        <button type="submit" class="btn btn-success" disabled>YOU ALREADY HAVE AN ALLY</button>
+    
+        {% else %}  
+        <button type="submit" class="btn btn-success">SEND JOIN REQUEST</button>
+        {% endif %}
+    </form>
+</div>
+
 
 {% endblock body %}
 

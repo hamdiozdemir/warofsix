@@ -9,6 +9,7 @@ from django.contrib import messages
 from decouple import config
 import random
 from django.utils import timezone
+from django.contrib.auth.models import User
 # Create your views here.
 
 class UserTestMixin(LoginRequiredMixin, UserPassesTestMixin):
@@ -88,17 +89,29 @@ class MessageDetailView(LoginRequiredMixin, DetailView):
 
     
 
-class MessageCreateView(LoginRequiredMixin, CreateView):
-    model = Messages
-    form_class = MessageCreateForm
+class MessageCreateView(LoginRequiredMixin, TemplateView):
     template_name = "usermessages/new_message.html"
-    # success_url = reverse_lazy('usermessages:inbox')
 
-    def form_valid(self, form):
-        message = form.save(commit=False)
-        message.sender = self.request.user
-        message.save()
-        return redirect('/usermessages/inbox')
+    def post(self, request, *args, **kwargs):
+        data = request.POST.dict()
+        print(data)
+        username = data["username"]
+        try:
+            target_user = User.objects.get(username = username)
+        except:
+            messages.add_message(request, messages.WARNING, f"Böyle bir kullanıcı bulanamadı{username}")
+            return redirect("/usermessages/new_message")
+        
+        Messages.objects.create(
+            sender = self.request.user,
+            target = target_user,
+            header = data["header"] if data["header"] != "" else "New Message",
+            content = data["content"]
+        )
+        messages.add_message(request, messages.WARNING, f"Message has sent to {target_user}")
+        return redirect("/usermessages/inbox")
+
+
 
 
 class AllMessageView(LoginRequiredMixin, TemplateView):

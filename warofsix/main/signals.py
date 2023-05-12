@@ -131,7 +131,13 @@ def create_buildings(sender, instance, created, **kwargs):
             UserTroopTraining.objects.create(user=instance.user, user_building= user_fortress, troop=troop_builder)
 
             #Create Resources for user on DB
-            Resources.objects.create(user=user)
+            Resources.objects.create(
+                user=user,
+                wood = 5000,
+                stone = 5000,
+                iron = 5000,
+                grain = 5000
+                )
 
 
             # Create Statistic for user

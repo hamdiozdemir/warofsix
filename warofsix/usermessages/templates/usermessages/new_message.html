@@ -23,17 +23,18 @@
 
     <form method="post">
       {% csrf_token %}
-      <div class="form-group">
-          {{ form.target.label_tag }}
-          {{ form.target }}
-        </div>
-      <div class="form-group">
-        {{ form.header.label_tag }}
-        {{ form.header }}
+
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="username" name="username">
+        <label for="username">TO</label>
       </div>
-      <div class="form-group">
-        {{ form.content.label_tag }}
-        {{ form.content }}
+      <div class="form-floating">
+        <input type="text" class="form-control" id="floatingTitle" name="header">
+        <label for="floatingTitle">Title</label>
+      </div>
+      <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 150px" maxlength="490" name="content"></textarea>
+        <label for="floatingTextarea">Message</label>
       </div>
       <button type="submit" class="btn btn-primary">Send</button>
     </form>
@@ -47,12 +48,11 @@
  <script>
   // Get the URL parameters
   const urlParams = new URLSearchParams(window.location.search);
-  const user_id = urlParams.get('user_id');
-  const locy = urlParams.get('header');
+  const username = urlParams.get('username');
+
 
   // Set the values of the input fields
-  document.getElementById('id_target').value = user_id;
-  document.getElementById('id_header').value = locy;
+  document.getElementById('username').value = username;
 </script>
 
 {% endblock body %}
