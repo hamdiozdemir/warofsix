@@ -76,7 +76,7 @@
                         <a href="/encampment#{{attack.id}}">
 
                             <img class="line-icon" src="{% get_static_prefix %}images/others/attack-incoming.gif">
-                            From {{attack.user}}. <span class="countdown">{{attack.arriving_time|date:"d/m/Y H:i:s"}} </span>  
+                            From {{attack.user}}. <span class="countdown">{{attack.arriving_time|date:"c"}} </span>  
                             
                         </a>
                     </div>
@@ -88,7 +88,7 @@
                         <a href="/encampment#{{attack.id}}">
 
                             <img class="line-icon" src="{% get_static_prefix %}images/others/attack-outgoing.gif">
-                            To {{attack.target_location.user}}. <span class="countdown">{{attack.arriving_time|date:"d/m/Y H:i:s"}} </span>  
+                            To {{attack.target_location.user}}. <span class="countdown">{{attack.arriving_time|date:"c"}} </span>  
                             
                         </a>
                     </div>
@@ -101,7 +101,7 @@
                         <a href="/encampment#{{camp.id}}">
 
                             <img class="line-icon" src="{% get_static_prefix %}images/others/return.gif">
-                            From {{camp.main_location.user}}. <span class="countdown">{{camp.arriving_time|date:"d/m/Y H:i:s"}} </span>  
+                            From {{camp.main_location.user}}. <span class="countdown">{{camp.arriving_time|date:"c"}} </span>  
                             
                         </a>
                     </div>
@@ -115,7 +115,7 @@
                         <a href="/encampment#{{rein.id}}">
 
                             <img class="line-icon" src="{% get_static_prefix %}images/others/rein-outgoing.gif">
-                            To {{rein.target_location.user}}. <span class="countdown">{{rein.arriving_time|date:"d/m/Y H:i:s"}} </span>  
+                            To {{rein.target_location.user}}. <span class="countdown">{{rein.arriving_time|date:"c"}} </span>  
                             
                         </a>
                     </div>
