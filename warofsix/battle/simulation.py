@@ -1228,18 +1228,25 @@ class Battle():
                     self.attacker_deads[block]["user_troop"] = self.attack_group[block]["troop"]
                     self.attacker_deads[block]["deads"] = round(self.attack_group[block]["count"] * attacker_dead_ratio)
                     self.attack_group[block]["count"] -= self.attacker_deads[block]["deads"]
+                    self.defender_statistic.kill += self.attacker_deads[block]["deads"]
+                    self.attacker_statistic.dead += self.attacker_deads[block]["deads"]
                 if self.attack_group[block].get("hero"):
                     if attacker_dead_ratio >= 1:
                         self.attack_group[block]["hero"].is_dead = True
                         self.attack_group[block]["hero"].current_health = 0
                         self.attack_group[block]["hero"].last_checkout = timezone.now()
                         self.attack_group[block]["hero"].save()
+                        self.defender_statistic.hero_kill += 1
+                        self.attacker_statistic.hero_dead += 1
+                        
                     else:
                         self.attack_group[block]["hero"].current_health -= round(self.attack_group[block]["hero"].current_health * attacker_dead_ratio)
                         self.attack_group[block]["hero"].save()
                 if self.attack_group[block].get("hero_troop_count"):
                     self.attacker_deads[block]["hero_troop_deads"] = round(self.attack_group[block]["hero_troop_count"] * attacker_dead_ratio)
                     self.attack_group[block]["hero_troop_count"] =  round(self.attack_group[block]["hero_troop_count"] * (1-attacker_dead_ratio))
+                    self.defender_statistic.kill += self.attacker_deads[block]["hero_troop_deads"]
+                    self.attacker_statistic.dead += self.attacker_deads[block]["hero_troop_deads"]
                 if attacker_dead_ratio == 1:
                     self.attacker_deads[block].update({"status": "dead"})
                     self.attack_group.pop(block)
@@ -1251,21 +1258,29 @@ class Battle():
                     self.defender_deads[block]["user_troop"] = self.defend_group[block]["troop"]
                     self.defender_deads[block]["deads"] = round(self.defend_group[block]["count"] * defender_dead_ratio)
                     self.defend_group[block]["count"] -= self.defender_deads[block]["deads"]
+                    self.attacker_statistic.kill += self.defender_deads[block]["deads"]
+                    self.defender_statistic.dead += self.defender_deads[block]["deads"]
                 if self.defend_group[block].get("hero"):
                     if defender_dead_ratio >= 1:
                         self.defend_group[block]["hero"].is_dead = True
                         self.defend_group[block]["hero"].current_health = 0
                         self.defend_group[block]["hero"].save()
+                        self.attacker_statistic.hero_kill += 1
+                        self.defender_statistic.hero_dead += 1
                     else:
                         self.defend_group[block]["hero"].current_health -= round(self.defend_group[block]["hero"].current_health * defender_dead_ratio)
                         self.defend_group[block]["hero"].save()
                 if self.defend_group[block].get("hero_troop_count"):
                     self.defender_deads[block]["hero_troop_deads"] = round(self.defend_group[block]["hero_troop_count"] * defender_dead_ratio)
                     self.defend_group[block]["hero_troop_count"] =  round(self.defend_group[block]["hero_troop_count"] * (1-defender_dead_ratio))
+                    self.attacker_statistic.kill += self.defender_deads[block]["hero_troop_deads"]
+                    self.defender_statistic.dead += self.defender_deads[block]["hero_troop_deads"]
                 if defender_dead_ratio == 1:
                     self.defender_deads[block].update({"status": "dead"})
                 else:
                     self.defender_deads[block].update({"status": "injured"})
+        self.attacker_statistic.save()
+        self.defender_statistic.save()
 
 
     def pillage_battle_fight(self):
