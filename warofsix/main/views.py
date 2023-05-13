@@ -66,7 +66,11 @@ class HomeView(TemplateView):
             return redirect('/#register')
 
         if data["race"] in races:
-            if data["username"] in [user.username for user in User.objects.all()]:
+            all_users = User.objects.all()
+            if len(all_users) > 250:
+                messages.add_message(request, messages.WARNING, "Server's player capacity is full now. Please wait for next round or send an email to 'warofsix@gmail.com'. Thank you.")
+                return redirect('/')
+            if data["username"] in [user.username for user in all_users]:
                 messages.add_message(request, messages.WARNING, "This username is already taken. Try something else.")
                 return redirect("/#register")
             if form.is_valid():
