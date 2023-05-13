@@ -157,6 +157,9 @@ class AllMessageView(LoginRequiredMixin, TemplateView):
                     arriving_time = timezone.now()
                 )
                 wild_troops = UserTroops.objects.filter(user=wildling_location.user).first()
+                if wild_troops.count == 0:
+                    messages.add_message(request, messages.WARNING, "No troops in this one.")
+                    return redirect('/usermessages/beacon-of-amon-din')
 
                 for position in [11,12,13,14,21,22,23,24,31,32,33,34]:
                     DepartingTroops.objects.create(
