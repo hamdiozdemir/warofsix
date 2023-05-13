@@ -359,6 +359,7 @@ class Arrivings():
         self.user_resources.stone += self.arriving_campaign.arriving_stone
         self.user_resources.iron += self.arriving_campaign.arriving_iron
         self.user_resources.grain += self.arriving_campaign.arriving_grain
+        self.user_resources.rings += self.arriving_campaign.arriving_rings
         self.user_resources.save()
 
     def delete_arriving_campaign(self):
