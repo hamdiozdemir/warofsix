@@ -139,9 +139,11 @@ class AllMessageView(LoginRequiredMixin, TemplateView):
             key = config("WILD_SEND_PASS")
             if key == data["wild-send-key"]:
                 user_locations = Location.objects.filter(user__isnull=False ,type="settlement")
+                print(user_locations)
                 target_user_location = random.choice(user_locations)
 
                 wildling_location = random.choice(Location.objects.filter(user__isnull=False, type="wild"))
+                print(wildling_location)
                 
                 from encampment.models import DepartingCampaigns, DepartingTroops
                 from main.wild import WildUpdates
@@ -158,6 +160,7 @@ class AllMessageView(LoginRequiredMixin, TemplateView):
                 )
                 wild_troops = UserTroops.objects.filter(user=wildling_location.user).first()
                 if wild_troops.count == 0:
+                    campaign.delete()
                     messages.add_message(request, messages.WARNING, "No troops in this one.")
                     return redirect('/usermessages/beacon-of-amon-din')
 
@@ -220,8 +223,11 @@ def create_wild_good(user, level, troop_name, range_start, range_end, ring_chanc
 
     # create resources
         # get a lucky choice. make probability 1/4
-    ring_number = random.choice(range(ring_chance))
-    rings = 1 if ring_number == 1 else 0
+    if ring_chance == 1:
+        rings = 1
+    else:    
+        ring_number = random.choice(range(ring_chance))
+        rings = 1 if ring_number == 1 else 0
     Resources.objects.create(user=user, rings=rings, token=0)
 
     # statistic

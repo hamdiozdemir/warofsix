@@ -28,11 +28,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True if bool(int(config("DEBUG"))) else False
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','161.35.209.41', 'warofsix.com', 'www.warofsix.com']
+ALLOWED_HOSTS = []
 
-
+ALLOWED_HOSTS.extend(
+    filter(
+        None,
+        config('DJANGO_ALLOWED_HOSTS').split(',')
+    )
+)
 # Application definition
 
 INSTALLED_APPS = [
@@ -95,7 +100,7 @@ DATABASES = {
         'ENGINE': config('DB_ENGINE'),
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
+        'PASSWORD': config('DB_PASS'),
         'HOST': config('DB_HOST'),
         'PORT': config('DB_PORT')
     }
@@ -180,3 +185,17 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+CELERY_BROKER="redis://redis:6379/"
+CELERY_BACKEND="redis://redis:6379/"
+CELERY_BROKER_URL="redis://redis:6379/"
+CELERY_RESULT_BACKEND="redis://redis:6379/"
+
+CSRF_TRUSTED_ORIGINS = []
+
+CSRF_TRUSTED_ORIGINS.extend(
+    filter(
+        None,
+        config('CSRF_TRUSTED_ORIGINS').split(',')
+    )
+)

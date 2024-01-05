@@ -54,8 +54,6 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
             wildling = WildUpdates(profile.user)
             wildling.combine_resource_troop_update()
             troops = UserTroops.objects.filter(user=profile.user)
-            print(self)
-            print(profile.user)
         else:
             troops = None
         context["troops"] = troops
