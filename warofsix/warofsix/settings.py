@@ -186,10 +186,13 @@ INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
-CELERY_BROKER="redis://redis:6379/"
-CELERY_BACKEND="redis://redis:6379/"
-CELERY_BROKER_URL="redis://redis:6379/"
-CELERY_RESULT_BACKEND="redis://redis:6379/"
+# CELERY_BROKER="redis://redis:6379/0"
+# CELERY_BACKEND="redis://redis:6379/0"
+# CELERY_BROKER_URL="redis://redis:6379/0"
+# CELERY_RESULT_BACKEND="redis://redis:6379/0"
+# BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+
+CELERY_BROKER_URL='amqp://localhost:5672/'
 
 CSRF_TRUSTED_ORIGINS = []
 
